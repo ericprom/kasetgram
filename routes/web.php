@@ -11,8 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('{path}', function () {
+    return view('index');
+})->where('path', '(.*)');
 
-Route::get('/{vue?}', function () { return view('welcome'); })->where('vue', '[\/\w\.-]*');
+// Route::get('password/reset/{token}', function () {
+//     return view('index');
+// })->name('password.reset');

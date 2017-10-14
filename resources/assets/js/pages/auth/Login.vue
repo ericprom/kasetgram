@@ -3,48 +3,61 @@
         <div class="panel-heading">Login Component</div>
 
         <div class="panel-body">
-            <div class="form-group">
-                <label for="name">Email:</label>
-                <input type="text" name="email" id="email" class="form-control" v-model="fields.email">
-            </div>
-            <div class="form-group">
-                <label for="name">Password:</label>
-                <input type="text" name="password" id="password" class="form-control" v-model="fields.password">
-            </div>
-            <button type="button" @click="login" class="btn btn-primary">Login</button>
+            <form @submit.prevent="login" @keydown="form.errors.clear($event.target.name)">
+                <div class="form-group">
+                  <label>{{ $t('email') }}</label>
+                  <input v-model="form.email" type="text" name="email" required 
+                    class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
+                </div>
+
+                <div class="form-group">
+                  <label>{{ $t('password') }}</label>
+                  <input v-model="form.password" type="password" name="password" required
+                    class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
+                </div>
+
+                <button :disabled="form.busy" type="submit" class="btn btn-primary">{{ $t('login') }}</button>
+            </form>
         </div>
     </div>
 </template>
 
 <script>
+    import Vue from 'vue'
+    import Form from 'vform'
     export default {
         data(){
             return {
-                fields: {
+                form: new Form({
                     email: 'surasak@promrat.com',
                     password: '1q2w3e4r'
-                },
-                errors: []
+                })
             }
         },
         methods: {
             login()
             {
-                Store.dispatch('login', this.fields)
-                    .then(response => {
-                        this.$router.replace(this.$route.query.redirect)
-                        console.log('response from success login', response)
-                    })
-                    .catch(response => {
-                        console.log('response from errors login', response)
-                    });
+                this.form.post('/api/v1/auth/login')
+                    .then(({ data }) => { 
 
-            },
-            reset()
-            {
-                this.fields.email = '';
-                this.fields.password = '';
-            },
+                        Store.dispatch('saveToken', data.success.access_token)
+
+                        Store.dispatch('fetchUser').then(({ data }) =>{
+
+                            if(this.$route.query.redirect){
+                                this.$router.replace(this.$route.query.redirect)
+                            }
+                            else{
+                                this.$router.push({ name: 'welcome' })
+                            }
+
+                        })
+                    })
+                    .catch(({ data }) =>{
+                        console.log(data)
+                    })
+
+            }
         }
     }
 </script>

@@ -21,7 +21,7 @@ $api->version('v1', function ($api) {
 		$api->post('auth/logout', 'App\Api\V1\Controllers\AuthController@logout');
 		$api->post('auth/register', 'App\Api\V1\Controllers\AuthController@register');
 
-		$api->group(['middleware' => ['auth:api','scope:read']], function ($api) {
+		$api->group(['middleware' => ['auth:api']], function ($api) {
 			$api->post('auth/details', 'App\Api\V1\Controllers\AuthController@details');
 		});
 	});

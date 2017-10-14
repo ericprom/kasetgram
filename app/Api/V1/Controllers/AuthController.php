@@ -60,7 +60,7 @@ class AuthController extends Controller
         // }
         //}
 
-        $success['token'] =  $user->createToken('MyApp')->accessToken;
+        $success['token'] =  $user->createToken('adminApp')->accessToken;
         $success['name'] =  $user->name;
 
         return response()->json(['success'=>$success], $this->successStatus);
@@ -73,12 +73,13 @@ class AuthController extends Controller
         //$roles = Role::get();            
         //$user->roles()->sync($roles);
 
-        if($user->hasRole(['admin'])){
-            return response()->json(['success' => '$admin'], $this->successStatus);
-        }
-        else{
+        //if($user->hasRole(['admin'])){
+            $success['current_user'] =  $user;
+            return response()->json(['success' => $success], $this->successStatus);
+        // }
+        // else{
 
-            return response()->json(['success' => '$user'], $this->successStatus);
-        }
+        //     return response()->json(['success' => $user], $this->successStatus);
+        // }
     }
 }
