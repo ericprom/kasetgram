@@ -12,7 +12,10 @@ export default ({ authGuard, guestGuard }) => [
   ]),
 
   ...guestGuard([
-    { path: '/login', name: 'login', component: require('../pages/auth/login.vue') }
+    { path: '/login', name: 'login', component: require('../pages/auth/login.vue') },
+    { path: '/register', name: 'register', component: require('../pages/auth/register.vue') },
+    { path: '/password/reset', name: 'password.request', component: require('../pages/auth/password/email.vue') },
+    { path: '/password/reset/:token', name: 'password.reset', component: require('../pages/auth/password/reset.vue') }
   ]),
 
   { path: '*', component: require('../pages/errors/404.vue') }
