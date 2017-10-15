@@ -4,7 +4,6 @@
       <span class="logo-mini"><b>A</b>LTE</span>
       <span class="logo-lg"><b>Admin LTE</b></span>
     </a>
-
     <nav class="navbar navbar-static-top" role="navigation">
       <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>

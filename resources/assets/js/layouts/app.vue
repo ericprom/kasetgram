@@ -1,5 +1,5 @@
 <template>
-  <div class="app-layout hold-transition skin-blue fixed sidebar-mini">
+  <div class="app-layout">
     <Appheader></Appheader>
     <Appsidebar></Appsidebar>
     <div class="content-wrapper">
