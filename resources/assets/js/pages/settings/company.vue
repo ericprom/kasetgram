@@ -6,6 +6,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li>Settings</li>
         <li class="active">Company</li>
       </ol>
     </section>
@@ -74,41 +75,23 @@
   import Form from 'vform'
 
   export default {
-     metaInfo () {
-    return { title: 'เข้าสู่ระบบ' }
-  },
+    metaInfo () {
+      return { title: 'เข้าสู่ระบบ' }
+    },
 
-  data: () => ({
-    title: window.config.appName,
-    company: new Form({
-      email: 'surasak@promrat.com',
-      password: '1q2w3e4r'
+    data: () => ({
+      title: window.config.appName,
+      company: new Form({
+        email: 'surasak@promrat.com',
+        password: '1q2w3e4r'
+      }),
+      remember: false
     }),
-    remember: false
-  }),
 
-  methods: {
-    save () {
-      this.company.post('/api/v1/auth/login')
-        .then(({ data }) => { 
-
-          Store.dispatch('saveToken', data.success.access_token)
-
-          Store.dispatch('fetchUser').then(({ data }) =>{
-
-              if(this.$route.query.redirect){
-                this.$router.replace(this.$route.query.redirect)
-              }
-              else{
-                this.$router.push({ name: 'dashboard' })
-              }
-
-          })
-        })
-        .catch(({ data }) =>{
-          console.log(data)
-        })
+    methods: {
+      save () {
+        
+      }
     }
-  }
   }
 </script>

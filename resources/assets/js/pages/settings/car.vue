@@ -2,11 +2,12 @@
   <div>
     <section class="content-header">
       <h1>
-        สมุดรายชื่อลูกค้า
+        ข้อมูลรถ
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Costomers</li>
+        <li>Settings</li>
+        <li class="active">Cars</li>
       </ol>
     </section>
     <section class="content">
@@ -14,7 +15,7 @@
         <div class="col-sm-9">
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title"><i class="fa fa-book"></i> รายชื่อลูกค้า</h3>
+              <h3 class="box-title"><i class="fa fa-car"></i> ประเภทรถยนต์</h3>
             </div>
             <div class="box-body">
               I'm an Dashboard component!

@@ -67,7 +67,7 @@ class AuthController extends Controller
             [ 
                 'name' => 'car-register',
                 'title' => 'นำเข้าข้อมูลจดทะเบียน',
-                'icon' => 'fa fa-star-o'
+                'icon' => 'fa fa-edit'
             ],
             [ 
                 'name' => 'customers',

@@ -9,8 +9,12 @@ export default ({ authGuard, guestGuard }) => [
     },
     { path: '/car-register', name: 'car-register', component: require('../pages/car/register') },
     { path: '/customers', name: 'customers', component: require('../pages/customers') },
-    { path: '/settings', component: require('../pages/settings/index.vue'), children: [
+    { path: '/settings', name: 'settings', component: require('../pages/settings/index.vue'), children: [
       { path: 'company', name: 'settings.company', component: require('../pages/settings/company.vue') },
+      { path: 'employee', name: 'settings.employee', component: require('../pages/settings/employee.vue') },
+      { path: 'car', name: 'settings.car', component: require('../pages/settings/car.vue') },
+      { path: 'payment', name: 'settings.payment', component: require('../pages/settings/payment.vue') },
+      { path: 'service', name: 'settings.service', component: require('../pages/settings/service.vue') },
     ] }
   ]),
 
