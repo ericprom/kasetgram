@@ -5,21 +5,21 @@
     </div>
     <div class="login-box-body">
       <p class="login-box-msg">เข้าสู่ระบบจัดการ ตรอ.</p>
-       <form @submit.prevent="login" @keydown="user.onKeydown($event)">
+       <form @submit.prevent="login" @keydown="form.onKeydown($event)">
         <div class="form-group has-feedback">
-          <input v-model="user.email" type="email" name="email" class="form-control"
-                  :class="{ 'is-invalid': user.errors.has('email') }">
+          <input v-model="form.email" type="email" name="email" class="form-control"
+                  :class="{ 'is-invalid': form.errors.has('email') }">
           <span class="fa fa-envelope form-control-feedback"></span>
         </div>
         <div class="form-group has-feedback">
-          <input v-model="user.password" type="password" name="password" class="form-control"
-                  :class="{ 'is-invalid': user.errors.has('password') }">
+          <input v-model="form.password" type="password" name="password" class="form-control"
+                  :class="{ 'is-invalid': form.errors.has('password') }">
           <span class="fa fa-lock form-control-feedback"></span>
         </div>
         <div class="row">
           <div class="col-xs-12">
             <button type="submit" class="btn btn-primary btn-block btn-flat" 
-              :disabled="user.busy">เข้าสู่ระบบ
+              :disabled="form.busy">เข้าสู่ระบบ
             </button>
           </div>
         </div>
@@ -40,7 +40,7 @@ export default {
 
   data: () => ({
     title: window.config.appName,
-    user: new Form({
+    form: new Form({
       email: 'surasak@promrat.com',
       password: '1q2w3e4r'
     }),
@@ -49,7 +49,7 @@ export default {
 
   methods: {
     login () {
-      this.user.post('/api/v1/auth/login')
+      this.form.post('/api/v1/auth/login')
         .then(({ data }) => { 
 
           Store.dispatch('saveToken', data.success.access_token)

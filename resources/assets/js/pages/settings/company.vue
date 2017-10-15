@@ -13,7 +13,7 @@
     <section class="content">
       <div class="row">
         <div class="col-sm-9">
-          <form @submit.prevent="save" @keydown="company.onKeydown($event)"  class="form-horizontal">
+          <form @submit.prevent="save" @keydown="form.onKeydown($event)"  class="form-horizontal">
             <div class="box box-primary">
               <div class="box-header with-border">
                 <h3 class="box-title"><i class="fa fa-building"></i> แก้ไขข้อมูลบริษัท</h3>
@@ -22,43 +22,43 @@
                 <div class="form-group">
                   <label class="col-sm-2 col-md-4 control-label">ชื่อไทย</label>
                   <div class="col-sm-8 col-md-4">
-                    <input v-model="company.name" type="text" class="form-control">
+                    <input v-model="form.name" type="text" class="form-control">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 col-md-4 control-label">ที่อยู่บริษัท</label>
                   <div class="col-sm-8 col-md-4">
-                    <textarea v-model="company.address" class="form-control" rows="3" placeholder="รายละเอียดที่อยู่"></textarea>
+                    <textarea v-model="form.address" class="form-control" rows="3" placeholder="รายละเอียดที่อยู่"></textarea>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 col-md-4 control-label">เลขประจำตัวผู้เสียภาษี</label>
                   <div class="col-sm-8 col-md-4">
-                    <input v-model="company.tax_number" type="text" class="form-control">
+                    <input v-model="form.tax_number" type="text" class="form-control">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 col-md-4 control-label">สำนักงาน</label>
                   <div class="col-sm-8 col-md-4">
-                    <input v-model="company.branch" type="text" class="form-control">
+                    <input v-model="form.branch" type="text" class="form-control">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 col-md-4 control-label">เบอร์ออฟฟิศ</label>
 
                   <div class="col-sm-8 col-md-4">
-                    <input v-model="company.phone" type="text" class="form-control">
+                    <input v-model="form.phone" type="text" class="form-control">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 col-md-4 control-label">เบอร์แฟกซ์</label>
                   <div class="col-sm-8 col-md-4">
-                    <input v-model="company.fax" type="text" class="form-control">
+                    <input v-model="form.fax" type="text" class="form-control">
                   </div>
                 </div>
               </div>
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary" :disabled="company.busy">
+                <button type="submit" class="btn btn-primary" :disabled="form.busy">
                   <i class="fa fa-save"></i> บันทึกข้อมูล
                 </button>
               </div>
@@ -81,7 +81,7 @@
 
     data: () => ({
       title: window.config.appName,
-      company: new Form({
+      form: new Form({
         email: 'surasak@promrat.com',
         password: '1q2w3e4r'
       }),

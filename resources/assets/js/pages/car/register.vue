@@ -12,12 +12,90 @@
     <section class="content">
       <div class="row">
         <div class="col-sm-9">
+          <form @submit.prevent="save" @keydown="form.onKeydown($event)">
           <div class="box box-primary">
             <div class="box-header with-border">
               <h3 class="box-title"><i class="fa fa-car"></i> ข้อมูลรถ</h3>
             </div>
             <div class="box-body">
-              I'm an Dashboard component!
+              <div class="row">
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label>รหัส</label>
+                    <input v-model="form.car.code" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label>ยี่ห้อรถ<span class="text-danger">*</span></label>
+                    <input v-model="form.car.brand" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label>รุ่นรถ</label>
+                    <input v-model="form.car.model" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label>ปีรุ่น<span class="text-danger">*</span></label>
+                    <input v-model="form.car.year" type="text" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label>เลขทะเบียน<span class="text-danger">*</span></label>
+                    <input v-model="form.car.license_plate_number" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label>จังหวัด<span class="text-danger">*</span></label>
+                    <input v-model="form.car.province_of_registration" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label>แบบตัวถัง</label>
+                    <input v-model="form.car.type" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label>จำนวนที่นั่ง</label>
+                    <input v-model="form.car.capacity" type="text" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label>หมายเลขตัวถัง</label>
+                    <input v-model="form.car.chassi_number" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label>หมายเลขเครื่อง</label>
+                    <input v-model="form.car.engine_number" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label>ขนาดเครื่อง</label>
+                    <input v-model="form.car.engine_size" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label>นน.รวม</label>
+                    <input v-model="form.car.weight" type="text" class="form-control">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="box box-success">
@@ -25,13 +103,87 @@
               <h3 class="box-title"><i class="fa fa-id-card-o"></i> ข้อมูลเจ้าของรถ</h3>
             </div>
             <div class="box-body">
-              I'm an Dashboard component!
+              <div class="row">
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label>คำนำหน้า</label>
+                    <input v-model="form.customer.title" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-5">
+                  <div class="form-group">
+                    <label>ชื่อ<span class="text-danger">*</span></label>
+                    <input v-model="form.customer.firstname" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-5">
+                  <div class="form-group">
+                    <label>นามสกุล<span class="text-danger">*</span></label>
+                    <input v-model="form.customer.lastname" type="text" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-5">
+                  <div class="form-group">
+                    <label>เบอร์โทรฯ<span class="text-danger">*</span></label>
+                    <input v-model="form.customer.phone" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-5">
+                  <div class="form-group">
+                    <label>เลขที่บัตร<span class="text-danger">*</span></label>
+                    <input v-model="form.customer.tax_id" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label>สัญชาติ</label>
+                    <input v-model="form.customer.nationality" type="text" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-7">
+                  <div class="form-group">
+                    <label>ที่อยู่</label>
+                    <input v-model="form.customer.street" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-5">
+                  <div class="form-group">
+                    <label>ตำบล / แขวง</label>
+                    <input v-model="form.customer.district" type="text" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-5">
+                  <div class="form-group">
+                    <label>อำเภอ / เขต</label>
+                    <input v-model="form.customer.amphoe" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-5">
+                  <div class="form-group">
+                    <label>จังหวัด</label>
+                    <input v-model="form.customer.province" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label>รหัสไปรษณีย์</label>
+                    <input v-model="form.customer.zipcode" type="text" class="form-control">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="pull-right">
-            <button class="btn btn-primary"><i class="fa fa-save"></i> บันทึก</button>
-            <button class="btn btn-warning"><i class="fa fa-refresh"></i> เริ่มใหม่</button>
+            <button type="submit" class="btn btn-primary" :disabled="form.busy"><i class="fa fa-save"></i> บันทึก</button>
+            <button class="btn btn-warning" @click.prevent="reset"><i class="fa fa-refresh"></i> เริ่มใหม่</button>
           </div>
+          </form>
         </div>
         <div class="col-sm-3"></div>
       </div>
@@ -40,9 +192,23 @@
 </template>
 
 <script>
+  import Form from 'vform'
   export default {
-    mounted() {
-      console.log('Component ready.')
+    data: () => ({
+      title: window.config.appName,
+      form: new Form({
+        car: {},
+        customer: {}
+      }),
+      remember: false
+    }),
+    methods: {
+        save () {
+          
+        },
+        reset () {
+          this.form.reset()
+        }
     }
   }
 </script>

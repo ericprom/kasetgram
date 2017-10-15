@@ -75,7 +75,7 @@ class AuthController extends Controller
                 'icon' => 'fa fa-book'
             ],
             [ 
-                'name' => 'settings',
+                'name' => '',
                 'title' => 'ตั้งค่า',
                 'icon' => 'fa fa-cogs',
                 'child' => [
