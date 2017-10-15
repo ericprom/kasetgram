@@ -11,15 +11,15 @@
         </div>
       </div>
       <ul class="sidebar-menu">
-        <li class="header">เมนูหลัก</li>
+        <li class="header">MAIN NAVIGATION</li>
         <li class="treeview" v-for="row in menus" :class="{ 'active': $route.name === row.name }">
-          <router-link :to="{ path: row.name }">
+          <router-link :to="{ name: row.name }">
             <i :class="row.icon"></i> 
             <span>{{ row.title }}</span> 
           </router-link>
           <ul v-show="row.hasOwnProperty('child') && typeof row.child.length != 'undefined'" class="treeview-menu">
             <li v-for="child in row.child">
-              <router-link :to="{ path: child.name }">
+              <router-link :to="{ name: child.name }">
                 <i :class="child.icon"></i> {{ child.title }}
               </router-link>
             </li>
