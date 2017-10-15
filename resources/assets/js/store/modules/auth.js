@@ -4,6 +4,7 @@ import * as types from '../mutation-types'
 
 // state
 export const state = {
+  menus: [],
   user: null,
   token: Cookies.get('token')
 }
@@ -33,15 +34,23 @@ export const mutations = {
 
   [types.UPDATE_USER] (state, user) {
     state.user = user
+  },
+
+  [types.USER_MENU] (state, menus) {
+    state.menus = menus
   }
 }
 
 // actions
 export const actions = {
+
   saveToken ({ commit, dispatch }, payload) {
     commit(types.SAVE_TOKEN, payload)
   },
 
+  saveMenus ({ commit, dispatch }, payload) {
+    commit(types.USER_MENU, payload)
+  },
 
   fetchUser ({ commit }, payload) {
 
@@ -78,6 +87,7 @@ export const actions = {
 
 // getters
 export const getters = {
+  authMenus: state => state.menus,
   authUser: state => state.user,
   authToken: state => state.token,
   authCheck: state => state.user !== null

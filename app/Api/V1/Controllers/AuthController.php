@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use Validator;
 
 class AuthController extends Controller
@@ -52,34 +50,71 @@ class AuthController extends Controller
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
         
-        //$roles = $input['roles'];
-        //if (isset($roles)) {
-        // foreach ($roles as $role) {
-        //     $role_r = Role::where('id', '=', $role)->firstOrFail();            
-        //     $user->assignRole($role_r); //Assigning role to user
-        // }
-        //}
-
         $success['token'] =  $user->createToken('adminApp')->accessToken;
         $success['name'] =  $user->name;
 
         return response()->json(['success'=>$success], $this->successStatus);
     }
 
+    public function menus()
+    {
+        $menus =  [
+            [ 
+                'name' => 'dashboard',
+                'title' => 'ภาพรวม',
+                'icon' => 'fa fa-star-o'
+            ],
+            [ 
+                'name' => 'car-register',
+                'title' => 'นำเข้าข้อมูลจดทะเบียน',
+                'icon' => 'fa fa-star-o'
+            ],
+            [ 
+                'name' => 'customers',
+                'title' => 'สมุดรายชื่อลูกค้า',
+                'icon' => 'fa fa-book'
+            ],
+            [ 
+                'name' => 'settings',
+                'title' => 'ตั้งค่า',
+                'icon' => 'fa fa-cogs',
+                'child' => [
+                    [
+                        'name' => 'settings.company',
+                        'title' => 'แก้ไขข้อมูลบริษัท',
+                        'icon' => 'fa fa-building',
+                    ],
+                    [
+                        'name' => 'settings.employee',
+                        'title' => 'เพิ่มผู้ใช้งานในระบบ',
+                        'icon' => 'fa fa-user-circle-o',
+                    ],
+                    [
+                        'name' => 'settings.car',
+                        'title' => 'จัดการข้อมูลรถ',
+                        'icon' => 'fa fa-car',
+                    ],
+                    [
+                        'name' => 'settings.payment',
+                        'title' => 'บัญชีธนาคาร',
+                        'icon' => 'fa fa-money',
+                    ],
+                    [
+                        'name' => 'settings.service',
+                        'title' => 'ประเภทบริการ',
+                        'icon' => 'fa fa-sitemap',
+                    ],
+                ]
+            ]
+        ];
+        return response()->json(['menus' => $menus], $this->successStatus);
+    }
+
     public function details()
     {
         $user = Auth::user();
         
-        //$roles = Role::get();            
-        //$user->roles()->sync($roles);
-
-        //if($user->hasRole(['admin'])){
-            $success['current_user'] =  $user;
-            return response()->json(['success' => $success], $this->successStatus);
-        // }
-        // else{
-
-        //     return response()->json(['success' => $user], $this->successStatus);
-        // }
+        $success['current_user'] =  $user;
+        return response()->json(['success' => $success], $this->successStatus);
     }
 }

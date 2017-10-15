@@ -12,46 +12,19 @@
       </div>
       <ul class="sidebar-menu">
         <li class="header">เมนูหลัก</li>
-        <li :class="{ 'active': $route.name === 'dashboard' }">
-          <router-link :to="{ name: 'dashboard' }">
-            <i class="fa fa-star-o"></i> <span>ภาพรวม</span>
+        <li class="treeview" v-for="row in menus" :class="{ 'active': $route.name === row.name }">
+          <router-link :to="{ path: row.name }">
+            <i :class="row.icon"></i> 
+            <span>{{ row.title }}</span> 
           </router-link>
-        </li>
-        <li :class="{ 'active': $route.name === 'car-register' }">
-          <router-link :to="{ name: 'car-register' }">
-            <i class="fa fa-edit"></i> <span>นำเข้าข้อมูลจดทะเบียน</span>
-          </router-link>
-        </li>
-        <li :class="{ 'active': $route.name === 'customers' }">
-          <router-link :to="{ name: 'customers' }">
-            <i class="fa fa-book"></i> <span>สมุดรายชื่อลูกค้า</span>
-          </router-link>
-        </li>
-        <li class="header">เมนูตั้งค่า</li>
-        <li :class="{ 'active': $route.name === 'settings/company' }">
-          <router-link :to="{ name: 'settings.company' }">
-            <i class="fa fa-building"></i> <span>แก้ไขข้อมูลบริษัท</span>
-          </router-link>
-        </li>
-        <li :class="{ 'active': $route.name === 'settings/employee' }">
-          <router-link :to="{ name: '/settings/employee' }">
-            <i class="fa fa-user-circle-o"></i> <span>เพิ่มผู้ใช้งานในระบบ</span>
-          </router-link>
-        </li>
-        <li :class="{ 'active': $route.name === 'settings/car' }">
-          <router-link :to="{ name: '/settings/car' }">
-            <i class="fa fa-car"></i> <span>จัดการข้อมูลรถ</span>
-          </router-link>
-        </li>
-        <li :class="{ 'active': $route.name === 'settings/payment' }">
-          <router-link :to="{ name: '/settings/payment' }">
-            <i class="fa fa-money"></i> <span>บัญชีธนาคาร</span>
-          </router-link>
-        </li>
-        <li :class="{ 'active': $route.name === 'settings/service' }">
-          <router-link :to="{ name: '/settings/service' }">
-            <i class="fa fa-sitemap"></i> <span>ประเภทบริการ</span>
-          </router-link>
+          <ul v-show="row.hasOwnProperty('child') && typeof row.child.length != 'undefined'" class="treeview-menu">
+            <li v-for="child in row.child">
+              <router-link :to="{ path: child.name }">
+                <i :class="child.icon"></i> {{ child.title }}
+              </router-link>
+            </li>
+          </ul> 
+         
         </li>
       </ul>
     </section>
@@ -59,8 +32,14 @@
 </template>
 
 <script>
+  import axios from 'axios'
   export default {
     name: 'Sidebar',
+    data() {
+      return {
+        menus: Store.getters.authMenus
+      };
+    },
     computed: {
         user () {
             return Store.getters.authUser
@@ -68,6 +47,20 @@
         authenticated () {
             return Store.getters.authCheck
         }
-    }
+    },
+    methods: {
+      createMenus () {
+        axios.post('/api/v1/auth/menus')
+          .then(({ data }) => { 
+            Store.dispatch('saveMenus', data.menus)
+          })
+          .catch(({ data }) =>{
+            console.log(data)
+          })
+      }
+    },
+    beforeMount(){
+      this.createMenus()
+    },
   };
 </script>
