@@ -9,7 +9,6 @@
             <div class="col-md-7">
               <input v-model="form.email" type="email" name="email" class="form-control"
                 :class="{ 'is-invalid': form.errors.has('email') }">
-              <has-error :form="form" field="email"></has-error>
             </div>
           </div>
 
@@ -19,7 +18,6 @@
             <div class="col-md-7">
               <input v-model="form.password" type="password" name="password" class="form-control"
                 :class="{ 'is-invalid': form.errors.has('password') }">
-              <has-error :form="form" field="password"></has-error>
             </div>
           </div>
 
@@ -30,8 +28,6 @@
               <router-link :to="{ name: 'password.request' }" class="float-right small">
                 {{ $t('forgot_password') }}
               </router-link>
-
-              <checkbox v-model="remember">{{ $t('remember_me') }}</checkbox>
             </div>
           </div>
 
@@ -51,6 +47,8 @@
 import Form from 'vform'
 
 export default {
+  layout: 'default',
+
   metaInfo () {
     return { title: this.$t('login') }
   },
@@ -76,7 +74,7 @@ export default {
                 this.$router.replace(this.$route.query.redirect)
               }
               else{
-                this.$router.push({ name: 'welcome' })
+                this.$router.push({ name: 'home' })
               }
 
           })

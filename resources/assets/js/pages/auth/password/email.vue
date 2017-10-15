@@ -31,6 +31,8 @@
 import Form from 'vform'
 
 export default {
+  layout: 'default',
+
   metaInfo () {
     return { title: this.$t('reset_password') }
   },

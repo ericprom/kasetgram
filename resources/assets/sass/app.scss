@@ -1,13 +1,11 @@
 
-// Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
-@import url(https://fonts.googleapis.com/css?family=Montserrat);
-
-
 // Variables
 @import "variables";
 
 
 // Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "node_modules/bootstrap/dist/css/bootstrap";
+@import "node_modules/font-awesome/css/font-awesome";
 @import "node_modules/sweetalert2/src/sweetalert2";
+@import "node_modules/admin-lte/dist/css/AdminLTE";
+@import "node_modules/admin-lte/dist/css/skins/_all-skins";
