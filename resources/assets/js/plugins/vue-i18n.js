@@ -12,12 +12,10 @@ const i18n = new VueI18n({
     [locale]: translations
   }
 })
-
-swal.i18n = i18n
 swal.setDefaults({
   reverseButtons: true,
-  confirmButtonText: i18n.t('ok'),
-  cancelButtonText: i18n.t('cancel')
+  confirmButtonText: 'ok',
+  cancelButtonText: 'cancel'
 })
 
 export default i18n

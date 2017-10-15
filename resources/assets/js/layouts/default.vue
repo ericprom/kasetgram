@@ -12,7 +12,7 @@ export default {
 
 <style>
 .default-layout {
-  background-color: #fff;
+  background-color: #d2d6de;
   color: #636b6f;
   font-weight: 100;
   height: 100vh;

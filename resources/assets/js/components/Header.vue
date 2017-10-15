@@ -1,8 +1,8 @@
 <template>
   <header class="main-header">
     <a class="logo">
-      <span class="logo-mini"><b>A</b>LTE</span>
-      <span class="logo-lg"><b>Admin LTE</b></span>
+      <span class="logo-mini">{{companyAbbr}}</span>
+      <span class="logo-lg"><b>{{companyName}}</b></span>
     </a>
     <nav class="navbar navbar-static-top" role="navigation">
       <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
@@ -20,29 +20,16 @@
                 <img src="http://www.newsshare.in/wp-content/uploads/2017/04/Miniclip-8-Ball-Pool-Avatar-15.png" class="img-circle" alt="User Image">
 
                 <p>
-                  {{ user.name }} - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  {{ user.name }}
+                  <small>เจ้าหน้าที่ ตรอ.</small>
                 </p>
-              </li>
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>
               </li>
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="#" class="btn btn-default btn-flat">โปรไฟล์</a>
                 </div>
                 <div class="pull-right">
-                  <a @click.prevent="logout" class="btn btn-default btn-flat">{{ $t('logout') }}</a>
+                  <a @click.prevent="logout" class="btn btn-default btn-flat">ออกจากระบบ</a>
                 </div>
               </li>
             </ul>
@@ -57,7 +44,8 @@
   export default {
     name: 'Header',
     data: () => ({
-        appName: window.config.appName
+        companyName: 'Smart Farmer',
+        companyAbbr: 'SF',
     }),
     computed: {
         user () {

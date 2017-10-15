@@ -1,0 +1,114 @@
+<template>
+  <div>
+    <section class="content-header">
+      <h1>
+        ข้อมูลบริษัท
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Company</li>
+      </ol>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-sm-9">
+          <form @submit.prevent="save" @keydown="company.onKeydown($event)"  class="form-horizontal">
+            <div class="box box-primary">
+              <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-building"></i> แก้ไขข้อมูลบริษัท</h3>
+              </div>
+              <div class="box-body">
+                <div class="form-group">
+                  <label class="col-sm-2 col-md-4 control-label">ชื่อไทย</label>
+                  <div class="col-sm-8 col-md-4">
+                    <input v-model="company.name" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-md-4 control-label">ที่อยู่บริษัท</label>
+                  <div class="col-sm-8 col-md-4">
+                    <textarea v-model="company.address" class="form-control" rows="3" placeholder="รายละเอียดที่อยู่"></textarea>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-md-4 control-label">เลขประจำตัวผู้เสียภาษี</label>
+                  <div class="col-sm-8 col-md-4">
+                    <input v-model="company.tax_number" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-md-4 control-label">สำนักงาน</label>
+                  <div class="col-sm-8 col-md-4">
+                    <input v-model="company.branch" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-md-4 control-label">เบอร์ออฟฟิศ</label>
+
+                  <div class="col-sm-8 col-md-4">
+                    <input v-model="company.phone" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-md-4 control-label">เบอร์แฟกซ์</label>
+                  <div class="col-sm-8 col-md-4">
+                    <input v-model="company.fax" type="text" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary" :disabled="company.busy">
+                  <i class="fa fa-save"></i> บันทึกข้อมูล
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-3"></div>
+      </div>
+    </section>
+  </div>
+</template>
+
+<script>
+  import Form from 'vform'
+
+  export default {
+     metaInfo () {
+    return { title: 'เข้าสู่ระบบ' }
+  },
+
+  data: () => ({
+    title: window.config.appName,
+    company: new Form({
+      email: 'surasak@promrat.com',
+      password: '1q2w3e4r'
+    }),
+    remember: false
+  }),
+
+  methods: {
+    save () {
+      this.company.post('/api/v1/auth/login')
+        .then(({ data }) => { 
+
+          Store.dispatch('saveToken', data.success.access_token)
+
+          Store.dispatch('fetchUser').then(({ data }) =>{
+
+              if(this.$route.query.redirect){
+                this.$router.replace(this.$route.query.redirect)
+              }
+              else{
+                this.$router.push({ name: 'dashboard' })
+              }
+
+          })
+        })
+        .catch(({ data }) =>{
+          console.log(data)
+        })
+    }
+  }
+  }
+</script>

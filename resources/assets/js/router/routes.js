@@ -2,18 +2,16 @@ export default ({ authGuard, guestGuard }) => [
   { path: '/', name: 'welcome', component: require('../pages/welcome.vue') },
 
   ...authGuard([
-    { path: '/home', name: 'home', component: require('../pages/home') },
-    { path: '/about', name: 'about', component: require('../pages/about') },
+    { path: '/dashboard', name: 'dashboard', component: require('../pages/dashboard') },
+    { path: '/car-register', name: 'car-register', component: require('../pages/car/register') },
+    { path: '/customers', name: 'customers', component: require('../pages/customers') },
     { path: '/settings', component: require('../pages/settings/index.vue'), children: [
-      { path: '', redirect: { name: 'settings.profile' }},
-      { path: 'profile', name: 'settings.profile', component: require('../pages/settings/profile.vue') },
-      { path: 'password', name: 'settings.password', component: require('../pages/settings/password.vue') }
+      { path: 'company', name: 'settings.company', component: require('../pages/settings/company.vue') },
     ] }
   ]),
 
   ...guestGuard([
     { path: '/login', name: 'login', component: require('../pages/auth/login.vue') },
-    { path: '/register', name: 'register', component: require('../pages/auth/register.vue') },
     { path: '/password/reset', name: 'password.request', component: require('../pages/auth/password/email.vue') },
     { path: '/password/reset/:token', name: 'password.reset', component: require('../pages/auth/password/reset.vue') }
   ]),

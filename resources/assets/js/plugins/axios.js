@@ -15,16 +15,16 @@ axios.interceptors.response.use(response => response, error => {
   if (status >= 500) {
     swal({
       type: 'error',
-      title: swal.i18n.t('error_alert_title'),
-      text: swal.i18n.t('error_alert_text')
+      title: 'Oops...',
+      text: 'Something went wrong! Please try again.'
     })
   }
 
   if (status === 401 && Store.getters.authCheck) {
     swal({
       type: 'warning',
-      title: swal.i18n.t('token_expired_alert_title'),
-      text: swal.i18n.t('token_expired_alert_text')
+      title: 'Session Expired!',
+      text: 'Please log in again to continue.'
     })
     Store.dispatch('logout')
     router.push({ name: 'login' })

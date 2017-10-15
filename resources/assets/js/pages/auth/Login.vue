@@ -1,44 +1,29 @@
 <template>
-  <div class="row">
-    <div class="col-lg-8 m-auto">
-      <card :title="$t('login')">
-        <form @submit.prevent="login" @keydown="form.onKeydown($event)">
-          <!-- Email -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">{{ $t('email') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.email" type="email" name="email" class="form-control"
-                :class="{ 'is-invalid': form.errors.has('email') }">
-            </div>
+  <div class="login-box">
+    <div class="login-logo">
+        {{ title }}
+    </div>
+    <div class="login-box-body">
+      <p class="login-box-msg">เข้าสู่ระบบจัดการ ตรอ.</p>
+       <form @submit.prevent="login" @keydown="user.onKeydown($event)">
+        <div class="form-group has-feedback">
+          <input v-model="user.email" type="email" name="email" class="form-control"
+                  :class="{ 'is-invalid': user.errors.has('email') }">
+          <span class="fa fa-envelope form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+          <input v-model="user.password" type="password" name="password" class="form-control"
+                  :class="{ 'is-invalid': user.errors.has('password') }">
+          <span class="fa fa-lock form-control-feedback"></span>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary btn-block btn-flat" 
+              :disabled="user.busy">เข้าสู่ระบบ
+            </button>
           </div>
-
-          <!-- Password -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">{{ $t('password') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.password" type="password" name="password" class="form-control"
-                :class="{ 'is-invalid': form.errors.has('password') }">
-            </div>
-          </div>
-
-          <!-- Remember Me -->
-          <div class="form-group row">
-            <div class="col-md-3"></div>
-            <div class="col-md-7">
-              <router-link :to="{ name: 'password.request' }" class="float-right small">
-                {{ $t('forgot_password') }}
-              </router-link>
-            </div>
-          </div>
-
-          <!-- Submit Button -->
-          <div class="form-group row">
-            <div class="col-md-9 ml-md-auto">
-              <v-button :loading="form.busy">{{ $t('login') }}</v-button>
-            </div>
-          </div>
-        </form>
-      </card>
+        </div>
+      </form>
     </div>
   </div>
 </template>
@@ -50,11 +35,12 @@ export default {
   layout: 'default',
 
   metaInfo () {
-    return { title: this.$t('login') }
+    return { title: 'เข้าสู่ระบบ' }
   },
 
   data: () => ({
-    form: new Form({
+    title: window.config.appName,
+    user: new Form({
       email: 'surasak@promrat.com',
       password: '1q2w3e4r'
     }),
@@ -63,7 +49,7 @@ export default {
 
   methods: {
     login () {
-      this.form.post('/api/v1/auth/login')
+      this.user.post('/api/v1/auth/login')
         .then(({ data }) => { 
 
           Store.dispatch('saveToken', data.success.access_token)
@@ -74,7 +60,7 @@ export default {
                 this.$router.replace(this.$route.query.redirect)
               }
               else{
-                this.$router.push({ name: 'home' })
+                this.$router.push({ name: 'dashboard' })
               }
 
           })

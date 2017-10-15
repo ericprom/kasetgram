@@ -2,16 +2,13 @@
   <div>
     <div class="top-right links">
       <template v-if="authenticated">
-        <router-link :to="{ name: 'home' }">
-          {{ $t('home') }}
+        <router-link :to="{ name: 'dashboard' }">
+          หน้าแดชบอร์ด
         </router-link>
       </template>
       <template v-else>
         <router-link :to="{ name: 'login' }">
-          {{ $t('login') }}
-        </router-link>
-        <router-link :to="{ name: 'register' }">
-          {{ $t('register') }}
+          เข้าสู่ระบบ
         </router-link>
       </template>
     </div>
@@ -37,7 +34,7 @@ export default {
   layout: 'default',
 
   metaInfo () {
-    return { title: this.$t('home') }
+    return { title: 'หน้าแดชบอร์ด' }
   },
 
   computed: {
