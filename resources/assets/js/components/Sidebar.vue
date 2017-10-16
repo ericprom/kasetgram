@@ -50,13 +50,7 @@
     },
     methods: {
       createMenus () {
-        axios.post('/api/v1/auth/menus')
-          .then(({ data }) => { 
-            Store.dispatch('saveMenus', data.menus)
-          })
-          .catch(({ data }) =>{
-            console.log(data)
-          })
+        Store.dispatch('createMenus')
       }
     },
     beforeMount(){

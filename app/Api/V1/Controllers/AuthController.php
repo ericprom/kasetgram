@@ -6,54 +6,67 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Response;
 use Validator;
 
 class AuthController extends Controller
 {
 
     public $successStatus = 200;
+    public $errorStatus = 500;
+    public $unauthorizedStatus = 403;
 
-    public function login(){
-        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
-            $user = Auth::user();
-            $success['access_token'] =  $user->createToken('adminApp')->accessToken;
-            $success['current_user'] =  $user;
-            return response()->json(['success' => $success], $this->successStatus);
+    public function login(Request $request){
+        $credentials = $request->only(['email', 'password']);
+
+        $validator = Validator::make($credentials, [
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        if($validator->fails()) {
+            return Response::json([
+                'code' => 'warning',
+                'title' => 'Warning',
+                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+            ], $this->errorStatus);
+        }
+
+        try {
+            if (!Auth::attempt($credentials)) {
+                return Response::json([
+                    'code' => 'warning',
+                    'title' => 'Unauthorized',
+                    'message' => 'อีเมลหรือรหัสผ่านไม่ถูกต้อง'
+                ], $this->unauthorizedStatus);
+            }
+        } catch (Exception $e) {
+            return Response::json([
+                'code' => 'warning',
+                'title' => 'Warning',
+                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+            ],  $this->errorStatus);
+        }
+
+        $currentUser = Auth::user();
+        if($currentUser && !$currentUser['active']){
+            return Response::json([
+                'code' => 'warning',
+                'title' => 'Inactivated',
+                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+            ], $this->unauthorizedStatus);
         }
         else{
-            return response()->json(['error'=>'Unauthorised'], 401);
+            return Response::json([
+                'token' => $currentUser->createToken('adminApp')->accessToken
+            ], $this->successStatus);
         }
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
-        $success['access_token'] =  null;
-        $success['current_user'] =  null;
-        return response()->json(['success' => $success], $this->successStatus);
-    }
-
-    public function register(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-            'c_password' => 'required|same:password',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 401);            
-        }
-
-        $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
-        
-        $success['token'] =  $user->createToken('adminApp')->accessToken;
-        $success['name'] =  $user->name;
-
-        return response()->json(['success'=>$success], $this->successStatus);
+        return Response::json(['success' => true], $this->successStatus);
     }
 
     public function menus()
@@ -129,14 +142,24 @@ class AuthController extends Controller
                     ],
                 ]
             ];
-        return response()->json(['menus' => $menus], $this->successStatus);
+        // return Response::json([
+        //     'menus' => $menus
+        // ], $this->successStatus);
     }
 
     public function details()
     {
-        $user = Auth::user();
-        
-        $success['current_user'] =  $user;
-        return response()->json(['success' => $success], $this->successStatus);
+        try {
+            $user = Auth::user();
+            return Response::json([
+                'user' => $user
+            ], $this->successStatus);
+        } catch (Exception $e) {
+            return Response::json([
+                'code' => 'warning',
+                'title' => 'Warning',
+                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+            ],  $this->errorStatus);
+        }
     }
 }

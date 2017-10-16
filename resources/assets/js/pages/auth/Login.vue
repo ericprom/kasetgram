@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import swal from 'sweetalert2'
 import Form from 'vform'
 
 export default {
@@ -50,23 +51,26 @@ export default {
   methods: {
     login () {
       this.form.post('/api/v1/auth/login')
-        .then(({ data }) => { 
-
-          Store.dispatch('saveToken', data.success.access_token)
+        .then(({ data }) => {
+          Store.dispatch('saveToken', data.token)
 
           Store.dispatch('fetchUser').then(({ data }) =>{
 
-              if(this.$route.query.redirect){
-                this.$router.replace(this.$route.query.redirect)
-              }
-              else{
-                this.$router.push({ name: 'dashboard' })
-              }
+            if(this.$route.query.redirect){
+              this.$router.replace(this.$route.query.redirect)
+            }
+            else{
+              this.$router.push({ name: 'dashboard' })
+            }
 
           })
         })
-        .catch(({ data }) =>{
-          console.log(data)
+        .catch(function (error) {
+          swal({
+            type: error.response.data.code,
+            title: error.response.data.title,
+            text: error.response.data.message
+          })
         })
     }
   }

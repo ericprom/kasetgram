@@ -48,8 +48,20 @@ export const actions = {
     commit(types.SAVE_TOKEN, payload)
   },
 
-  saveMenus ({ commit, dispatch }, payload) {
-    commit(types.USER_MENU, payload)
+  createMenus ({ commit }, payload) {
+    try {
+      return new Promise((resolve, reject) => {
+        axios.get('/api/v1/auth/menus')
+        .then(({ data }) =>{
+          commit(types.USER_MENU, data.menus)
+          resolve(data)
+        })
+        .catch(function (error) {
+            reject(error)
+        })
+      })
+
+    } catch (e) {}
   },
 
   fetchUser ({ commit }, payload) {
@@ -58,12 +70,12 @@ export const actions = {
       return new Promise((resolve, reject) => {
         axios.post('/api/v1/auth/details')
         .then(({ data }) =>{
-            commit(types.FETCH_USER_SUCCESS, data.success.current_user)
-            resolve(data)
+          commit(types.FETCH_USER_SUCCESS, data.user)
+          resolve(data)
         })
-        .catch(({ data }) =>{
-            commit(types.FETCH_USER_FAILURE)
-            reject(data)
+        .catch(function (error) {
+          commit(types.FETCH_USER_FAILURE)
+          reject(error)
         })
       })
 

@@ -10,25 +10,25 @@ axios.interceptors.request.use(request => {
   return request
 })
 
-axios.interceptors.response.use(response => response, error => {
-  const { status } = error.response
-  if (status >= 500) {
-    swal({
-      type: 'error',
-      title: 'Oops...',
-      text: 'Something went wrong! Please try again.'
-    })
-  }
+// axios.interceptors.response.use(response => response, error => {
+//   const { status } = error.response
+//   if (status >= 500) {
+//     swal({
+//       type: 'error',
+//       title: 'Oops...',
+//       text: 'Something went wrong! Please try again.'
+//     })
+//   }
 
-  if (status === 401 && Store.getters.authCheck) {
-    swal({
-      type: 'warning',
-      title: 'Session Expired!',
-      text: 'Please log in again to continue.'
-    })
-    Store.dispatch('logout')
-    router.push({ name: 'login' })
-  }
+//   if (status === 401 && Store.getters.authCheck) {
+//     swal({
+//       type: 'warning',
+//       title: 'Session Expired!',
+//       text: 'Please log in again to continue.'
+//     })
+//     Store.dispatch('logout')
+//     router.push({ name: 'login' })
+//   }
 
-  return Promise.reject(error)
-})
+//   return Promise.reject(error)
+// })
