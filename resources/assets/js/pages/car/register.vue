@@ -19,10 +19,10 @@
             </div>
             <div class="box-body">
               <div class="row">
-                <div class="col-sm-2">
+                <div class="col-sm-4">
                   <div class="form-group">
-                    <label>รหัส</label>
-                    <input v-model="form.car.code" type="text" class="form-control">
+                    <label>ประเภทรถ<span class="text-danger">*</span></label>
+                    <input v-model="form.car.type" type="text" class="form-control">
                   </div>
                 </div>
                 <div class="col-sm-4">
@@ -37,21 +37,21 @@
                     <input v-model="form.car.model" type="text" class="form-control">
                   </div>
                 </div>
+              </div>
+              <div class="row">
                 <div class="col-sm-2">
                   <div class="form-group">
-                    <label>ปีรุ่น<span class="text-danger">*</span></label>
+                    <label>รุ่นปี ค.ศ.</label>
                     <input v-model="form.car.year" type="text" class="form-control">
                   </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                   <div class="form-group">
                     <label>เลขทะเบียน<span class="text-danger">*</span></label>
                     <input v-model="form.car.license_plate_number" type="text" class="form-control">
                   </div>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                   <div class="form-group">
                     <label>จังหวัด<span class="text-danger">*</span></label>
                     <input v-model="form.car.province_of_registration" type="text" class="form-control">
@@ -59,21 +59,18 @@
                 </div>
                 <div class="col-sm-4">
                   <div class="form-group">
-                    <label>แบบตัวถัง</label>
-                    <input v-model="form.car.type" type="text" class="form-control">
-                  </div>
-                </div>
-                <div class="col-sm-2">
-                  <div class="form-group">
-                    <label>จำนวนที่นั่ง</label>
-                    <input v-model="form.car.capacity" type="text" class="form-control">
+                    <label>ขนาดรถ</label>
+                    <div class="input-group">
+                     <input v-model="form.car.engine_size" type="text" class="form-control">
+                      <span class="input-group-addon">CC</span>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-4">
                   <div class="form-group">
-                    <label>หมายเลขตัวถัง</label>
+                    <label>หมายเลขตัวรถ</label>
                     <input v-model="form.car.chassi_number" type="text" class="form-control">
                   </div>
                 </div>
@@ -83,16 +80,13 @@
                     <input v-model="form.car.engine_number" type="text" class="form-control">
                   </div>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-4">
                   <div class="form-group">
-                    <label>ขนาดเครื่อง</label>
-                    <input v-model="form.car.engine_size" type="text" class="form-control">
-                  </div>
-                </div>
-                <div class="col-sm-2">
-                  <div class="form-group">
-                    <label>นน.รวม</label>
-                    <input v-model="form.car.weight" type="text" class="form-control">
+                    <label>น้ำหนัก</label>
+                    <div class="input-group">
+                     <input v-model="form.car.weight" type="text" class="form-control">
+                      <span class="input-group-addon">กก.</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -126,7 +120,7 @@
               <div class="row">
                 <div class="col-sm-5">
                   <div class="form-group">
-                    <label>เบอร์โทรฯ<span class="text-danger">*</span></label>
+                    <label>เบอร์โทรฯ</label>
                     <input v-model="form.customer.phone" type="text" class="form-control">
                   </div>
                 </div>
@@ -185,7 +179,13 @@
           </div>
           </form>
         </div>
-        <div class="col-sm-3"></div>
+        <div class="col-sm-3 hidden-xs">
+          <strong>Tips</strong>
+          <div>
+            กรอกข้อมูลการจดทะเบียน<br><br>
+            <span class="text-danger">*</span> หมายถึงข้อมูลที่ต้องกรอก<br><br>
+          </div>
+        </div>
       </div>
     </section>
   </div>
@@ -204,7 +204,7 @@
     }),
     methods: {
         save () {
-          
+
         },
         reset () {
           this.form.reset()

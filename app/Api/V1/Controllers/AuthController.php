@@ -104,9 +104,31 @@ class AuthController extends Controller
                         'title' => 'ประเภทบริการ',
                         'icon' => 'fa fa-sitemap',
                     ],
+                    [
+                        'name' => 'settings.insurance',
+                        'title' => 'บริษัทประกัน',
+                        'icon' => 'fa fa-handshake-o',
+                    ],
                 ]
             ]
         ];
+        $menus[] = [ 
+                'name' => '',
+                'title' => 'จัดการระบบ',
+                'icon' => 'fa fa-tv',
+                'child' => [
+                    [
+                        'name' => 'systems.company',
+                        'title' => 'จัดการบริษัท',
+                        'icon' => 'fa fa-building-o',
+                    ],
+                    [
+                        'name' => 'systems.role-permission',
+                        'title' => 'จัดการสิทธิ์',
+                        'icon' => 'fa fa-id-badge',
+                    ],
+                ]
+            ];
         return response()->json(['menus' => $menus], $this->successStatus);
     }
 
