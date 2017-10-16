@@ -48,7 +48,29 @@
               </table>
             </div>
             <div class="box-footer">
-              <button type="submit" class="btn btn-primary" @click.prevent="createItem"><i class="fa fa-user-plus"></i> เพิ่มบริษัท</button>
+              <div class="row">
+                <div class="col-sm-2">
+                  <button type="submit" class="btn btn-primary" @click.prevent="createItem"><i class="fa fa-user-plus"></i> เพิ่มบริษัท</button>
+                </div>
+                <div class="col-sm-10">
+                  <ul class="pagination pull-right" style="margin: 3px 0 !important;">
+                    <li v-if="pagination.current_page > 1">
+                      <a href="#" aria-label="Previous" @click.prevent="changePage(pagination.current_page - 1)">
+                        <span aria-hidden="true">«</span>
+                      </a>
+                    </li>
+                    <li v-for="page in pagesNumber" :class="{'active': page == pagination.current_page}">
+                      <a href="#" @click.prevent="changePage(page)">{{ page }}</a>
+                    </li>
+                    <li v-if="pagination.current_page < pagination.last_page">
+                      <a href="#" aria-label="Next" @click.prevent="changePage(pagination.current_page + 1)">
+                        <span aria-hidden="true">»</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+                  
             </div>
           </div>
         </div>
@@ -135,6 +157,7 @@
           to: 0,
           current_page: 1
         },
+        offset: 4,
         form: new Form({
           id: 0,
           name: '',
@@ -148,10 +171,10 @@
       };
     },
     computed: {
-        isActived: function () {
+        isActived () {
             return this.pagination.current_page
         },
-        pagesNumber: function () {
+        pagesNumber () {
             if (!this.pagination.to) {
                 return []
             }
@@ -171,11 +194,11 @@
             return pagesArray
         }
     },
-    mounted : function(){
+    mounted (){
       this.getItems(this.pagination.current_page)
     },
     methods: {
-      getItems: function(page){
+      getItems (page){
           var self = this;
           axios.get('/api/v1/companies?page='+page)
           .then(function (response) {
@@ -190,11 +213,11 @@
             })
           })
       },
-      createItem: function(){
+      createItem (){
         this.form.reset()
         $("#create-item").modal('show')
       },
-      saveItem: function(){
+      saveItem (){
         if(this.form.id == 0){
           this.form.post('/api/v1/companies')
             .then(({ data }) => {
@@ -216,20 +239,21 @@
             })
         }
       },
-      editItem: function(itemId){
-          this.items.forEach((item, i) =>{
-            if(item.id==itemId){
-              this.form.keys().forEach(key => {
-                this.form[key] = item[key]
-              })
-            }
-          });
-          $("#create-item").modal('show');
+      editItem (itemId){
+        this.items.forEach((item, i) =>{
+          if(item.id==itemId){
+            this.form.keys().forEach(key => {
+              this.form[key] = item[key]
+            })
+          }
+        });
+        $("#create-item").modal('show');
       },
-      deleteItem: function(item){
+      deleteItem (item){
+        var self = this;
         swal({
           title: 'Are you sure?',
-          text: "ลบ "+item.name+" ออกจากระบบ",
+          text: 'ลบ '+item.name+' ออกจากระบบ',
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
@@ -237,25 +261,28 @@
           confirmButtonText: 'ตกลง',
           cancelButtonText: 'ยกเลิก'
         }).then(function () {
-          axios.delete('/api/v1/companies/'+item.id)
-            .then(({ data }) =>{
-              swal({
-                type: data.code,
-                title: data.title,
-                text: data.message
-              })
-            })
-            .catch(function (error) {
-              swal({
-                type: error.response.data.code,
-                title: error.response.data.title,
-                text: error.response.data.message
-              })
-            })
-
-        })
+          self.removeItem(item.id);
+        }, function (dismiss) {})
       },
-      changePage: function (page) {
+      removeItem (itemId) {
+        axios.delete('/api/v1/companies/'+itemId)
+          .then(({ data }) =>{
+            this.changePage(this.pagination.current_page)
+            swal({
+              type: data.code,
+              title: data.title,
+              text: data.message
+            })
+          })
+          .catch(function (error) {
+            swal({
+              type: error.response.data.code,
+              title: error.response.data.title,
+              text: error.response.data.message
+            })
+          })
+      },
+      changePage (page) {
           this.pagination.current_page = page
           this.getItems(page)
       }

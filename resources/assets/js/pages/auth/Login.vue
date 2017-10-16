@@ -39,14 +39,16 @@ export default {
     return { title: 'เข้าสู่ระบบ' }
   },
 
-  data: () => ({
-    title: window.config.appName,
-    form: new Form({
-      email: 'surasak@promrat.com',
-      password: '1q2w3e4r'
-    }),
-    remember: false
-  }),
+  data() {
+    return {
+      title: window.config.appName,
+      form: new Form({
+        email: 'surasak@promrat.com',
+        password: '1q2w3e4r'
+      }),
+      remember: false
+    }
+  },
 
   methods: {
     login () {

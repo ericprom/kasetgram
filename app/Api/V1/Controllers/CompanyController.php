@@ -2,11 +2,11 @@
 
 namespace App\Api\V1\Controllers;
 
-use App\Models\Company;
 use Illuminate\Http\Request;
 use Dingo\Api\Routing\Helpers;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Models\Company;
 use Response;
 use Validator;
 
@@ -14,6 +14,11 @@ class CompanyController extends Controller
 {
     use Helpers;
 
+
+    public $successStatus = 200;
+    public $errorStatus = 500;
+    public $unauthorizedStatus = 403;
+    
     public function __construct()
     {
         $this->middleware('auth:api');
@@ -22,7 +27,7 @@ class CompanyController extends Controller
     public function index(Request $request)
     { 
         try {
-            $companies = Company::latest()->paginate(5);
+            $companies = Company::latest()->paginate(10);
             return Response::json([
                 'status' => true,
                 'data' => $companies,
@@ -40,7 +45,7 @@ class CompanyController extends Controller
                 'code' => 'warning',
                 'title' => 'Warning',
                 'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
-            ], 500);
+            ], $this->errorStatus);
         }
     }
     public function store(Request $request)
@@ -84,18 +89,18 @@ class CompanyController extends Controller
     {
     
         try {
-            //Company::find($id)->delete();
+            Company::find($id)->delete();
             return Response::json([
                 'code' => 'success',
                 'title' => 'Deleted!',
                 'message' => 'ระบบได้ทำการลบข้อมูลเรียบร้อยแล้ว'
-            ], 200);
+            ], $this->successStatus);
         } catch (Exception $e) {
             return Response::json([
                 'code' => 'warning',
                 'title' => 'Warning',
                 'message' => 'เกิดข้อผิดพลาดไม่สามารถลบข้อมูลได้'
-            ], 500);
+            ], $this->errorStatus);
         }
     }
 }

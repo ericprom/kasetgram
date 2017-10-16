@@ -194,14 +194,16 @@
 <script>
   import Form from 'vform'
   export default {
-    data: () => ({
-      title: window.config.appName,
-      form: new Form({
-        car: {},
-        customer: {}
-      }),
-      remember: false
-    }),
+    data() {
+      return {
+        title: window.config.appName,
+        form: new Form({
+          car: {},
+          customer: {}
+        }),
+        remember: false
+      }
+    },
     methods: {
         save () {
 
