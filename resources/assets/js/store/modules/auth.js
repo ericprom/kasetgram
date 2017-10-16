@@ -51,7 +51,7 @@ export const actions = {
   createMenus ({ commit }, payload) {
     try {
       return new Promise((resolve, reject) => {
-        axios.get('/api/v1/auth/menus')
+        axios.post('/api/v1/auth/menus')
         .then(({ data }) =>{
           commit(types.USER_MENU, data.menus)
           resolve(data)

@@ -142,9 +142,9 @@ class AuthController extends Controller
                     ],
                 ]
             ];
-        // return Response::json([
-        //     'menus' => $menus
-        // ], $this->successStatus);
+        return Response::json([
+            'menus' => $menus
+        ], $this->successStatus);
     }
 
     public function details()

@@ -176,11 +176,6 @@
     },
     methods: {
       getItems: function(page){
-        axios.get('/api/v1/auth/menus')
-          .then(function (response) {
-            console.log(response)
-          })
-
           var self = this;
           axios.get('/api/v1/companies?page='+page)
           .then(function (response) {
