@@ -5,6 +5,8 @@ namespace App\Api\V1\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Response;
 use Validator;
 
@@ -98,7 +100,7 @@ class AuthController extends Controller
                     ],
                     [
                         'name' => 'settings.employee',
-                        'title' => 'เพิ่มผู้ใช้งานในระบบ',
+                        'title' => 'จัดการพนักงาน',
                         'icon' => 'fa fa-user-circle-o',
                     ],
                     [
@@ -124,7 +126,10 @@ class AuthController extends Controller
                 ]
             ]
         ];
-        $menus[] = [ 
+        // $role_r = Role::where('id', '=', 1)->firstOrFail();            
+        // Auth::user()->assignRole($role_r);
+        if(Auth::user()->hasRole('super-admin')){
+            $menus[] = [ 
                 'name' => '',
                 'title' => 'จัดการระบบ',
                 'icon' => 'fa fa-tv',
@@ -139,8 +144,14 @@ class AuthController extends Controller
                         'title' => 'จัดการสิทธิ์',
                         'icon' => 'fa fa-id-badge',
                     ],
+                    [
+                        'name' => 'systems.user',
+                        'title' => 'เพิ่มผู้ใช้งานในระบบ',
+                        'icon' => 'fa fa-users',
+                    ],
                 ]
             ];
+        }
         return Response::json([
             'menus' => $menus
         ], $this->successStatus);

@@ -182,7 +182,7 @@
         <div class="col-sm-3 hidden-xs">
           <strong>Tips</strong>
           <div>
-            กรอกข้อมูลการจดทะเบียน<br><br>
+            การกรอกข้อมูลการจดทะเบียน<br><br>
             <span class="text-danger">*</span> หมายถึงข้อมูลที่ต้องกรอก<br><br>
           </div>
         </div>

@@ -20,7 +20,7 @@
               </div>
               <div class="box-body">
                 <div class="form-group">
-                  <label class="col-sm-2 col-md-4 control-label">ชื่อไทย</label>
+                  <label class="col-sm-2 col-md-4 control-label">ชื่อบริษัท<span class="text-danger">*</span></label>
                   <div class="col-sm-8 col-md-4">
                     <input v-model="form.name" type="text" class="form-control">
                   </div>
@@ -65,7 +65,13 @@
             </div>
           </form>
         </div>
-        <div class="col-sm-3"></div>
+        <div class="col-sm-3 hidden-xs">
+          <strong>Tips</strong>
+          <div>
+            การกรอกข้อมูลบริษัท<br><br>
+            <span class="text-danger">*</span> หมายถึงข้อมูลที่ต้องกรอก<br><br>
+          </div>
+        </div>
       </div>
     </section>
   </div>

@@ -1,6 +1,6 @@
 window._ = require('lodash');
 window.$ = window.jQuery = require('jquery');
-require('bootstrap');
+require('bootstrap-sass');
 require('../static/lte/js/app');
 window.Vue = require('vue');
 require('vue-resource');

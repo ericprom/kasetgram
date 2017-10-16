@@ -21,13 +21,13 @@
               </div>
             </div>
             <div class="box-body">
-              <table class="table table-hover">
+              <table class="table">
                 <tr>
                   <th width="30%">ชื่อบริษัท</th>
                   <th colspan="2">ที่อยู่</th>
                 </tr>
                 <tr>
-                  <td colspan="4" class="text-vertical-center text-center" v-if="pagination.total==0"><h3>ไม่มีข้อมูลบริษัท</h3></td>
+                  <td colspan="4" class="text-center" v-if="pagination.total==0"><h3>ไม่มีข้อมูลบริษัท</h3></td>
                 </tr>
                 <tr v-for="item in items">
                   <td>
@@ -53,7 +53,7 @@
                   <button type="submit" class="btn btn-primary" @click.prevent="createItem"><i class="fa fa-user-plus"></i> เพิ่มบริษัท</button>
                 </div>
                 <div class="col-sm-10">
-                  <ul class="pagination pull-right" style="margin: 3px 0 !important;">
+                  <ul class="pagination pagination-sm pull-right" style="margin: 3px 0 !important;">
                     <li v-if="pagination.current_page > 1">
                       <a href="#" aria-label="Previous" @click.prevent="changePage(pagination.current_page - 1)">
                         <span aria-hidden="true">«</span>
@@ -74,7 +74,13 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-3"></div>
+        <div class="col-sm-3 hidden-xs">
+          <strong>Tips</strong>
+          <div>
+            การกรอกข้อมูลบริษัท<br><br>
+            <span class="text-danger">*</span> หมายถึงข้อมูลที่ต้องกรอก<br><br>
+          </div>
+        </div>
       </div>
     </section>
     <div class="modal fade" id="create-item" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
