@@ -74,7 +74,7 @@ class CompanyController extends Controller
 
     public function update(Request $request, $id)
     {
-        $credentials = $request->only(['name']);
+        $credentials = $request->only(['name', 'branch', 'address', 'phone', 'fax', 'branch_of', 'tax_id']);
 
         $validator = Validator::make($credentials, [
             'name' => 'required'
@@ -88,9 +88,8 @@ class CompanyController extends Controller
 
             return Response::json($edit);
         }
-
-
     }
+
     public function destroy($id)
     {
     

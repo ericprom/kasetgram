@@ -81,7 +81,7 @@
           keyword:""
         },
         config:{
-          table: 'roleTable',
+          table: 'itemTable',
           edit: true,
           title: 'รายชื่อตำแหน่ง',
           api: '/api/v1/roles/',
@@ -105,7 +105,7 @@
     },
     methods: {
       searchItem (){
-        this.$refs.roleTable.searchData(this.search);
+        this.$refs.itemTable.searchData(this.search);
       },
       createItem (){
         this.form.reset()
@@ -116,7 +116,7 @@
           this.form.post(this.config.api)
             .then(({ data }) => {
               $("#create-item").modal('hide')
-              this.$refs.roleTable.reloadData();
+              this.$refs.itemTable.reloadData();
               this.form.reset()
             })
             .catch(function (error) {
@@ -126,7 +126,7 @@
           this.form.put(this.config.api+this.form.id)
             .then(({ data }) => {
               $("#create-item").modal('hide')
-              this.$refs.roleTable.reloadData();
+              this.$refs.itemTable.reloadData();
               this.form.reset()
             })
             .catch(function (error) {
@@ -158,7 +158,7 @@
       removeItem (itemId) {
         axios.delete(this.config.api+itemId)
           .then(({ data }) =>{
-            this.$refs.roleTable.reloadData();
+            this.$refs.itemTable.reloadData();
             swal({
               type: data.code,
               title: data.title,

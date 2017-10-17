@@ -28,4 +28,17 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function scopeSearchByKeyword($query, $keyword)
+    {
+        if ($keyword!='') {
+            $query->where(function ($query) use ($keyword) {
+                $query->where("name", "LIKE","%$keyword%")
+                    ->orWhere("address", "LIKE", "%$keyword%")
+                    ->orWhere("phone", "LIKE", "%$keyword%")
+                    ->orWhere("email", "LIKE", "%$keyword%");
+            });
+        }
+        return $query;
+    }
 }

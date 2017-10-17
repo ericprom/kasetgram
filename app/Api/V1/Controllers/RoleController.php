@@ -47,4 +47,61 @@ class RoleController extends Controller {
         }
     }
 
+    public function store(Request $request)
+    {
+        $credentials = $request->only(['name','guard_name']);
+
+        $validator = Validator::make($credentials, [
+            'name' => 'required',
+            'guard_name' => 'required',
+        ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors'=>$validator->errors()]);
+        }
+        else{
+            $create = Role::create($request->all());
+
+            return Response::json($create);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        $credentials = $request->only(['name','guard_name']);
+
+        $validator = Validator::make($credentials, [
+            'name' => 'required',
+            'guard_name' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors'=>$validator->errors()]);
+        }
+        else{
+            $edit = Role::find($id)->update($request->all());
+
+            return Response::json($edit);
+        }
+    }
+
+    public function destroy($id)
+    {
+    
+        try {
+            Role::find($id)->delete();
+            return Response::json([
+                'code' => 'success',
+                'title' => 'Deleted!',
+                'message' => 'ระบบได้ทำการลบข้อมูลเรียบร้อยแล้ว'
+            ], $this->successStatus);
+        } catch (Exception $e) {
+            return Response::json([
+                'code' => 'warning',
+                'title' => 'Warning',
+                'message' => 'เกิดข้อผิดพลาดไม่สามารถลบข้อมูลได้'
+            ], $this->errorStatus);
+        }
+    }
+
 }
