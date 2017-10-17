@@ -14,10 +14,7 @@
       <div class="row">
         <div class="col-sm-9">
           <data-viewer 
-            :header="config.colomns" 
-            :source="config.api" 
-            :title="config.title"
-            :edit="config.edit"
+            :configs="config" 
             :ref="config.table"
             @update="updateItem"
             @delete="deleteItem">
@@ -85,7 +82,8 @@
           edit: true,
           title: 'รายชื่อสิทธิ์ผู้ใช้',
           api: '/api/v1/permissions/',
-          colomns: [
+          hidden: ['id'],
+          columns: [
             {
               name:'ชื่อสิทธิ์',
               width: 70

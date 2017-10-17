@@ -2,7 +2,7 @@
   <div class="box box-primary">
     <div class="box-header with-border">
       <h3 class="box-title">
-        <i class="fa fa-list"></i> {{title}}
+        <i class="fa fa-list"></i> {{config.title}}
       </h3>
       <div class="box-tools pull-right">
         <span class="badge bg-light-blue">{{pagination.total}}</span>
@@ -12,17 +12,22 @@
       <table class="table">
         <thead>
           <tr>
-            <th v-for="column in columns" :style="{ width: column.width + '%' }">
+            <th v-for="column in config.columns" :style="{ width: column.width + '%' }">
               <span>{{column.name}}</span>
             </th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="row in items">
-            <td v-for="(value, key) in row" v-if="key!='id'">
-              {{value}}
+            <td v-for="(value, key) in row" v-if="isHidden(key)">
+              <span v-for="val in value" v-if="isArray(value)">
+                {{val.name}}
+              </span>
+              <span v-if="!isArray(value)">
+                {{value}}
+              </span>
             </td>
-            <td v-if="editMode" width="10%">
+            <td v-if="config.edit" width="10%">
               <div class="pull-right">
                 <button type="button" class="btn btn-box-tool" @click.prevent="updateData(row)">
                   <i class="fa fa-edit" style="font-size: 18px;"></i>
@@ -63,12 +68,10 @@
 
   export default {
     name: 'data-viewer',
-    props: ['header', 'source', 'title', 'edit'],
+    props: ['configs'],
     data() {
       return {
-        api:'',
-        editMode: false,
-        columns: [],
+        config:{},
         items: [],
         pagination: {
           total: 0, 
@@ -81,9 +84,7 @@
       }
     },
     created() {
-      this.api = this.source
-      this.columns = this.header
-      this.editMode = this.edit
+      this.config = this.configs
       Store.dispatch('updateQuery','')
       var query = this.createQuery(this.pagination.current_page)
       this.fetchData(query)
@@ -112,7 +113,7 @@
     methods: {
       createQuery(page){
         var query = [];
-        query.push(this.api)
+        query.push(this.config.api)
         query.push('?page='+page)
         query.push(Store.getters.searchQuery)
         return query.join('')
@@ -151,6 +152,17 @@
         this.pagination.current_page = page
         var query = this.createQuery(page)
         this.fetchData(query)
+      },
+      isHidden( index ) {
+        if(this.config.hidden.indexOf(index) >= 0){
+          return false
+        }
+        else{
+          return true
+        }
+      },
+      isArray( obj ) {
+        return toString.call(obj) === "[object Array]";
       },
     }
   }

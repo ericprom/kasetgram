@@ -26,10 +26,7 @@
             </div>
           </div>
           <data-viewer 
-            :header="config.colomns" 
-            :source="config.api" 
-            :title="config.title"
-            :edit="config.edit"
+            :configs="config" 
             :ref="config.table"
             @update="updateItem"
             @delete="deleteItem">
@@ -125,7 +122,8 @@
           edit: true,
           title: 'รายชื่อบริษัท',
           api: '/api/v1/companies/',
-          colomns: [
+          hidden: ['id'],
+          columns: [
             {
               name:'ชื่อบริษัท',
               width: 40

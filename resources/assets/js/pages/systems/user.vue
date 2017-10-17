@@ -26,10 +26,7 @@
             </div>
           </div>
           <data-viewer 
-            :header="config.colomns" 
-            :source="config.api" 
-            :title="config.title"
-            :edit="config.edit"
+            :configs="config" 
             :ref="config.table"
             @update="updateItem"
             @delete="deleteItem">
@@ -55,7 +52,14 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label class="col-sm-2 col-md-3 control-label">ชื่อ<span class="text-danger">*</span></label>
+              <label for="userRole" class="col-sm-2 col-md-3 control-label">ตำแหน่ง</label>
+              <div class="col-sm-8 col-md-6">
+                <v-select v-model="form.role" :options="roles"></v-select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 col-md-3 control-label">ชื่อ-สกุล<span class="text-danger">*</span></label>
 
               <div class="col-sm-8 col-md-6">
                 <input v-model="form.name" type="text" class="form-control" required>
@@ -73,6 +77,27 @@
 
               <div class="col-sm-8 col-md-6">
                 <input v-model="form.phone" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-1 col-md-2"></div>
+              <div class="col-sm-10 col-md-8">
+                <hr>
+              </div>
+              <div class="col-sm-1 col-md-2"></div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 col-md-3 control-label">อีเมล</label>
+
+              <div class="col-sm-8 col-md-6">
+                <input v-model="form.email" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 col-md-3 control-label">รหัสผ่าน</label>
+
+              <div class="col-sm-8 col-md-6">
+                <input v-model="form.password" type="text" class="form-control">
               </div>
             </div>
           </div>
@@ -104,34 +129,43 @@
           edit: true,
           title: 'รายชื่อผู้ใช้',
           api: '/api/v1/users/',
-          colomns: [
+          hidden: ['id','branch_id'],
+          columns: [
             {
+              datafield:'name',
               name:'ชื่อ',
-              width: 30
-            }, 
-            {
-              name:'ที่อยู่',
               width: 20
             }, 
             {
+              datafield:'phone',
               name:'เบอร์โทร',
-              width: 20
+              width: 15
             }, 
             {
+              datafield:'email',
               name:'อีเมล',
-              width: 20
+              width: 15
+            }, 
+            {
+              datafield:'company.name',
+              name:'บริษัท',
+              width: 25
+            },
+            {
+              datafield:'role.name',
+              name:'ตำแหน่ง',
+              width: 15
             }
           ],
         },
+        roles: [{id: 1, label: 'Super Admin'},{id: 2, label: 'Admin'},{id: 3, label: 'User'}],
         form: new Form({
           id: 0,
+          role: null,
           name: '',
           branch: '',
           address: '',
           phone: '',
-          fax: '',
-          bramch_of: '',
-          tax_id: '',
         }),
       };
     },
@@ -168,7 +202,12 @@
       updateItem (item){
         var self = this;
         Object.keys(item).forEach(function(key) {
-          self.form[key] = item[key]
+          if(key=='role'){
+            self.form['role'] = self.checkRole(item[key])
+          }
+          else{
+            self.form[key] = item[key]
+          }
         });
         $("#create-item").modal('show')
       },
@@ -204,7 +243,17 @@
               text: error.response.data.message
             })
           })
-      }
+      },
+      checkRole (items){
+        var self = this;
+        var data = null
+        _.find(items, function(val) {
+          data = _.find(self.roles, function(item) {
+            return item.id == val.id;
+          });
+        });
+        return data
+      },
     }
   }
 </script>

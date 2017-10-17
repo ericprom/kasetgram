@@ -41,4 +41,18 @@ class User extends Authenticatable
         }
         return $query;
     }
+
+    public function role()
+    {
+        $instance = $this->belongsToMany('Spatie\Permission\Models\Role', 'model_has_roles', 'model_id');
+        $instance->getQuery()->select(['id','name']);
+        return $instance;
+    }
+
+    public function company()
+    {
+        $instance = $this->hasMany('App\Models\Company', 'id', 'branch_id');
+        $instance->getQuery()->select(['id','name']);
+        return $instance;
+    }
 }

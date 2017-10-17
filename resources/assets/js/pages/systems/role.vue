@@ -14,10 +14,7 @@
       <div class="row">
         <div class="col-sm-9">
           <data-viewer 
-            :header="config.colomns" 
-            :source="config.api" 
-            :title="config.title"
-            :edit="config.edit"
+            :configs="config" 
             :ref="config.table"
             @update="updateItem"
             @delete="deleteItem">
@@ -85,7 +82,8 @@
           edit: true,
           title: 'รายชื่อตำแหน่ง',
           api: '/api/v1/roles/',
-          colomns: [
+          hidden: ['id'],
+          columns: [
             {
               name:'ชื่อตำแหน่ง',
               width: 70

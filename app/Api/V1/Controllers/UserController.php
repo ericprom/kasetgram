@@ -28,9 +28,10 @@ class UserController extends Controller
     { 
         try {
             $keyword =  $request->input('keyword', '');
-            $columns = ['id', 'name', 'address', 'phone', 'email'];
+            $columns = ['id', 'name', 'phone', 'email', 'branch_id'];
             $companies = User::SearchByKeyword($keyword)
                 ->select($columns)
+                ->with(['company','role'])
                 ->latest()
                 ->paginate(10);
 
@@ -74,7 +75,7 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $credentials = $request->only(['name', 'branch', 'address', 'phone', 'fax', 'branch_of', 'tax_id']);
+        $credentials = $request->only(['name']);
 
         $validator = Validator::make($credentials, [
             'name' => 'required'
@@ -84,9 +85,11 @@ class UserController extends Controller
             return Response::json(['errors'=>$validator->errors()]);
         }
         else{
-            $edit = User::find($id)->update($request->all());
-
-            return Response::json($edit);
+            $user = User::find($id);
+            $user->update($request->all());
+            $role = $request->input('role');  
+            $user->roles()->sync($role['id']);
+            return Response::json($user);
         }
     }
 
