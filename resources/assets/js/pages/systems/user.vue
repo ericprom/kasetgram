@@ -223,18 +223,27 @@
       },
       deleteItem (item){
         var self = this;
-        swal({
-          title: 'Are you sure?',
-          text: 'ลบ '+item.name+' ออกจากระบบ',
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'ตกลง',
-          cancelButtonText: 'ยกเลิก'
-        }).then(function () {
-          self.removeItem(item.id);
-        }, function (dismiss) {})
+        if(item.id == 1){
+          swal({
+              type: 'warning',
+              title: 'Warning',
+              text: 'คุณไม่สามารถลบผู้ดูแลระบบได้'
+            })
+        }
+        else{
+          swal({
+            title: 'Are you sure?',
+            text: 'ลบ '+item.name+' ออกจากระบบ',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ตกลง',
+            cancelButtonText: 'ยกเลิก'
+          }).then(function () {
+            self.removeItem(item.id);
+          }, function (dismiss) {})
+        }
       },
       removeItem (itemId) {
         axios.delete(this.config.api+itemId)
