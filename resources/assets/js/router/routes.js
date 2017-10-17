@@ -19,7 +19,8 @@ export default ({ authGuard, guestGuard }) => [
     ] },
     { path: '/systems', component: require('../pages/systems/index.vue'), children: [
       { path: 'company', name: 'systems.company', component: require('../pages/systems/company.vue') },
-      { path: 'role-permission', name: 'systems.role-permission', component: require('../pages/systems/role-permission.vue') },
+      { path: 'role', name: 'systems.role', component: require('../pages/systems/role.vue') },
+      { path: 'permission', name: 'systems.permission', component: require('../pages/systems/permission.vue') },
       { path: 'user', name: 'systems.user', component: require('../pages/systems/user.vue') },
     ] }
   ]),

@@ -24,6 +24,12 @@ $api->version('v1', function ($api) {
 			$api->post('auth/menus', 'App\Api\V1\Controllers\AuthController@menus');
 			$api->post('auth/details', 'App\Api\V1\Controllers\AuthController@details');
 			$api->resource('companies', 'App\Api\V1\Controllers\CompanyController');
+
+		});
+		$api->group(['middleware' => ['auth:api', 'role:super-admin']], function ($api) {
+			$api->resource('companies', 'App\Api\V1\Controllers\CompanyController');
+			$api->resource('roles', 'App\Api\V1\Controllers\RoleController');
+			$api->resource('permissions', 'App\Api\V1\Controllers\PermissionController');
 		});
 	});
 

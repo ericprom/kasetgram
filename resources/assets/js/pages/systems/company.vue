@@ -18,7 +18,9 @@
               <div class="input-group input-group-sm">
                 <input type="text" name="search" class="form-control pull-right" v-model="search.keyword">
                 <div class="input-group-btn">
-                  <button type="button" class="btn btn-default" @click.prevent="searchItem(search.keyword)"><i class="fa fa-search"></i></button>
+                  <button type="button" class="btn btn-default" @click.prevent="searchItem(search.keyword)">
+                    <i class="fa fa-search"></i> ค้นหา
+                  </button>
                 </div>
               </div>
             </div>
@@ -32,7 +34,7 @@
             @update="updateItem"
             @delete="deleteItem">
           </data-viewer>
-          <button class="btn btn-default" @click.prevent="createItem">+ เพิ่มบริษัท</button>
+          <button class="btn btn-default" @click.prevent="createItem"><i class="fa fa-plus"></i> เพิ่มบริษัท</button>
         </div>
         <div class="col-sm-3 hidden-xs">
           <strong>Tips</strong>
@@ -122,7 +124,7 @@
           table: 'customerTable',
           edit: true,
           title: 'รายชื่อบริษัท',
-          api: '/api/v1/companies',
+          api: '/api/v1/companies/',
           colomns: [
             {
               name:'ชื่อบริษัท',
@@ -160,7 +162,7 @@
       },
       saveItem (){
         if(this.form.id == 0){
-          this.form.post('/api/v1/companies')
+          this.form.post(this.config.api)
             .then(({ data }) => {
               $("#create-item").modal('hide')
               this.$refs.customerTable.reloadData();
@@ -170,7 +172,7 @@
             })
         }
         else{
-          this.form.put('/api/v1/companies/'+this.form.id)
+          this.form.put(this.config.api+this.form.id)
             .then(({ data }) => {
               $("#create-item").modal('hide')
               this.$refs.customerTable.reloadData();
@@ -203,7 +205,7 @@
         }, function (dismiss) {})
       },
       removeItem (itemId) {
-        axios.delete('/api/v1/companies/'+itemId)
+        axios.delete(this.config.api+itemId)
           .then(({ data }) =>{
             this.$refs.customerTable.reloadData();
             swal({

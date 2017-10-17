@@ -5,8 +5,6 @@ namespace App\Api\V1\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use Response;
 use Validator;
 
@@ -138,7 +136,12 @@ class AuthController extends Controller
                         'icon' => 'fa fa-building-o',
                     ],
                     [
-                        'name' => 'systems.role-permission',
+                        'name' => 'systems.role',
+                        'title' => 'จัดการตำแหน่ง',
+                        'icon' => 'fa fa-key',
+                    ],
+                    [
+                        'name' => 'systems.permission',
                         'title' => 'จัดการสิทธิ์',
                         'icon' => 'fa fa-id-badge',
                     ],
