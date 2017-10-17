@@ -12,8 +12,8 @@
       <table class="table">
         <thead>
           <tr>
-            <th v-for="column in columns">
-              <span>{{column}}</span>
+            <th v-for="column in columns" :style="{ width: column.width + '%' }">
+              <span>{{column.name}}</span>
             </th>
           </tr>
         </thead>
@@ -22,7 +22,7 @@
             <td v-for="(value, key) in row" v-if="key!='id'">
               {{value}}
             </td>
-            <td v-if="editMode">
+            <td v-if="editMode" width="10%">
               <div class="pull-right">
                 <button type="button" class="btn btn-box-tool" @click.prevent="updateData(row)">
                   <i class="fa fa-edit" style="font-size: 18px;"></i>
@@ -60,13 +60,13 @@
 <script>
   import Vue from 'vue'
   import axios from 'axios'
-  //similar to vue-resource
 
   export default {
     name: 'data-viewer',
     props: ['header', 'source', 'title', 'edit'],
     data() {
       return {
+        api:'',
         editMode: false,
         columns: [],
         items: [],
@@ -81,38 +81,58 @@
       }
     },
     created() {
+      this.api = this.source
       this.columns = this.header
       this.editMode = this.edit
-      this.fetchData(this.pagination.current_page)
+      Store.dispatch('updateQuery','')
+      var query = this.createQuery(this.pagination.current_page)
+      this.fetchData(query)
     },
     computed: {
-        pagesNumber () {
-            if (!this.pagination.to) {
-                return []
-            }
-            var from = this.pagination.current_page - this.offset
-            if (from < 1) {
-                from = 1
-            }
-            var to = from + (this.offset * 2)
-            if (to >= this.pagination.last_page) {
-                to = this.pagination.last_page
-            }
-            var pagesArray = []
-            while (from <= to) {
-                pagesArray.push(from)
-                from++
-            }
-            return pagesArray
+      pagesNumber (query) {
+        if (!this.pagination.to) {
+            return []
         }
+        var from = this.pagination.current_page - this.offset
+        if (from < 1) {
+            from = 1
+        }
+        var to = from + (this.offset * 2)
+        if (to >= this.pagination.last_page) {
+            to = this.pagination.last_page
+        }
+        var pagesArray = []
+        while (from <= to) {
+            pagesArray.push(from)
+            from++
+        }
+        return pagesArray
+      }
     },
     methods: {
-      reloadData() {
-        this.fetchData(this.pagination.current_page)
+      createQuery(page){
+        var query = [];
+        query.push(this.api)
+        query.push('?page='+page)
+        query.push(Store.getters.searchQuery)
+        return query.join('')
       },
-      fetchData(page) {
+      searchData(data) {
+        var search = [];
+        Object.keys(data).forEach(function(key) {
+          search.push('&'+key+'='+data[key]);
+        });
+        Store.dispatch('updateQuery',search.join(''))
+        var query = this.createQuery(this.pagination.current_page)
+        this.fetchData(query)
+      },
+      reloadData() {
+        var query = this.createQuery(this.pagination.current_page)
+        this.fetchData(query)
+      },
+      fetchData(query) {
         var self = this
-        axios.get(this.source+"?page="+page)
+        axios.get(query)
           .then(function(response) {
             self.items = response.data.data.data
             self.pagination = response.data.pagination
@@ -128,8 +148,9 @@
         this.$emit('delete', data)
       },
       changePage (page) {
-          this.pagination.current_page = page
-          this.fetchData(page)
+        this.pagination.current_page = page
+        var query = this.createQuery(page)
+        this.fetchData(query)
       },
     }
   }

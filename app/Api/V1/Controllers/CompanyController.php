@@ -27,8 +27,12 @@ class CompanyController extends Controller
     public function index(Request $request)
     { 
         try {
-            $columns = ['id', 'name', 'address'];
-            $companies = Company::select($columns)->latest()->paginate(10);
+            $keyword =  $request->input('keyword', '');
+            $columns = ['id', 'name', 'address', 'phone'];
+            $companies = Company::SearchByKeyword($keyword)
+                ->select($columns)
+                ->latest()
+                ->paginate(10);
 
             return Response::json([
                 'status' => true,

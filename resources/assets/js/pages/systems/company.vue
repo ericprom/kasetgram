@@ -13,6 +13,16 @@
     <section class="content">
       <div class="row">
         <div class="col-sm-9">
+           <div class="box box-primary">
+            <div class="box-body">
+              <div class="input-group input-group-sm">
+                <input type="text" name="search" class="form-control pull-right" v-model="search.keyword">
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-default" @click.prevent="searchItem(search.keyword)"><i class="fa fa-search"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
           <data-viewer 
             :header="config.colomns" 
             :source="config.api" 
@@ -105,12 +115,28 @@
   export default {
     data() {
       return {
+        search:{
+          keyword:""
+        },
         config:{
-          table: "customerTable",
+          table: 'customerTable',
           edit: true,
           title: 'รายชื่อบริษัท',
           api: '/api/v1/companies',
-          colomns: ['name', 'address'],
+          colomns: [
+            {
+              name:'ชื่อบริษัท',
+              width: 40
+            }, 
+            {
+              name:'ที่อยู่บริษัท',
+              width: 25
+            }, 
+            {
+              name:'เบอร์ออฟฟิศ',
+              width: 25
+            }
+          ],
         },
         form: new Form({
           id: 0,
@@ -125,6 +151,9 @@
       };
     },
     methods: {
+      searchItem (){
+        this.$refs.customerTable.searchData(this.search);
+      },
       createItem (){
         this.form.reset()
         $("#create-item").modal('show')
