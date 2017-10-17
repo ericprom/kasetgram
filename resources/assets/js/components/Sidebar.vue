@@ -49,12 +49,14 @@
         }
     },
     methods: {
-      createMenus () {
+      init () {
         Store.dispatch('createMenus')
+        Store.dispatch('createRoles')
+        Store.dispatch('createCompanies')
       }
     },
     beforeMount(){
-      this.createMenus()
+      this.init()
     },
   };
 </script>

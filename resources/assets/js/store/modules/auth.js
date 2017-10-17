@@ -4,6 +4,8 @@ import * as types from '../mutation-types'
 
 // state
 export const state = {
+  companies: [],
+  roles: [],
   menus: [],
   user: null,
   token: Cookies.get('token')
@@ -38,6 +40,14 @@ export const mutations = {
 
   [types.USER_MENU] (state, menus) {
     state.menus = menus
+  },
+
+  [types.USER_ROLE] (state, roles) {
+    state.roles = roles
+  },
+
+  [types.USER_COMPANY] (state, companies) {
+    state.companies = companies
   }
 }
 
@@ -54,6 +64,38 @@ export const actions = {
         axios.post('/api/v1/auth/menus')
         .then(({ data }) =>{
           commit(types.USER_MENU, data.menus)
+          resolve(data)
+        })
+        .catch(function (error) {
+            reject(error)
+        })
+      })
+
+    } catch (e) {}
+  },
+
+  createRoles ({ commit }, payload) {
+    try {
+      return new Promise((resolve, reject) => {
+        axios.post('/api/v1/auth/roles')
+        .then(({ data }) =>{
+          commit(types.USER_ROLE, data.roles)
+          resolve(data)
+        })
+        .catch(function (error) {
+            reject(error)
+        })
+      })
+
+    } catch (e) {}
+  },
+
+  createCompanies ({ commit }, payload) {
+    try {
+      return new Promise((resolve, reject) => {
+        axios.post('/api/v1/auth/companies')
+        .then(({ data }) =>{
+          commit(types.USER_COMPANY, data.companies)
           resolve(data)
         })
         .catch(function (error) {
@@ -99,6 +141,8 @@ export const actions = {
 
 // getters
 export const getters = {
+  authCompanies: state => state.companies,
+  authRoles: state => state.roles,
   authMenus: state => state.menus,
   authUser: state => state.user,
   authToken: state => state.token,

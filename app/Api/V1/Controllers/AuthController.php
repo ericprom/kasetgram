@@ -5,6 +5,10 @@ namespace App\Api\V1\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use App\Models\Company;
+use App\Models\User;
 use Response;
 use Validator;
 
@@ -171,6 +175,53 @@ class AuthController extends Controller
                 'title' => 'Warning',
                 'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ],  $this->errorStatus);
+        }
+    }
+
+    public function roles() {
+        try {
+            $columns = ['id', 'name'];
+            $criteria = [];
+            if(!Auth::user()->hasRole('super-admin')){
+                $criteria[] =['id','<>', 1];
+            }
+            $roles = Role::select($columns)->where($criteria)->get();
+
+           foreach($roles as &$val){
+                $val['label'] = $val['name'];
+                unset($val['name']);
+            }
+            
+            return Response::json([
+                'roles' => $roles
+            ]);
+        } catch (Exception $e) {
+            return Response::json([
+                'code' => 'warning',
+                'title' => 'Warning',
+                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+            ], $this->errorStatus);
+        }
+    }
+
+    public function companies() {
+        try {
+            $columns = ['id', 'name'];
+            $criteria = [];
+            $companies = Company::select($columns)->where($criteria)->get();
+           foreach($companies as &$val){
+                $val['label'] = $val['name'];
+                unset($val['name']);
+            }
+            return Response::json([
+                'companies' => $companies
+            ]);
+        } catch (Exception $e) {
+            return Response::json([
+                'code' => 'warning',
+                'title' => 'Warning',
+                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+            ], $this->errorStatus);
         }
     }
 }

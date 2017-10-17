@@ -119,9 +119,9 @@
         },
         config:{
           table: 'itemTable',
-          edit: true,
           title: 'รายชื่อบริษัท',
           api: '/api/v1/companies/',
+          edit: true,
           hidden: ['id'],
           columns: [
             {

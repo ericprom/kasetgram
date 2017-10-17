@@ -21,6 +21,9 @@ $api->version('v1', function ($api) {
 		$api->post('auth/logout', 'App\Api\V1\Controllers\AuthController@logout');
 
 		$api->group(['middleware' => ['auth:api']], function ($api) {
+			$api->post('auth/companies', 'App\Api\V1\Controllers\AuthController@companies');
+			$api->post('auth/users', 'App\Api\V1\Controllers\AuthController@users');
+			$api->post('auth/roles', 'App\Api\V1\Controllers\AuthController@roles');
 			$api->post('auth/menus', 'App\Api\V1\Controllers\AuthController@menus');
 			$api->post('auth/details', 'App\Api\V1\Controllers\AuthController@details');
 			$api->resource('companies', 'App\Api\V1\Controllers\CompanyController');

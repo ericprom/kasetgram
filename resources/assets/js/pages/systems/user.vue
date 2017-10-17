@@ -52,12 +52,17 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label for="userRole" class="col-sm-2 col-md-3 control-label">ตำแหน่ง</label>
+              <label for="userRole" class="col-sm-2 col-md-3 control-label">บริษัท<span class="text-danger">*</span></label>
+              <div class="col-sm-8 col-md-6">
+                <v-select v-model="form.company" :options="companies"></v-select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="userRole" class="col-sm-2 col-md-3 control-label">ตำแหน่ง<span class="text-danger">*</span></label>
               <div class="col-sm-8 col-md-6">
                 <v-select v-model="form.role" :options="roles"></v-select>
               </div>
             </div>
-
             <div class="form-group">
               <label class="col-sm-2 col-md-3 control-label">ชื่อ-สกุล<span class="text-danger">*</span></label>
 
@@ -126,9 +131,9 @@
         },
         config:{
           table: 'itemTable',
-          edit: true,
           title: 'รายชื่อผู้ใช้',
           api: '/api/v1/users/',
+          edit: true,
           hidden: ['id','branch_id'],
           columns: [
             {
@@ -158,10 +163,12 @@
             }
           ],
         },
-        roles: [{id: 1, label: 'Super Admin'},{id: 2, label: 'Admin'},{id: 3, label: 'User'}],
+        roles: Store.getters.authRoles,
+        companies: Store.getters.authCompanies,
         form: new Form({
           id: 0,
-          role: null,
+          company: Store.getters.authCompanies[0],
+          role: Store.getters.authRoles[1],
           name: '',
           branch: '',
           address: '',
@@ -205,6 +212,9 @@
           if(key=='role'){
             self.form['role'] = self.checkRole(item[key])
           }
+          else if(key=='company'){
+            self.form['company'] = self.checkCompany(item[key])
+          }
           else{
             self.form[key] = item[key]
           }
@@ -243,6 +253,16 @@
               text: error.response.data.message
             })
           })
+      },
+      checkCompany (items){
+        var self = this;
+        var data = null
+        _.find(items, function(val) {
+          data = _.find(self.companies, function(item) {
+            return item.id == val.id;
+          });
+        });
+        return data
       },
       checkRole (items){
         var self = this;

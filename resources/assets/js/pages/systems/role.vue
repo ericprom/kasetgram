@@ -79,9 +79,9 @@
         },
         config:{
           table: 'itemTable',
-          edit: true,
           title: 'รายชื่อตำแหน่ง',
           api: '/api/v1/roles/',
+          edit: true,
           hidden: ['id'],
           columns: [
             {
