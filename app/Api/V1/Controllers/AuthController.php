@@ -126,8 +126,6 @@ class AuthController extends Controller
                 ]
             ]
         ];
-        // $role_r = Role::where('id', '=', 1)->firstOrFail();            
-        // Auth::user()->assignRole($role_r);
         if(Auth::user()->hasRole('super-admin')){
             $menus[] = [ 
                 'name' => '',

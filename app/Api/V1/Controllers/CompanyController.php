@@ -27,7 +27,9 @@ class CompanyController extends Controller
     public function index(Request $request)
     { 
         try {
-            $companies = Company::latest()->paginate(10);
+            $columns = ['id', 'name', 'address'];
+            $companies = Company::select($columns)->latest()->paginate(10);
+
             return Response::json([
                 'status' => true,
                 'data' => $companies,

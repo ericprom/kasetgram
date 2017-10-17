@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Child from './Child'
-import Pagination from './Pagination'
+import DataViewer from './DataViewer'
 
 Vue.component(Child.name, Child)
-Vue.component(Pagination.name, Pagination)
+Vue.component(DataViewer.name, DataViewer)

@@ -13,66 +13,16 @@
     <section class="content">
       <div class="row">
         <div class="col-sm-9">
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title"><i class="fa fa-list"></i> รายชื่อบริษัท </h3>
-              <div class="box-tools pull-right">
-                <span class="badge bg-light-blue">{{pagination.total}}</span>
-              </div>
-            </div>
-            <div class="box-body">
-              <table class="table">
-                <tr>
-                  <th width="30%">ชื่อบริษัท</th>
-                  <th colspan="2">ที่อยู่</th>
-                </tr>
-                <tr>
-                  <td colspan="4" class="text-center" v-if="pagination.total==0"><h3>ไม่มีข้อมูลบริษัท</h3></td>
-                </tr>
-                <tr v-for="item in items">
-                  <td>
-                    <div>{{ item.name }}</div>
-                  </td>
-                  <td>{{ item.address }}</td>
-                  <td>
-                    <div class="pull-right">
-                      <button type="button" class="btn btn-box-tool" @click.prevent="editItem(item.id)">
-                        <i class="fa fa-edit" style="font-size: 18px;"></i>
-                      </button>
-                      <button type="button" class="btn btn-box-tool" @click.prevent="deleteItem(item)">
-                        <i class="fa fa-ban" style="font-size: 18px;"></i>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              </table>
-            </div>
-            <div class="box-footer">
-              <div class="row">
-                <div class="col-sm-2">
-                  <button type="submit" class="btn btn-primary" @click.prevent="createItem"><i class="fa fa-user-plus"></i> เพิ่มบริษัท</button>
-                </div>
-                <div class="col-sm-10">
-                  <ul class="pagination pagination-sm pull-right" style="margin: 3px 0 !important;">
-                    <li v-if="pagination.current_page > 1">
-                      <a href="#" aria-label="Previous" @click.prevent="changePage(pagination.current_page - 1)">
-                        <span aria-hidden="true">«</span>
-                      </a>
-                    </li>
-                    <li v-for="page in pagesNumber" :class="{'active': page == pagination.current_page}">
-                      <a href="#" @click.prevent="changePage(page)">{{ page }}</a>
-                    </li>
-                    <li v-if="pagination.current_page < pagination.last_page">
-                      <a href="#" aria-label="Next" @click.prevent="changePage(pagination.current_page + 1)">
-                        <span aria-hidden="true">»</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-                  
-            </div>
-          </div>
+          <data-viewer 
+            :header="config.colomns" 
+            :source="config.api" 
+            :title="config.title"
+            :edit="config.edit"
+            :ref="config.table"
+            @update="updateItem"
+            @delete="deleteItem">
+          </data-viewer>
+          <button class="btn btn-default" @click.prevent="createItem">+ เพิ่มบริษัท</button>
         </div>
         <div class="col-sm-3 hidden-xs">
           <strong>Tips</strong>
@@ -155,15 +105,13 @@
   export default {
     data() {
       return {
-        items: [],
-        pagination: {
-          total: 0, 
-          per_page: 10,
-          from: 1, 
-          to: 0,
-          current_page: 1
+        config:{
+          table: "customerTable",
+          edit: true,
+          title: 'รายชื่อบริษัท',
+          api: '/api/v1/companies',
+          colomns: ['name', 'address'],
         },
-        offset: 4,
         form: new Form({
           id: 0,
           name: '',
@@ -176,49 +124,7 @@
         }),
       };
     },
-    computed: {
-        isActived () {
-            return this.pagination.current_page
-        },
-        pagesNumber () {
-            if (!this.pagination.to) {
-                return []
-            }
-            var from = this.pagination.current_page - this.offset
-            if (from < 1) {
-                from = 1
-            }
-            var to = from + (this.offset * 2)
-            if (to >= this.pagination.last_page) {
-                to = this.pagination.last_page
-            }
-            var pagesArray = []
-            while (from <= to) {
-                pagesArray.push(from)
-                from++
-            }
-            return pagesArray
-        }
-    },
-    mounted (){
-      this.getItems(this.pagination.current_page)
-    },
     methods: {
-      getItems (page){
-          var self = this;
-          axios.get('/api/v1/companies?page='+page)
-          .then(function (response) {
-            self.items = response.data.data.data
-            self.pagination = response.data.pagination
-          })
-          .catch(function (error) {
-            swal({
-              type: error.response.data.code,
-              title: error.response.data.title,
-              text: error.response.data.message
-            })
-          })
-      },
       createItem (){
         this.form.reset()
         $("#create-item").modal('show')
@@ -227,8 +133,8 @@
         if(this.form.id == 0){
           this.form.post('/api/v1/companies')
             .then(({ data }) => {
-              this.changePage(this.pagination.current_page)
               $("#create-item").modal('hide')
+              this.$refs.customerTable.reloadData();
               this.form.reset()
             })
             .catch(function (error) {
@@ -237,23 +143,20 @@
         else{
           this.form.put('/api/v1/companies/'+this.form.id)
             .then(({ data }) => {
-              this.changePage(this.pagination.current_page)
               $("#create-item").modal('hide')
+              this.$refs.customerTable.reloadData();
               this.form.reset()
             })
             .catch(function (error) {
             })
         }
       },
-      editItem (itemId){
-        this.items.forEach((item, i) =>{
-          if(item.id==itemId){
-            this.form.keys().forEach(key => {
-              this.form[key] = item[key]
-            })
-          }
+      updateItem (item){
+        var self = this;
+        Object.keys(item).forEach(function(key) {
+          self.form[key] = item[key]
         });
-        $("#create-item").modal('show');
+        $("#create-item").modal('show')
       },
       deleteItem (item){
         var self = this;
@@ -273,7 +176,7 @@
       removeItem (itemId) {
         axios.delete('/api/v1/companies/'+itemId)
           .then(({ data }) =>{
-            this.changePage(this.pagination.current_page)
+            this.$refs.customerTable.reloadData();
             swal({
               type: data.code,
               title: data.title,
@@ -287,12 +190,7 @@
               text: error.response.data.message
             })
           })
-      },
-      changePage (page) {
-          this.pagination.current_page = page
-          this.getItems(page)
       }
     }
   }
 </script>
-
