@@ -12,12 +12,12 @@
         <ul class="nav navbar-nav">
           <li class="dropdown user user-menu" v-if="authenticated">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img :src="user.avatar" :alt="user.name" class="user-image">
+              <img :src="user.avatar" :alt="user.name" v-if="user.avatar" class="user-image">
               <span class="hidden-xs">{{ user.name }}</span>
             </a>
             <ul class="dropdown-menu">
               <li class="user-header">
-                <img :src="user.avatar" :alt="user.name" class="img-circle">
+                <img :src="user.avatar" :alt="user.name" v-if="user.avatar" class="img-circle">
 
                 <p>
                   {{ user.name }}
@@ -45,26 +45,25 @@
 <script>
   export default {
     name: 'Header',
-    data: () => ({
-        companyName: 'Smart Farmer',
-        companyAbbr: 'SF',
-    }),
+    data(){
+      return {
+        companyName: 'Vehicle Inspection',
+        companyAbbr: 'VIMS',
+      }
+    },
     computed: {
-        user () {
-            return Store.getters.authUser
-        },
-        authenticated () {
-            return Store.getters.authCheck
-        }
+      user () {
+        return Store.getters.authUser
+      },
+      authenticated () {
+        return Store.getters.authCheck
+      }
     },
     methods: {
-        logout () {
-            // Log out the user.
-            Store.dispatch('logout')
-
-            // Redirect to login.
-            this.$router.push({ name: 'welcome' })
-        }
+      logout () {
+        Store.dispatch('logout')
+        this.$router.push({ name: 'welcome' })
+      }
     }
   };
 </script>

@@ -15,15 +15,9 @@
 
     <div class="text-center">
       <div class="title mb-4">
+        <img :src="inspection_logo">
+        <br>
         {{ title }}
-      </div>
-
-      <div class="links">
-        <a href="https://laravel.com/docs">Documentation</a>
-        <a href="https://laracasts.com">Laracasts</a>
-        <a href="https://laravel-news.com">News</a>
-        <a href="https://forge.laravel.com">Forge</a>
-        <a href="https://github.com/laravel/laravel">GitHub</a>
       </div>
     </div>
   </div>
@@ -34,18 +28,23 @@ export default {
   layout: 'default',
 
   metaInfo () {
-    return { title: 'หน้าแดชบอร์ด' }
+    return { 
+      title: 'หน้าหลัก' 
+    }
   },
 
   computed: {
-        authenticated () {
-            return Store.getters.authCheck
-        }
+      authenticated () {
+        return Store.getters.authCheck
+      }
     },
 
-  data: () => ({
-    title: window.config.appName
-  })
+  data(){
+    return {
+      inspection_logo: "images/inspection.png",
+      title: "Vehicle Inspection Management System"
+    }
+  }
 }
 </script>
 
@@ -57,6 +56,6 @@ export default {
 }
 
 .title {
-  font-size: 85px;
+  font-size: 35px;
 }
 </style>

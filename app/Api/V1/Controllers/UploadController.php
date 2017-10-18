@@ -28,7 +28,7 @@ class UploadController extends Controller
             $filename = sha1('avatar-'.  $data['filename'].'-'.time()).".jpg";
             Image::make(file_get_contents( $data['base64_image']))->save(public_path('avatars/' . $filename));
             $user = Auth::user();
-            $user->avatar = 'avatars/' .$filename;
+            $user->avatar = '/avatars/' .$filename;
             $user->save();
             return Response::json([
                 'user' => $user

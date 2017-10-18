@@ -131,6 +131,11 @@
   import swal from 'sweetalert2'
   import Form from 'vform'
   export default {
+    metaInfo () {
+      return { 
+        title: 'หน้าจัดการผู้ใช้' 
+      }
+    },
     data() {
       return {
         search:{

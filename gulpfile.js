@@ -18,6 +18,7 @@ elixir(mix => {
     mix
     	.copy('./node_modules/font-awesome/fonts', 'public/fonts')
         .copy('./resources/assets/avatars', 'public/avatars')
+        .copy('./resources/assets/images', 'public/images')
     	.sass('app.scss')
        	.webpack('app.js');
 });

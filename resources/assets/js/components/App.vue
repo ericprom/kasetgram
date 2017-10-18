@@ -37,10 +37,12 @@ export default {
     }
   },
 
-  data: () => ({
-    layout: null,
-    defaultLayout: 'app'
-  }),
+  data() {
+    return {
+      layout: null,
+      defaultLayout: 'app'
+    }
+  },
 
   mounted () {
     this.$loading = this.$refs.loading

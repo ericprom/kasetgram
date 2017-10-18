@@ -3,7 +3,7 @@
     <section class="sidebar">
       <div class="user-panel">
         <div class="pull-left image">
-          <img :src="user.avatar" :alt="user.name" class="img-circle">
+          <img :src="user.avatar" :alt="user.name" v-if="user.avatar" class="img-circle" >
         </div>
         <div class="pull-left info">
           <p v-if="authenticated">{{ user.name }}</p>
@@ -38,15 +38,15 @@
     data() {
       return {
         menus: Store.getters.authMenus
-      };
+      }
     },
     computed: {
-        user () {
-            return Store.getters.authUser
-        },
-        authenticated () {
-            return Store.getters.authCheck
-        }
+      user () {
+        return Store.getters.authUser
+      },
+      authenticated () {
+        return Store.getters.authCheck
+      }
     },
     methods: {
       init () {
