@@ -36,7 +36,7 @@
         <div class="col-sm-3 hidden-xs">
           <strong>Tips</strong>
           <div>
-            การกรอกข้อมูลบริษัท<br><br>
+            การกรอกข้อมูลผู้ใช้<br><br>
             <span class="text-danger">*</span> หมายถึงข้อมูลที่ต้องกรอก<br><br>
           </div><br><br>
           <strong>Roles</strong>
@@ -133,7 +133,7 @@
   export default {
     metaInfo () {
       return { 
-        title: 'หน้าจัดการผู้ใช้' 
+        title: 'จัดการผู้ใช้' 
       }
     },
     data() {
@@ -186,7 +186,7 @@
           address: '',
           phone: '',
           branch_id: 1,
-          brole_id: 2,
+          role_id: 2,
         }),
       };
     },

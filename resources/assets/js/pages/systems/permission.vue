@@ -72,6 +72,11 @@
   import swal from 'sweetalert2'
   import Form from 'vform'
   export default {
+    metaInfo () {
+      return { 
+        title: 'จัดการสิทธิ์' 
+      }
+    },
     data() {
       return {
         config:{

@@ -112,6 +112,11 @@
   import swal from 'sweetalert2'
   import Form from 'vform'
   export default {
+    metaInfo () {
+      return { 
+        title: 'จัดการข้อมูลบริษัท' 
+      }
+    },
     data() {
       return {
         search:{
