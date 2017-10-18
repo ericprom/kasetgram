@@ -36,6 +36,7 @@ $api->version('v1', function ($api) {
 			$api->resource('setting/cars', 'App\Api\V1\Controllers\SettingCarController');
 			$api->resource('setting/banks', 'App\Api\V1\Controllers\SettingBankController');
 			$api->resource('setting/services', 'App\Api\V1\Controllers\SettingServiceController');
+			$api->resource('setting/insurance/companies', 'App\Api\V1\Controllers\SettingInsuranceCompanyController');
 		});
 		$api->group(['middleware' => ['auth:api', 'role:super-admin']], function ($api) {
 			$api->resource('system/companies', 'App\Api\V1\Controllers\SystemCompanyController');
