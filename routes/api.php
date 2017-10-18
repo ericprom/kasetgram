@@ -28,6 +28,8 @@ $api->version('v1', function ($api) {
 			$api->post('auth/details', 'App\Api\V1\Controllers\AuthController@details');
 			$api->resource('companies', 'App\Api\V1\Controllers\CompanyController');
 
+			$api->post('upload/avatar', 'App\Api\V1\Controllers\UploadController@avatar');
+
 		});
 		$api->group(['middleware' => ['auth:api', 'role:super-admin']], function ($api) {
 			$api->resource('companies', 'App\Api\V1\Controllers\CompanyController');

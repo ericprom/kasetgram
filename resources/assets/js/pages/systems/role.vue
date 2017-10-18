@@ -74,9 +74,6 @@
   export default {
     data() {
       return {
-        search:{
-          keyword:""
-        },
         config:{
           table: 'itemTable',
           title: 'รายชื่อตำแหน่ง',
@@ -102,9 +99,6 @@
       };
     },
     methods: {
-      searchItem (){
-        this.$refs.itemTable.searchData(this.search);
-      },
       createItem (){
         this.form.reset()
         $("#create-item").modal('show')

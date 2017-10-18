@@ -38,6 +38,13 @@
           <div>
             การกรอกข้อมูลบริษัท<br><br>
             <span class="text-danger">*</span> หมายถึงข้อมูลที่ต้องกรอก<br><br>
+          </div><br><br>
+          <strong>Roles</strong>
+          <div>
+            ตำแหน่งและสิทธิ์ผู้ใช้<br><br>
+            <span class="text-danger">*</span>super-admin หมายถึงผู้ดูแลระบบ<br><br>
+            <span class="text-danger">*</span>admin หมายถึงเจ้าของบริษัท<br><br>
+            <span class="text-danger">*</span>user หมายถึงพนักงานในบริษัท<br><br>
           </div>
         </div>
       </div>

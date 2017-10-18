@@ -12,12 +12,12 @@
         <ul class="nav navbar-nav">
           <li class="dropdown user user-menu" v-if="authenticated">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="http://www.newsshare.in/wp-content/uploads/2017/04/Miniclip-8-Ball-Pool-Avatar-15.png" class="user-image" alt="User Image">
+              <img :src="user.avatar" :alt="user.name" class="user-image">
               <span class="hidden-xs">{{ user.name }}</span>
             </a>
             <ul class="dropdown-menu">
               <li class="user-header">
-                <img src="http://www.newsshare.in/wp-content/uploads/2017/04/Miniclip-8-Ball-Pool-Avatar-15.png" class="img-circle" alt="User Image">
+                <img :src="user.avatar" :alt="user.name" class="img-circle">
 
                 <p>
                   {{ user.name }}
@@ -26,7 +26,9 @@
               </li>
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">โปรไฟล์</a>
+                  <router-link :to="{ name: 'account' }" class="btn btn-default btn-flat">
+                  โปรไฟล์
+                  </router-link>
                 </div>
                 <div class="pull-right">
                   <a @click.prevent="logout" class="btn btn-default btn-flat">ออกจากระบบ</a>
