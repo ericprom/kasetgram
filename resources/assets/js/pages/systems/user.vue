@@ -54,13 +54,13 @@
             <div class="form-group">
               <label for="userRole" class="col-sm-2 col-md-3 control-label">บริษัท<span class="text-danger">*</span></label>
               <div class="col-sm-8 col-md-6">
-                <v-select v-model="form.company" :options="companies"></v-select>
+                <v-select v-model="form.company" :options="companies" :on-change="selectedCompany"></v-select>
               </div>
             </div>
             <div class="form-group">
               <label for="userRole" class="col-sm-2 col-md-3 control-label">ตำแหน่ง<span class="text-danger">*</span></label>
               <div class="col-sm-8 col-md-6">
-                <v-select v-model="form.role" :options="roles"></v-select>
+                <v-select v-model="form.role" :options="roles" :on-change="selectedRole"></v-select>
               </div>
             </div>
             <div class="form-group">
@@ -92,17 +92,17 @@
               <div class="col-sm-1 col-md-2"></div>
             </div>
             <div class="form-group">
-              <label class="col-sm-2 col-md-3 control-label">อีเมล</label>
+              <label class="col-sm-2 col-md-3 control-label">อีเมล<span class="text-danger">*</span></label>
 
               <div class="col-sm-8 col-md-6">
-                <input v-model="form.email" type="text" class="form-control">
+                <input v-model="form.email" type="text" class="form-control" required>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-2 col-md-3 control-label">รหัสผ่าน</label>
+              <label class="col-sm-2 col-md-3 control-label">รหัสผ่าน<span class="text-danger" v-if="form.id==0">*</span></label>
 
               <div class="col-sm-8 col-md-6">
-                <input v-model="form.password" type="text" class="form-control">
+                <input v-model="form.password" type="text" class="form-control" :required="form.id==0">
               </div>
             </div>
           </div>
@@ -173,6 +173,8 @@
           branch: '',
           address: '',
           phone: '',
+          branch_id: 1,
+          brole_id: 2,
         }),
       };
     },
@@ -283,6 +285,12 @@
         });
         return data
       },
+      selectedCompany(val, tag) {
+        this.form.branch_id = val.id
+      },
+      selectedRole(val, tag) {
+        this.form.role_id = val.id
+      }
     }
   }
 </script>

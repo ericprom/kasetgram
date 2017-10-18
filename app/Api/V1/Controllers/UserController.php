@@ -32,7 +32,6 @@ class UserController extends Controller
             $companies = User::SearchByKeyword($keyword)
                 ->select($columns)
                 ->with(['company','role'])
-                ->latest()
                 ->paginate(10);
 
             return Response::json([
@@ -57,19 +56,21 @@ class UserController extends Controller
     }
     public function store(Request $request)
     {
-        $credentials = $request->only(['name']);
+        $credentials = $request->only(['name', 'password']);
 
         $validator = Validator::make($credentials, [
-            'name' => 'required'
+            'name' => 'required',
+            'password' => 'required'
         ]);
         
         if ($validator->fails()) {
             return Response::json(['errors'=>$validator->errors()]);
         }
         else{
-            $create = User::create($request->all());
-
-            return Response::json($create);
+            $user = User::create($request->all());
+            $roleId = $request->input('role_id');  
+            $user->roles()->sync($roleId);
+            return Response::json($user);
         }
     }
 
@@ -87,8 +88,8 @@ class UserController extends Controller
         else{
             $user = User::find($id);
             $user->update($request->all());
-            $role = $request->input('role');  
-            $user->roles()->sync($role['id']);
+            $roleId = $request->input('role_id');  
+            $user->roles()->sync($roleId);
             return Response::json($user);
         }
     }

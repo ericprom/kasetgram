@@ -55,4 +55,9 @@ class User extends Authenticatable
         $instance->getQuery()->select(['id','name']);
         return $instance;
     }
+
+    public function setPasswordAttribute($password)
+    {   
+        $this->attributes['password'] = bcrypt($password);
+    }
 }
