@@ -136,7 +136,7 @@
         },
         config:{
           table: 'itemTable',
-          title: 'พนักงาน',
+          title: 'บัญชีพนักงาน',
           api: '/api/v1/setting/users/',
           edit: true,
           hidden: ['id','branch_id'],
