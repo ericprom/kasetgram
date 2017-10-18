@@ -120,7 +120,7 @@
         config:{
           table: 'itemTable',
           title: 'รายชื่อบริษัท',
-          api: '/api/v1/companies/',
+          api: '/api/v1/system/companies/',
           edit: true,
           hidden: ['id'],
           columns: [

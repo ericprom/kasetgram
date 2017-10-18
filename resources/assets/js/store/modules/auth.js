@@ -110,7 +110,7 @@ export const actions = {
 
     try {
       return new Promise((resolve, reject) => {
-        axios.post('/api/v1/auth/details')
+        axios.post('/api/v1/auth/profile/details')
         .then(({ data }) =>{
           commit(types.FETCH_USER_SUCCESS, data.user)
           resolve(data)

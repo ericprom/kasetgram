@@ -13,7 +13,7 @@
     <section class="content">
       <div class="row">
         <div class="col-sm-9">
-          <form @submit.prevent="save" @keydown="form.onKeydown($event)"  class="form-horizontal">
+          <form @submit.prevent="saveData" @keydown="form.onKeydown($event)"  class="form-horizontal">
             <div class="box box-primary">
               <div class="box-header with-border">
                 <h3 class="box-title"><i class="fa fa-building"></i> แก้ไขข้อมูลบริษัท</h3>
@@ -34,7 +34,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 col-md-4 control-label">เลขประจำตัวผู้เสียภาษี</label>
                   <div class="col-sm-8 col-md-4">
-                    <input v-model="form.tax_number" type="text" class="form-control">
+                    <input v-model="form.tax_id" type="text" class="form-control">
                   </div>
                 </div>
                 <div class="form-group">
@@ -78,26 +78,69 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  import swal from 'sweetalert2'
   import Form from 'vform'
 
   export default {
     metaInfo () {
-      return { title: 'เข้าสู่ระบบ' }
+      return { 
+        title: 'ข้อมูลบริษัท' 
+      }
     },
 
-    data: () => ({
-      title: window.config.appName,
-      form: new Form({
-        email: 'surasak@promrat.com',
-        password: '1q2w3e4r'
-      }),
-      remember: false
-    }),
-
-    methods: {
-      save () {
-        
+    data(){
+      return {
+        form: new Form({
+          name: '',
+          address: '',
+          tax_id: '',
+          branch: '',
+          phone: '',
+          fax: ''
+        })
       }
+    },
+    mounted() {
+      this.getData()
+    },
+    methods: {
+      getData (){
+        axios.post('/api/v1/auth/company/details')
+          .then(({ data }) =>{
+            this.parseData(data.company)
+          })
+          .catch(function (error) {
+            swal({
+              type: error.response.data.code,
+              title: error.response.data.title,
+              text: error.response.data.message
+            })
+          })
+      },
+      parseData (data){
+        var self = this;
+        Object.keys(data).forEach(function(key) {
+          self.form[key] = data[key]
+        });
+      },
+      saveData (){
+        this.form.post('/api/v1/auth/company/update')
+          .then(({ data }) => {
+            swal({
+              type: data.code,
+              title: data.title,
+              text: data.message
+            })
+          })
+          .catch(function (error) {
+            swal({
+              type: error.response.data.code,
+              title: error.response.data.title,
+              text: error.response.data.message
+            })
+          })
+      },
     }
   }
 </script>

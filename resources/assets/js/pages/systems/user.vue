@@ -109,7 +109,7 @@
               <label class="col-sm-2 col-md-3 control-label">รหัสผ่าน<span class="text-danger" v-if="form.id==0">*</span></label>
 
               <div class="col-sm-8 col-md-6">
-                <input v-model="form.password" type="text" class="form-control" :required="form.id==0">
+                <input v-model="form.password" type="password" class="form-control" :required="form.id==0">
               </div>
             </div>
           </div>
@@ -144,7 +144,7 @@
         config:{
           table: 'itemTable',
           title: 'รายชื่อผู้ใช้',
-          api: '/api/v1/users/',
+          api: '/api/v1/system/users/',
           edit: true,
           hidden: ['id','branch_id'],
           columns: [

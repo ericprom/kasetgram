@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\Company;
 use App\Models\User;
+use App\Models\Menu;
 use Response;
 use Validator;
 
@@ -74,143 +75,28 @@ class AuthController extends Controller
 
     public function menus()
     {
-        $menus =  [
-            [ 
-                'name' => 'dashboard',
-                'title' => 'ภาพรวม',
-                'icon' => 'fa fa-star-o'
-            ],
-            [ 
-                'name' => 'car-register',
-                'title' => 'นำเข้าข้อมูลจดทะเบียน',
-                'icon' => 'fa fa-edit'
-            ],
-            [ 
-                'name' => 'customers',
-                'title' => 'สมุดรายชื่อลูกค้า',
-                'icon' => 'fa fa-book'
-            ],
-            [ 
-                'name' => '',
-                'title' => 'ตั้งค่า',
-                'icon' => 'fa fa-cogs',
-                'child' => [
-                    [
-                        'name' => 'settings.company',
-                        'title' => 'แก้ไขข้อมูลบริษัท',
-                        'icon' => 'fa fa-building',
-                    ],
-                    [
-                        'name' => 'settings.employee',
-                        'title' => 'จัดการพนักงาน',
-                        'icon' => 'fa fa-user-circle-o',
-                    ],
-                    [
-                        'name' => 'settings.car',
-                        'title' => 'จัดการข้อมูลรถ',
-                        'icon' => 'fa fa-car',
-                    ],
-                    [
-                        'name' => 'settings.payment',
-                        'title' => 'บัญชีธนาคาร',
-                        'icon' => 'fa fa-money',
-                    ],
-                    [
-                        'name' => 'settings.service',
-                        'title' => 'ประเภทบริการ',
-                        'icon' => 'fa fa-sitemap',
-                    ],
-                    [
-                        'name' => 'settings.insurance',
-                        'title' => 'บริษัทประกัน',
-                        'icon' => 'fa fa-handshake-o',
-                    ],
-                ]
-            ]
-        ];
-        if(Auth::user()->hasRole('super-admin')){
-            $menus[] = [ 
-                'name' => '',
-                'title' => 'จัดการระบบ',
-                'icon' => 'fa fa-tv',
-                'child' => [
-                    [
-                        'name' => 'systems.company',
-                        'title' => 'จัดการบริษัท',
-                        'icon' => 'fa fa-building-o',
-                    ],
-                    [
-                        'name' => 'systems.role',
-                        'title' => 'จัดการตำแหน่ง',
-                        'icon' => 'fa fa-key',
-                    ],
-                    [
-                        'name' => 'systems.permission',
-                        'title' => 'จัดการสิทธิ์',
-                        'icon' => 'fa fa-id-badge',
-                    ],
-                    [
-                        'name' => 'systems.user',
-                        'title' => 'เพิ่มผู้ใช้งานในระบบ',
-                        'icon' => 'fa fa-users',
-                    ],
-                ]
-            ];
-        }
         return Response::json([
-            'menus' => $menus
+            'menus' => self::buildMenus(Menu::tree(),Auth::user()->roles->first()->name)
         ], $this->successStatus);
     }
 
-    public function details()
+    public static function buildMenus($menuItems, $userrole)
     {
-        try {
-            $user = Auth::user();
-            return Response::json([
-                'user' => $user
-            ], $this->successStatus);
-        } catch (Exception $e) {
-            return Response::json([
-                'code' => 'warning',
-                'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
-            ],  $this->errorStatus);
-        }
-    }
-
-    public function profile(Request $request) {
-        try {
-            $credentials = $request->only(['name', 'email']);
-
-            $validator = Validator::make($credentials, [
-                'name' => 'required',
-                'email' => 'required',
-            ]);
-
-            if ($validator->fails()) {
-                return Response::json([
-                    'code' => 'warning',
-                    'title' => 'Warning',
-                    'message' => 'เกิดข้อผิดพลาดไม่สามารถอัพเดทข้อมูลได้'
-                ],  $this->errorStatus);
+        $menus = array();
+        foreach ($menuItems as $k => $v) {
+            if (in_array($userrole, explode(',', $v['role']))) {
+                $menus[$k] = $v;
+                foreach ($menus[$k]['children'] as $k2 => $v2) {
+                    if (in_array($userrole, explode(',', $v2['role']))) {
+                        $menus[$k]['children'][$k2] = $v2;
+                    }
+                    else{
+                        unset($menus[$k]['children'][$k2]);
+                    }
+                }
             }
-            else{
-                $user = Auth::user();
-                $user->update($request->all());
-                return Response::json([
-                    'user' => $user,
-                    'code' => 'success',
-                    'title' => 'Updated!',
-                    'message' => 'ระบบได้ทำการบันทึกข้อมูลเรียบร้อยแล้ว'
-                ], $this->successStatus);
-            }
-        } catch (Exception $e) {
-            return Response::json([
-                'code' => 'warning',
-                'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
-            ], $this->errorStatus);
         }
+        return array_values($menus);
     }
 
     public function roles() {
@@ -259,4 +145,107 @@ class AuthController extends Controller
             ], $this->errorStatus);
         }
     }
+
+    public function getprofile()
+    {
+        try {
+            $user = Auth::user();
+            return Response::json([
+                'user' => $user
+            ], $this->successStatus);
+        } catch (Exception $e) {
+            return Response::json([
+                'code' => 'warning',
+                'title' => 'Warning',
+                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+            ],  $this->errorStatus);
+        }
+    }
+
+    public function updateprofile(Request $request) {
+        try {
+            $credentials = $request->only(['name', 'email']);
+
+            $validator = Validator::make($credentials, [
+                'name' => 'required',
+                'email' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return Response::json([
+                    'code' => 'warning',
+                    'title' => 'Warning',
+                    'message' => 'เกิดข้อผิดพลาดไม่สามารถอัพเดทข้อมูลได้'
+                ],  $this->errorStatus);
+            }
+            else{
+                $user = Auth::user();
+                $user->update($request->all());
+                return Response::json([
+                    'user' => $user,
+                    'code' => 'success',
+                    'title' => 'Updated!',
+                    'message' => 'ระบบได้ทำการบันทึกข้อมูลเรียบร้อยแล้ว'
+                ], $this->successStatus);
+            }
+        } catch (Exception $e) {
+            return Response::json([
+                'code' => 'warning',
+                'title' => 'Warning',
+                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+            ], $this->errorStatus);
+        }
+    }
+
+    public function getcompany()
+    {
+        try {
+            $branch = Auth::user()->branch_id;
+            $company = Company::find($branch);
+            return Response::json([
+                'company' => $company
+            ], $this->successStatus);
+        } catch (Exception $e) {
+            return Response::json([
+                'code' => 'warning',
+                'title' => 'Warning',
+                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+            ],  $this->errorStatus);
+        }
+    }
+
+    public function updatecompany(Request $request) {
+        try {
+            $credentials = $request->only(['name']);
+
+            $validator = Validator::make($credentials, [
+                'name' => 'required'
+            ]);
+
+            if ($validator->fails()) {
+                return Response::json([
+                    'code' => 'warning',
+                    'title' => 'Warning',
+                    'message' => 'เกิดข้อผิดพลาดไม่สามารถอัพเดทข้อมูลได้'
+                ],  $this->errorStatus);
+            }
+            else{
+                $company = Company::find($request->id);
+                $company->update($request->all());
+                return Response::json([
+                    'user' => $company,
+                    'code' => 'success',
+                    'title' => 'Updated!',
+                    'message' => 'ระบบได้ทำการบันทึกข้อมูลเรียบร้อยแล้ว'
+                ], $this->successStatus);
+            }
+        } catch (Exception $e) {
+            return Response::json([
+                'code' => 'warning',
+                'title' => 'Warning',
+                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+            ], $this->errorStatus);
+        }
+    }
+
 }

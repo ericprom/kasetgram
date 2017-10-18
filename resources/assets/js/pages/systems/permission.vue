@@ -77,7 +77,7 @@
         config:{
           table: 'itemTable',
           title: 'รายชื่อสิทธิ์ผู้ใช้',
-          api: '/api/v1/permissions/',
+          api: '/api/v1/system/permissions/',
           edit: true,
           hidden: ['id'],
           columns: [
