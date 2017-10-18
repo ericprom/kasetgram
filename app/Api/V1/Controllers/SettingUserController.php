@@ -31,7 +31,7 @@ class SettingUserController extends Controller
             $branch = Auth::user()->branch_id;
             $keyword =  $request->input('keyword', '');
             $columns = ['id', 'name', 'phone', 'email', 'branch_id'];
-            $companies = User::SearchByKeyword($keyword)
+            $items = User::SearchByKeyword($keyword)
                 ->select($columns)
                 ->where('branch_id','=',$branch)
                 ->with(['role'])
@@ -39,14 +39,14 @@ class SettingUserController extends Controller
 
             return Response::json([
                 'status' => true,
-                'data' => $companies,
+                'data' => $items,
                 'pagination' => [
-                    'total' => $companies->total(),
-                    'per_page' => $companies->perPage(),
-                    'current_page' => $companies->currentPage(),
-                    'last_page' => $companies->lastPage(),
-                    'from' => $companies->firstItem(),
-                    'to' => $companies->lastItem()
+                    'total' => $items->total(),
+                    'per_page' => $items->perPage(),
+                    'current_page' => $items->currentPage(),
+                    'last_page' => $items->lastPage(),
+                    'from' => $items->firstItem(),
+                    'to' => $items->lastItem()
                 ]
             ]);
         } catch (Exception $e) {
@@ -75,10 +75,10 @@ class SettingUserController extends Controller
                 ], $this->errorStatus);
             }
             else{
-                $user = User::create($request->all());
+                $item = User::create($request->all());
                 $roleId = $request->input('role_id');  
-                $user->roles()->sync($roleId);
-                return Response::json($user);
+                $item->roles()->sync($roleId);
+                return Response::json($item);
             }
         } catch (Exception $e) {
             return Response::json([
@@ -107,11 +107,11 @@ class SettingUserController extends Controller
                 ], $this->errorStatus);
             }
             else{
-                $user = User::find($id);
-                $user->update($request->all());
+                $item = User::find($id);
+                $item->update($request->all());
                 $roleId = $request->input('role_id');  
-                $user->roles()->sync($roleId);
-                return Response::json($user);
+                $item->roles()->sync($roleId);
+                return Response::json($item);
             }
         } catch (Exception $e) {
             return Response::json([

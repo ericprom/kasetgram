@@ -29,21 +29,21 @@ class SystemUserController extends Controller
         try {
             $keyword =  $request->input('keyword', '');
             $columns = ['id', 'name', 'phone', 'email', 'branch_id'];
-            $companies = User::SearchByKeyword($keyword)
+            $items = User::SearchByKeyword($keyword)
                 ->select($columns)
                 ->with(['company','role'])
                 ->paginate(10);
 
             return Response::json([
                 'status' => true,
-                'data' => $companies,
+                'data' => $items,
                 'pagination' => [
-                    'total' => $companies->total(),
-                    'per_page' => $companies->perPage(),
-                    'current_page' => $companies->currentPage(),
-                    'last_page' => $companies->lastPage(),
-                    'from' => $companies->firstItem(),
-                    'to' => $companies->lastItem()
+                    'total' => $items->total(),
+                    'per_page' => $items->perPage(),
+                    'current_page' => $items->currentPage(),
+                    'last_page' => $items->lastPage(),
+                    'from' => $items->firstItem(),
+                    'to' => $items->lastItem()
                 ]
             ]);
         } catch (Exception $e) {
@@ -67,10 +67,10 @@ class SystemUserController extends Controller
             return Response::json(['errors'=>$validator->errors()]);
         }
         else{
-            $user = User::create($request->all());
+            $item = User::create($request->all());
             $roleId = $request->input('role_id');  
-            $user->roles()->sync($roleId);
-            return Response::json($user);
+            $item->roles()->sync($roleId);
+            return Response::json($item);
         }
     }
 
@@ -91,11 +91,11 @@ class SystemUserController extends Controller
             ], $this->errorStatus);
         }
         else{
-            $user = User::find($id);
-            $user->update($request->all());
+            $item = User::find($id);
+            $item->update($request->all());
             $roleId = $request->input('role_id');  
-            $user->roles()->sync($roleId);
-            return Response::json($user);
+            $item->roles()->sync($roleId);
+            return Response::json($item);
         }
     }
 

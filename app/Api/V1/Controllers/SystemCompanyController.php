@@ -29,21 +29,21 @@ class SystemCompanyController extends Controller
         try {
             $keyword =  $request->input('keyword', '');
             $columns = ['id', 'name', 'address', 'phone'];
-            $companies = Company::SearchByKeyword($keyword)
+            $items = Company::SearchByKeyword($keyword)
                 ->select($columns)
                 ->latest()
                 ->paginate(10);
 
             return Response::json([
                 'status' => true,
-                'data' => $companies,
+                'data' => $items,
                 'pagination' => [
-                    'total' => $companies->total(),
-                    'per_page' => $companies->perPage(),
-                    'current_page' => $companies->currentPage(),
-                    'last_page' => $companies->lastPage(),
-                    'from' => $companies->firstItem(),
-                    'to' => $companies->lastItem()
+                    'total' => $items->total(),
+                    'per_page' => $items->perPage(),
+                    'current_page' => $items->currentPage(),
+                    'last_page' => $items->lastPage(),
+                    'from' => $items->firstItem(),
+                    'to' => $items->lastItem()
                 ]
             ]);
         } catch (Exception $e) {
@@ -66,9 +66,9 @@ class SystemCompanyController extends Controller
             return Response::json(['errors'=>$validator->errors()]);
         }
         else{
-            $create = Company::create($request->all());
+            $item = Company::create($request->all());
 
-            return Response::json($create);
+            return Response::json($item);
         }
     }
 
@@ -84,9 +84,9 @@ class SystemCompanyController extends Controller
             return Response::json(['errors'=>$validator->errors()]);
         }
         else{
-            $edit = Company::find($id)->update($request->all());
+            $item = Company::find($id)->update($request->all());
 
-            return Response::json($edit);
+            return Response::json($item);
         }
     }
 

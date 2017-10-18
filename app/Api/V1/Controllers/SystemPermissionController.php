@@ -23,18 +23,18 @@ class SystemPermissionController extends Controller {
     public function index() {
         try {
             $columns = ['id', 'name', 'guard_name'];
-            $permissions = Permission::select($columns)->paginate(10);
+            $items = Permission::select($columns)->paginate(10);
 
             return Response::json([
                 'status' => true,
-                'data' => $permissions,
+                'data' => $items,
                 'pagination' => [
-                    'total' => $permissions->total(),
-                    'per_page' => $permissions->perPage(),
-                    'current_page' => $permissions->currentPage(),
-                    'last_page' => $permissions->lastPage(),
-                    'from' => $permissions->firstItem(),
-                    'to' => $permissions->lastItem()
+                    'total' => $items->total(),
+                    'per_page' => $items->perPage(),
+                    'current_page' => $items->currentPage(),
+                    'last_page' => $items->lastPage(),
+                    'from' => $items->firstItem(),
+                    'to' => $items->lastItem()
                 ]
             ]);
         } catch (Exception $e) {
@@ -59,9 +59,9 @@ class SystemPermissionController extends Controller {
             return Response::json(['errors'=>$validator->errors()]);
         }
         else{
-            $create = Permission::create($request->all());
+            $item = Permission::create($request->all());
 
-            return Response::json($create);
+            return Response::json($item);
         }
     }
 
@@ -78,9 +78,9 @@ class SystemPermissionController extends Controller {
             return Response::json(['errors'=>$validator->errors()]);
         }
         else{
-            $edit = Permission::find($id)->update($request->all());
+            $item = Permission::find($id)->update($request->all());
 
-            return Response::json($edit);
+            return Response::json($item);
         }
     }
     

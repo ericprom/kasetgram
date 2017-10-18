@@ -24,18 +24,18 @@ class SystemRoleController extends Controller {
 
         try {
             $columns = ['id', 'name', 'guard_name'];
-            $roles = Role::select($columns)->paginate(10);
+            $items = Role::select($columns)->paginate(10);
 
             return Response::json([
                 'status' => true,
-                'data' => $roles,
+                'data' => $items,
                 'pagination' => [
-                    'total' => $roles->total(),
-                    'per_page' => $roles->perPage(),
-                    'current_page' => $roles->currentPage(),
-                    'last_page' => $roles->lastPage(),
-                    'from' => $roles->firstItem(),
-                    'to' => $roles->lastItem()
+                    'total' => $items->total(),
+                    'per_page' => $items->perPage(),
+                    'current_page' => $items->currentPage(),
+                    'last_page' => $items->lastPage(),
+                    'from' => $items->firstItem(),
+                    'to' => $items->lastItem()
                 ]
             ]);
         } catch (Exception $e) {
@@ -60,9 +60,9 @@ class SystemRoleController extends Controller {
             return Response::json(['errors'=>$validator->errors()]);
         }
         else{
-            $create = Role::create($request->all());
+            $item = Role::create($request->all());
 
-            return Response::json($create);
+            return Response::json($item);
         }
     }
 
@@ -79,9 +79,9 @@ class SystemRoleController extends Controller {
             return Response::json(['errors'=>$validator->errors()]);
         }
         else{
-            $edit = Role::find($id)->update($request->all());
+            $item = Role::find($id)->update($request->all());
 
-            return Response::json($edit);
+            return Response::json($item);
         }
     }
 
