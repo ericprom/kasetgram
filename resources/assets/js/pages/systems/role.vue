@@ -2,7 +2,7 @@
   <div>
     <section class="content-header">
       <h1>
-        จัดการตำแหน่ง
+        {{config.title}}
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -19,12 +19,12 @@
             @update="updateItem"
             @delete="deleteItem">
           </data-viewer>
-          <button class="btn btn-default" @click.prevent="createItem"><i class="fa fa-plus"></i> เพิ่มตำแหน่ง</button>
+          <button class="btn btn-default" @click.prevent="createItem"><i class="fa fa-plus"></i> {{config.title}}</button>
         </div>
         <div class="col-sm-3 hidden-xs">
           <strong>Tips</strong>
           <div>
-            การกรอกข้อมูลบริษัท<br><br>
+            การกรอกข้อมูล{{config.title}}<br><br>
             <span class="text-danger">*</span> หมายถึงข้อมูลที่ต้องกรอก<br><br>
           </div>
         </div>
@@ -36,7 +36,7 @@
           <form @submit.prevent="saveItem" @keydown="form.onKeydown($event)" class="form-horizontal">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-            <h4 class="modal-title" id="myModalLabel">จัดการข้อมูลตำแหน่ง</h4>
+            <h4 class="modal-title" id="myModalLabel">{{config.title}}</h4>
           </div>
           <div class="modal-body">
             <div class="form-group">
@@ -74,14 +74,14 @@
   export default {
     metaInfo () {
       return { 
-        title: 'จัดการตำแหน่ง' 
+        title: this.config.title
       }
     },
     data() {
       return {
         config:{
           table: 'itemTable',
-          title: 'รายชื่อตำแหน่ง',
+          title: 'ตำแหน่ง',
           api: '/api/v1/system/roles/',
           edit: true,
           hidden: ['id'],

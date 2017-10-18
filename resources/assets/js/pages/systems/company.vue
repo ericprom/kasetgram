@@ -2,7 +2,7 @@
   <div>
     <section class="content-header">
       <h1>
-        จัดการข้อมูลบริษัท
+        {{config.title}}
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -31,12 +31,12 @@
             @update="updateItem"
             @delete="deleteItem">
           </data-viewer>
-          <button class="btn btn-default" @click.prevent="createItem"><i class="fa fa-plus"></i> เพิ่มบริษัท</button>
+          <button class="btn btn-default" @click.prevent="createItem"><i class="fa fa-plus"></i> {{config.title}}</button>
         </div>
         <div class="col-sm-3 hidden-xs">
           <strong>Tips</strong>
           <div>
-            การกรอกข้อมูลบริษัท<br><br>
+            การกรอกข้อมูล{{config.title}}<br><br>
             <span class="text-danger">*</span> หมายถึงข้อมูลที่ต้องกรอก<br><br>
           </div>
         </div>
@@ -48,7 +48,7 @@
           <form @submit.prevent="saveItem" @keydown="form.onKeydown($event)" class="form-horizontal">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-            <h4 class="modal-title" id="myModalLabel">จัดการข้อมูลบริษัท</h4>
+            <h4 class="modal-title" id="myModalLabel">{{config.title}}</h4>
           </div>
           <div class="modal-body">
             <div class="form-group">
@@ -114,7 +114,7 @@
   export default {
     metaInfo () {
       return { 
-        title: 'จัดการข้อมูลบริษัท' 
+        title: this.config.title
       }
     },
     data() {
@@ -124,7 +124,7 @@
         },
         config:{
           table: 'itemTable',
-          title: 'รายชื่อบริษัท',
+          title: 'บริษัท',
           api: '/api/v1/system/companies/',
           edit: true,
           hidden: ['id'],

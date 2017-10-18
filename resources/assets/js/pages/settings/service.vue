@@ -2,7 +2,7 @@
   <div>
     <section class="content-header">
       <h1>
-        จัดการประเภทบริการ
+        {{config.title}}
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -31,12 +31,12 @@
             @update="updateItem"
             @delete="deleteItem">
           </data-viewer>
-          <button class="btn btn-default" @click.prevent="createItem"><i class="fa fa-plus"></i> เพิ่มประเภทบริการ</button>
+          <button class="btn btn-default" @click.prevent="createItem"><i class="fa fa-plus"></i> {{config.title}}</button>
         </div>
         <div class="col-sm-3 hidden-xs">
           <strong>Tips</strong>
           <div>
-            การกรอกข้อมูลประเภทบริการ<br><br>
+            การกรอกข้อมูล{{config.title}}<br><br>
             <span class="text-danger">*</span> หมายถึงข้อมูลที่ต้องกรอก<br><br>
           </div>
         </div>
@@ -48,11 +48,11 @@
           <form @submit.prevent="saveItem" @keydown="form.onKeydown($event)" class="form-horizontal">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-            <h4 class="modal-title" id="myModalLabel">จัดการประเภทบริการ</h4>
+            <h4 class="modal-title" id="myModalLabel">{{config.title}}</h4>
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label class="col-sm-2 col-md-3 control-label">ชื่อบริการ<span class="text-danger">*</span></label>
+              <label class="col-sm-2 col-md-3 control-label">{{config.title}}<span class="text-danger">*</span></label>
 
               <div class="col-sm-8 col-md-6">
                 <input v-model="form.name" type="text" class="form-control" required>
@@ -79,7 +79,7 @@
   export default {
     metaInfo () {
       return { 
-        title: 'จัดการประเภทบริการ' 
+        title: this.config.title
       }
     },
     data() {
@@ -89,7 +89,7 @@
         },
         config:{
           table: 'itemTable',
-          title: 'รายชื่อประเภทบริการ',
+          title: 'ประเภทบริการ',
           api: '/api/v1/setting/services/',
           edit: true,
           hidden: ['id'],

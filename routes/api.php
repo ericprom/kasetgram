@@ -33,6 +33,7 @@ $api->version('v1', function ($api) {
 			$api->resource('setting/services', 'App\Api\V1\Controllers\SettingServiceController');
 			$api->resource('setting/insurance/companies', 'App\Api\V1\Controllers\SettingInsuranceCompanyController');
 			$api->resource('setting/codes', 'App\Api\V1\Controllers\SettingCodeController');
+			$api->resource('setting/expenses', 'App\Api\V1\Controllers\SettingExpenseController');
 		});
 		$api->group(['middleware' => ['auth:api', 'role:super-admin|admin']], function ($api) {
 			$api->post('auth/company/details', 'App\Api\V1\Controllers\AuthController@getcompany');
