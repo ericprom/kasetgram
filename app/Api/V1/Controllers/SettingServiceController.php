@@ -22,7 +22,7 @@ class SettingServiceController extends Controller
     
     public function __construct()
     {
-        $this->middleware(['auth:api','role:super-admin|admin']);
+        $this->middleware(['auth:api','role:super-admin|admin|user']);
     }
 
     public function index(Request $request)

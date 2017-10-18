@@ -31,7 +31,7 @@
             @update="updateItem"
             @delete="deleteItem">
           </data-viewer>
-          <button class="btn btn-default" @click.prevent="createItem"><i class="fa fa-plus"></i> เพิ่มยี่ห้อ</button>
+          <button class="btn btn-default" @click.prevent="createItem"><i class="fa fa-plus"></i> เพิ่มประเภทบริการ</button>
         </div>
         <div class="col-sm-3 hidden-xs">
           <strong>Tips</strong>

@@ -26,17 +26,19 @@ $api->version('v1', function ($api) {
 			$api->post('auth/users', 'App\Api\V1\Controllers\AuthController@users');
 			$api->post('auth/roles', 'App\Api\V1\Controllers\AuthController@roles');
 			$api->post('auth/menus', 'App\Api\V1\Controllers\AuthController@menus');
-			$api->post('auth/company/details', 'App\Api\V1\Controllers\AuthController@getcompany');
-			$api->post('auth/company/update', 'App\Api\V1\Controllers\AuthController@updatecompany');
 			$api->post('auth/profile/details', 'App\Api\V1\Controllers\AuthController@getprofile');
 			$api->post('auth/profile/update', 'App\Api\V1\Controllers\AuthController@updateprofile');
-		});
-		$api->group(['middleware' => ['auth:api', 'role:super-admin|admin']], function ($api) {
-			$api->resource('setting/users', 'App\Api\V1\Controllers\SettingUserController');
 			$api->resource('setting/cars', 'App\Api\V1\Controllers\SettingCarController');
-			$api->resource('setting/banks', 'App\Api\V1\Controllers\SettingBankController');
+			$api->resource('setting/types', 'App\Api\V1\Controllers\SettingTypeController');
 			$api->resource('setting/services', 'App\Api\V1\Controllers\SettingServiceController');
 			$api->resource('setting/insurance/companies', 'App\Api\V1\Controllers\SettingInsuranceCompanyController');
+			$api->resource('setting/codes', 'App\Api\V1\Controllers\SettingCodeController');
+		});
+		$api->group(['middleware' => ['auth:api', 'role:super-admin|admin']], function ($api) {
+			$api->post('auth/company/details', 'App\Api\V1\Controllers\AuthController@getcompany');
+			$api->post('auth/company/update', 'App\Api\V1\Controllers\AuthController@updatecompany');
+			$api->resource('setting/users', 'App\Api\V1\Controllers\SettingUserController');
+			$api->resource('setting/banks', 'App\Api\V1\Controllers\SettingBankController');
 		});
 		$api->group(['middleware' => ['auth:api', 'role:super-admin']], function ($api) {
 			$api->resource('system/companies', 'App\Api\V1\Controllers\SystemCompanyController');

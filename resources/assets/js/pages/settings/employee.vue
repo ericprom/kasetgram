@@ -31,7 +31,7 @@
             @update="updateItem"
             @delete="deleteItem">
           </data-viewer>
-          <button class="btn btn-default" @click.prevent="createItem"><i class="fa fa-plus"></i> เพิ่มผู้ใช้</button>
+          <button class="btn btn-default" @click.prevent="createItem"><i class="fa fa-plus"></i> เพิ่มพนักงาน</button>
         </div>
         <div class="col-sm-3 hidden-xs">
           <strong>Tips</strong>
