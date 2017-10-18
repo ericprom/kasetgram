@@ -26,6 +26,7 @@ $api->version('v1', function ($api) {
 			$api->post('auth/roles', 'App\Api\V1\Controllers\AuthController@roles');
 			$api->post('auth/menus', 'App\Api\V1\Controllers\AuthController@menus');
 			$api->post('auth/details', 'App\Api\V1\Controllers\AuthController@details');
+			$api->post('auth/update/profile', 'App\Api\V1\Controllers\AuthController@profile');
 			$api->resource('companies', 'App\Api\V1\Controllers\CompanyController');
 
 			$api->post('upload/avatar', 'App\Api\V1\Controllers\UploadController@avatar');

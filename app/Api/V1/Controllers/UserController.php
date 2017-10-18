@@ -76,10 +76,11 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $credentials = $request->only(['name']);
+        $credentials = $request->only(['name', 'email']);
 
         $validator = Validator::make($credentials, [
-            'name' => 'required'
+            'name' => 'required',
+            'email' => 'required',
         ]);
 
         if ($validator->fails()) {

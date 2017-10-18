@@ -178,6 +178,41 @@ class AuthController extends Controller
         }
     }
 
+    public function profile(Request $request) {
+        try {
+            $credentials = $request->only(['name', 'email']);
+
+            $validator = Validator::make($credentials, [
+                'name' => 'required',
+                'email' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return Response::json([
+                    'code' => 'warning',
+                    'title' => 'Warning',
+                    'message' => 'เกิดข้อผิดพลาดไม่สามารถอัพเดทข้อมูลได้'
+                ],  $this->errorStatus);
+            }
+            else{
+                $user = Auth::user();
+                $user->update($request->all());
+                return Response::json([
+                    'user' => $user,
+                    'code' => 'success',
+                    'title' => 'Updated!',
+                    'message' => 'ระบบได้ทำการบันทึกข้อมูลเรียบร้อยแล้ว'
+                ], $this->successStatus);
+            }
+        } catch (Exception $e) {
+            return Response::json([
+                'code' => 'warning',
+                'title' => 'Warning',
+                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+            ], $this->errorStatus);
+        }
+    }
+
     public function roles() {
         try {
             $columns = ['id', 'name'];

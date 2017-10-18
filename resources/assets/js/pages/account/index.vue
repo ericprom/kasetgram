@@ -12,6 +12,7 @@
     <section class="content">
       <div class="row">
         <div class="col-md-9">
+          <form @submit.prevent="updateProfile" @keydown="form.onKeydown($event)" class="form-horizontal">
           <div class="box box-info">
             <div class="box-header with-border">
               <h3 class="box-title"><i class="fa fa-user-o"></i> ข้อมูลส่วนตัว</h3>
@@ -27,11 +28,56 @@
                 </div>
                 <div class="col-sm-2 col-md-4"></div>
               </div>
+              <br>
+              <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                  <div class="form-group">
+                    <label class="col-sm-2 col-md-3 control-label">ชื่อ-สกุล<span class="text-danger">*</span></label>
+                    <div class="col-sm-8 col-md-6">
+                      <input v-model="form.name" type="text" class="form-control" required>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 col-md-3 control-label">ที่อยู่</label>
+                    <div class="col-sm-8 col-md-6">
+                      <textarea v-model="form.address" class="form-control" rows="3" placeholder="รายละเอียดที่อยู่" ></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 col-md-3 control-label">เบอร์โทร</label>
+                    <div class="col-sm-8 col-md-6">
+                      <input v-model="form.phone" type="text" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-1 col-md-2"></div>
+                    <div class="col-sm-10 col-md-8">
+                      <hr>
+                    </div>
+                    <div class="col-sm-1 col-md-2"></div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 col-md-3 control-label">อีเมล<span class="text-danger">*</span></label>
+                    <div class="col-sm-8 col-md-6">
+                      <input v-model="form.email" type="text" class="form-control" required>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 col-md-3 control-label">รหัสผ่าน<span class="text-danger" v-if="form.id==0">*</span></label>
+                    <div class="col-sm-8 col-md-6">
+                      <input v-model="form.password" type="text" class="form-control" :required="form.id==0">
+                    </div>
+                  </div>
+                  </div>
+                <div class="col-sm-2"></div>
+              </div>
             </div>
             <div class="box-footer">
               <button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
             </div>
           </div>
+          </form>
         </div>
         <div class="col-sm-3 hidden-xs">
           <strong>Tips</strong>
@@ -53,9 +99,24 @@
   export default {
     data() {
       return {
+        upload_profile_api:'api/v1/auth/update/profile',
         upload_avatar_api:'api/v1/upload/avatar',
-        image: Store.getters.authUser.avatar
+        image: Store.getters.authUser.avatar,
+        form: new Form({
+          id: 0,
+          name: '',
+          branch: '',
+          address: '',
+          phone: ''
+        }),
       }
+    },
+    mounted() {
+      var self = this;
+      var item = Store.getters.authUser
+      Object.keys(item).forEach(function(key) {
+        self.form[key] = item[key]
+      });
     },
     methods: {
       trigger () {
@@ -96,7 +157,25 @@
             text: error.response.data.message
           })
         })
-      }
+      },
+      updateProfile (){
+        this.form.post(this.upload_profile_api)
+          .then(({ data }) => {
+            Store.dispatch('updateUser', data.user)
+            swal({
+              type: data.code,
+              title: data.title,
+              text: data.message
+            })
+          })
+          .catch(function (error) {
+            swal({
+              type: error.response.data.code,
+              title: error.response.data.title,
+              text: error.response.data.message
+            })
+          })
+      },
     }
   }
 </script>
