@@ -8,5 +8,5 @@ var dateformat = {
 	        return moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
 	   	}
     }
-};
-export default dateformat;
+}
+export default dateformat
