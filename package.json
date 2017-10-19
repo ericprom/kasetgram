@@ -19,6 +19,7 @@
         "laravel-elixir-vue-2": "^0.3.0",
         "laravel-elixir-webpack-official": "^1.0.10",
         "lodash": "^4.14.0",
+        "moment": "^2.19.1",
         "sweetalert2": "^6.10.3",
         "vform": "^0.8.1",
         "vue": "^2.5.0",

@@ -51,7 +51,7 @@ class User extends Authenticatable
 
     public function company()
     {
-        $instance = $this->hasMany('App\Models\Company', 'id', 'branch_id');
+        $instance = $this->hasOne('App\Models\Company', 'id', 'branch_id');
         $instance->getQuery()->select(['id','name']);
         return $instance;
     }

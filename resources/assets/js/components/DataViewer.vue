@@ -20,11 +20,14 @@
         <tbody>
           <tr v-for="row in items">
             <td v-for="(value, key) in row" v-if="isHidden(key)">
-              <span v-for="val in value" v-if="isArray(value)">
-                {{val.name}}
+              <span v-for="(val, idx) in value" v-if="isArray(value)">
+                {{displayData(val.name, idx)}}
               </span>
-              <span v-if="!isArray(value)">
-                {{value}}
+              <span v-if="isObject(value)">
+                {{displayData(value.name, key)}}
+              </span>
+              <span v-if="!isArray(value) && !isObject(value)">
+                {{displayData(value, key)}}
               </span>
             </td>
             <td v-if="config.edit" width="10%">
@@ -65,7 +68,7 @@
 <script>
   import Vue from 'vue'
   import axios from 'axios'
-
+  import moment from 'moment'
   export default {
     name: 'data-viewer',
     props: ['configs'],
@@ -162,7 +165,18 @@
         }
       },
       isArray( obj ) {
-        return toString.call(obj) === "[object Array]";
+        return toString.call(obj) === "[object Array]"
+      },
+      isObject( obj ) {
+        return toString.call(obj) === "[object Object]"
+      },
+      displayData(data, key){
+        if(key.indexOf('date') > -1){
+          return moment(String(data)).format('DD/MM/YYYY')
+        }
+        else{
+          return data
+        }
       },
     }
   }
