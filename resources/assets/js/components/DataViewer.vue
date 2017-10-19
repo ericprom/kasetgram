@@ -171,7 +171,7 @@
         return toString.call(obj) === "[object Object]"
       },
       displayData(data, key){
-        if(key.indexOf('date') > -1){
+        if(key && key.indexOf('date') > -1){
           return moment(String(data)).format('DD/MM/YYYY')
         }
         else{
