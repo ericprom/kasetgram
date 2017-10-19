@@ -15,9 +15,6 @@ export default ({ authGuard, guestGuard }) => [
       { path: 'compulsory', name: 'services.compulsory', component: require('../pages/services/compulsory.vue') },
       { path: 'license', name: 'services.license', component: require('../pages/services/license.vue') },
     ] },
-    { path: '/accountants', component: require('../pages/settings/index.vue'), children: [
-      { path: 'ledger', name: 'accountants.ledger', component: require('../pages/accountants/ledger.vue') },
-    ] },
     { path: '/reports', component: require('../pages/reports/index.vue'), children: [
       { path: 'income', name: 'reports.income', component: require('../pages/reports/income.vue') },
       { path: 'inspection', name: 'reports.inspection', component: require('../pages/reports/inspection.vue') },
@@ -25,6 +22,9 @@ export default ({ authGuard, guestGuard }) => [
       { path: 'compulsory', name: 'reports.compulsory', component: require('../pages/reports/compulsory.vue') },
       { path: 'license', name: 'reports.license', component: require('../pages/reports/license.vue') },
       { path: 'expense', name: 'reports.expense', component: require('../pages/reports/expense.vue') },
+    ] },
+    { path: '/accountants', component: require('../pages/settings/index.vue'), children: [
+      { path: 'ledger', name: 'accountants.ledger', component: require('../pages/accountants/ledger.vue') },
     ] },
     { path: '/settings', component: require('../pages/settings/index.vue'), children: [
       { path: 'company', name: 'settings.company', component: require('../pages/settings/company.vue') },
