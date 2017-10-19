@@ -175,12 +175,12 @@
             }
           ],
         },
-        roles: Store.getters.authRoles,
-        companies: Store.getters.authCompanies,
+        roles: Store.getters.roles,
+        companies: Store.getters.companies,
         form: new Form({
           id: 0,
-          company: Store.getters.authCompanies[0],
-          role: Store.getters.authRoles[1],
+          company: Store.getters.companies[0],
+          role: Store.getters.roles[1],
           name: '',
           branch: '',
           address: '',

@@ -7,6 +7,8 @@ export const state = {
   companies: [],
   roles: [],
   menus: [],
+  payments: [],
+  expenses: [],
   user: null,
   token: Cookies.get('token')
 }
@@ -38,22 +40,29 @@ export const mutations = {
     state.user = user
   },
 
-  [types.USER_MENU] (state, menus) {
+  [types.DATALIST_MENU] (state, menus) {
     state.menus = menus
   },
 
-  [types.USER_ROLE] (state, roles) {
+  [types.DATALIST_PAYMENT] (state, payments) {
+    state.payments = payments
+  },
+
+  [types.DATALIST_EXPENSE] (state, expenses) {
+    state.expenses = expenses
+  },
+
+  [types.DATALIST_ROLE] (state, roles) {
     state.roles = roles
   },
 
-  [types.USER_COMPANY] (state, companies) {
+  [types.DATALIST_COMPANY] (state, companies) {
     state.companies = companies
   }
 }
 
 // actions
 export const actions = {
-
   saveToken ({ commit, dispatch }, payload) {
     commit(types.SAVE_TOKEN, payload)
   },
@@ -61,9 +70,41 @@ export const actions = {
   createMenus ({ commit }, payload) {
     try {
       return new Promise((resolve, reject) => {
-        axios.post('/api/v1/auth/menus')
+        axios.post('/api/v1/datalist/menus')
         .then(({ data }) =>{
-          commit(types.USER_MENU, data.menus)
+          commit(types.DATALIST_MENU, data.menus)
+          resolve(data)
+        })
+        .catch(function (error) {
+            reject(error)
+        })
+      })
+
+    } catch (e) {}
+  },
+
+  createPayments ({ commit }, payload) {
+    try {
+      return new Promise((resolve, reject) => {
+        axios.post('/api/v1/datalist/payments')
+        .then(({ data }) =>{
+          commit(types.DATALIST_PAYMENT, data.payments)
+          resolve(data)
+        })
+        .catch(function (error) {
+            reject(error)
+        })
+      })
+
+    } catch (e) {}
+  },
+
+  createExpenses ({ commit }, payload) {
+    try {
+      return new Promise((resolve, reject) => {
+        axios.post('/api/v1/datalist/expenses')
+        .then(({ data }) =>{
+          commit(types.DATALIST_EXPENSE, data.expenses)
           resolve(data)
         })
         .catch(function (error) {
@@ -77,9 +118,9 @@ export const actions = {
   createRoles ({ commit }, payload) {
     try {
       return new Promise((resolve, reject) => {
-        axios.post('/api/v1/auth/roles')
+        axios.post('/api/v1/datalist/roles')
         .then(({ data }) =>{
-          commit(types.USER_ROLE, data.roles)
+          commit(types.DATALIST_ROLE, data.roles)
           resolve(data)
         })
         .catch(function (error) {
@@ -93,9 +134,9 @@ export const actions = {
   createCompanies ({ commit }, payload) {
     try {
       return new Promise((resolve, reject) => {
-        axios.post('/api/v1/auth/companies')
+        axios.post('/api/v1/datalist/companies')
         .then(({ data }) =>{
-          commit(types.USER_COMPANY, data.companies)
+          commit(types.DATALIST_COMPANY, data.companies)
           resolve(data)
         })
         .catch(function (error) {
@@ -141,9 +182,11 @@ export const actions = {
 
 // getters
 export const getters = {
-  authCompanies: state => state.companies,
-  authRoles: state => state.roles,
-  authMenus: state => state.menus,
+  companies: state => state.companies,
+  roles: state => state.roles,
+  menus: state => state.menus,
+  payments: state => state.payments,
+  expenses: state => state.expenses,
   authUser: state => state.user,
   authToken: state => state.token,
   authCheck: state => state.user !== null

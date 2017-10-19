@@ -37,7 +37,7 @@
     name: 'Sidebar',
     data() {
       return {
-        menus: Store.getters.authMenus
+        menus: Store.getters.menus
       }
     },
     computed: {
@@ -53,6 +53,8 @@
         Store.dispatch('createMenus')
         Store.dispatch('createRoles')
         Store.dispatch('createCompanies')
+        Store.dispatch('createPayments')
+        Store.dispatch('createExpenses')
       }
     },
     beforeMount(){

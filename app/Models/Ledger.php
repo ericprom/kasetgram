@@ -21,14 +21,14 @@ class Ledger extends Model
     public function expense()
     {
         $instance = $this->hasOne('App\Models\Expense', 'id', 'expense_id');
-        $instance->getQuery()->where('active','=', '1');
+        $instance->getQuery()->where('active','=', '1')->select(['id','name']);
         return $instance;
     }
 
     public function payment()
     {
         $instance = $this->hasOne('App\Models\Payment', 'id', 'payment_id');
-        $instance->getQuery()->where('active','=', '1');
+        $instance->getQuery()->where('active','=', '1')->select(['id','name']);
         return $instance;
     }
 
@@ -52,9 +52,9 @@ class Ledger extends Model
 
     public function scopeSearchByDate($query, $from, $to, $option = 'withdraw_date')
     {
-            $query->where(function ($query) use ($option, $from, $to) {
-                $query->whereBetween($option, [$from, $to]);
-            });
+        $query->where(function ($query) use ($option, $from, $to) {
+            $query->whereBetween($option, [$from, $to]);
+        });
         return $query;
     }
 }

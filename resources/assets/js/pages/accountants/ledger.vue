@@ -52,26 +52,27 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label class="col-sm-2 col-md-3 control-label">วันที่เบิก</label>
+              <label class="col-sm-2 col-md-3 control-label">วันที่ใช้จ่าย<span class="text-danger">*</span></label>
               <div class="col-sm-8 col-md-6">
-                <datepicker v-model="form.withdraw_date" :config="config.datepicker"></datepicker>
+                <datepicker v-model="form.date_withdraw" :config="datepicker"></datepicker>
               </div>
             </div>
             <div class="form-group">
-              <label for="ledgerWithdrawer" class="col-sm-2 col-md-3 control-label">ผู้เบิก</label>
+              <label for="ledgerWithdrawer" class="col-sm-2 col-md-3 control-label">ผู้เบิกจ่าย</label>
               <div class="col-sm-8 col-md-6">
                 <input v-model="form.withdrawer" type="text" class="form-control">
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-2 col-md-3 control-label">ประเภท</label>
+              <label class="col-sm-2 col-md-3 control-label">ประเภท<span class="text-danger">*</span></label>
               <div class="col-sm-8 col-md-6">
+                <v-select v-model="form.expense" :options="expenses" :on-change="selectedExpense"></v-select>
               </div>
             </div>
             <div class="form-group">
-              <label for="ledgerAmount" class="col-sm-2 col-md-3 control-label">จำนวนเงิน</label>
+              <label for="ledgerAmount" class="col-sm-2 col-md-3 control-label">จำนวนเงิน<span class="text-danger">*</span></label>
               <div class="col-sm-8 col-md-6">
-                <input v-model="form.amount" type="text" class="form-control">
+                <input v-model="form.amount" type="text" class="form-control" required>
               </div>
             </div>
             <div class="form-group">
@@ -83,7 +84,7 @@
             <div class="form-group">
               <label class="col-sm-2 col-md-3 control-label">จ่ายโดย</label>
               <div class="col-sm-8 col-md-6">
-                
+                <v-select v-model="form.payment" :options="payments" :on-change="selectedPayment"></v-select>
               </div>
             </div>
           </div>
@@ -113,14 +114,16 @@
     },
     data() {
       return {
+        payments: Store.getters.payments,
+        expenses: Store.getters.expenses,
         search:{
           keyword:""
         },
+        datepicker: {
+          format: 'DD/MM/YYYY',
+          useCurrent: false,
+        },
         config:{
-          datepicker: {
-            format: 'DD/MM/YYYY',
-            useCurrent: false,
-          },
           table: 'itemTable',
           title: 'ค่าใช้จ่าย',
           api: '/api/v1/accountants/ledgers/',
@@ -155,12 +158,16 @@
         },
         form: new Form({
           id: 0,
-          withdraw_date: moment().format('DD/MM/YYYY'),
+          date_withdraw: moment().format('DD/MM/YYYY'),
           withdrawer: '',
           name: '',
+          expense: Store.getters.expenses[0],
+          payment: Store.getters.payments[0],
           branch_id: Store.getters.authUser.branch_id,
         }),
       };
+    },
+    mounted(){
     },
     methods: {
       searchItem (){
@@ -171,6 +178,7 @@
         $("#create-item").modal('show')
       },
       saveItem (){
+        this.form.withdraw_date = this.saveDateFormat(this.form.date_withdraw)
         if(this.form.id == 0){
           this.form.post(this.config.api)
             .then(({ data }) => {
@@ -195,8 +203,17 @@
       updateItem (item){
         var self = this;
         Object.keys(item).forEach(function(key) {
-          self.form[key] = item[key]
+          if(key=='expense'){
+            self.form['expense'] = self.checkExpense(item[key])
+          }
+          else if(key=='payment'){
+            self.form['payment'] = self.checkPayment(item[key])
+          }
+          else{
+            self.form[key] = item[key]
+          }
         });
+        this.form.date_withdraw  = this.displayDateFormat(this.form.withdraw_date)
         $("#create-item").modal('show')
       },
       deleteItem (item){
@@ -231,6 +248,30 @@
               text: error.response.data.message
             })
           })
+      },
+      checkExpense (item){
+        var self = this;
+        return _.find(self.expenses, function(val) {
+          return item.id == val.id;
+        });
+      },
+      checkPayment (item){
+        var self = this;
+        return _.find(self.payments, function(val) {
+          return item.id == val.id;
+        });
+      },
+      selectedExpense(val, tag) {
+        this.form.expense_id = val.id
+      },
+      selectedPayment(val, tag) {
+        this.form.payment_id = val.id
+      },
+      displayDateFormat(date) {
+        return moment(date, 'YYYY-MM-DD').format('DD/MM/YYYY');
+      },
+      saveDateFormat(date) {
+        return moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
       }
     }
   }

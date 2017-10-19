@@ -60,12 +60,12 @@ class LedgerController extends Controller
     public function store(Request $request)
     {
         try {
-            $credentials = $request->only(['name']);
+            $credentials = $request->only(['amount']);
 
             $validator = Validator::make($credentials, [
-                'name' => 'required'
+                'amount' => 'required'
             ]);
-            
+
             if ($validator->fails()) {
                 return Response::json([
                     'code' => 'warning',
@@ -89,24 +89,24 @@ class LedgerController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            // $credentials = $request->only(['name']);
+            $credentials = $request->only(['amount']);
 
-            // $validator = Validator::make($credentials, [
-            //     'name' => 'required'
-            // ]);
+            $validator = Validator::make($credentials, [
+                'amount' => 'required'
+            ]);
 
-            // if ($validator->fails()) {
-            //     return Response::json([
-            //         'code' => 'warning',
-            //         'title' => 'Warning',
-            //         'message' => 'เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้'
-            //     ], $this->errorStatus);
-            // }
-            // else{
+            if ($validator->fails()) {
+                return Response::json([
+                    'code' => 'warning',
+                    'title' => 'Warning',
+                    'message' => 'เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้'
+                ], $this->errorStatus);
+            }
+            else{
                 $item = Ledger::find($id);
                 $item->update($request->all());
                 return Response::json($item);
-            // }
+            }
         } catch (Exception $e) {
             return Response::json([
                 'code' => 'warning',
