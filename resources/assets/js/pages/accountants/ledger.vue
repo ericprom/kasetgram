@@ -52,10 +52,38 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label class="col-sm-2 col-md-3 control-label">{{config.title}}<span class="text-danger">*</span></label>
-
+              <label class="col-sm-2 col-md-3 control-label">วันที่เบิก</label>
               <div class="col-sm-8 col-md-6">
-                <input v-model="form.name" type="text" class="form-control" required>
+                <datepicker v-model="form.withdraw_date" :config="config.datepicker"></datepicker>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="ledgerWithdrawer" class="col-sm-2 col-md-3 control-label">ผู้เบิก</label>
+              <div class="col-sm-8 col-md-6">
+                <input v-model="form.withdrawer" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 col-md-3 control-label">ประเภท</label>
+              <div class="col-sm-8 col-md-6">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="ledgerAmount" class="col-sm-2 col-md-3 control-label">จำนวนเงิน</label>
+              <div class="col-sm-8 col-md-6">
+                <input v-model="form.amount" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 col-md-3 control-label">รายละเอียด</label>
+              <div class="col-sm-8 col-md-6">
+               <textarea v-model="form.detail" class="form-control" rows="3"></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 col-md-3 control-label">จ่ายโดย</label>
+              <div class="col-sm-8 col-md-6">
+                
               </div>
             </div>
           </div>
@@ -76,6 +104,7 @@
   import axios from 'axios'
   import swal from 'sweetalert2'
   import Form from 'vform'
+  import moment from 'moment'
   export default {
     metaInfo () {
       return { 
@@ -84,11 +113,14 @@
     },
     data() {
       return {
-        testDate: '2017-10-19',
         search:{
           keyword:""
         },
         config:{
+          datepicker: {
+            format: 'DD/MM/YYYY',
+            useCurrent: false,
+          },
           table: 'itemTable',
           title: 'ค่าใช้จ่าย',
           api: '/api/v1/accountants/ledgers/',
@@ -123,6 +155,8 @@
         },
         form: new Form({
           id: 0,
+          withdraw_date: moment().format('DD/MM/YYYY'),
+          withdrawer: '',
           name: '',
           branch_id: Store.getters.authUser.branch_id,
         }),
