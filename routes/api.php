@@ -42,7 +42,6 @@ $api->version('v1', function ($api) {
 			$api->group(['prefix' => 'setting'], function ($api) {
 				$api->resource('cars', 'App\Api\V1\Controllers\Settings\CarController');
 				$api->resource('types', 'App\Api\V1\Controllers\Settings\TypeController');
-				$api->resource('services', 'App\Api\V1\Controllers\Settings\ServiceController');
 				$api->resource('insurance/companies', 'App\Api\V1\Controllers\Settings\InsuranceCompanyController');
 				$api->resource('codes', 'App\Api\V1\Controllers\Settings\CodeController');
 				$api->resource('expenses', 'App\Api\V1\Controllers\Settings\ExpenseController');

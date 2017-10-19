@@ -163,10 +163,10 @@
             }
           ],
         },
-        roles: Store.getters.authRoles,
+        roles: Store.getters.roles,
         form: new Form({
           id: 0,
-          role: Store.getters.authRoles[1],
+          role: Store.getters.roles[1],
           name: '',
           branch: '',
           address: '',
