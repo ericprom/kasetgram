@@ -178,7 +178,7 @@
         $("#create-item").modal('show')
       },
       saveItem (){
-        this.form.withdraw_date = this.saveDateFormat(this.form.date_withdraw)
+        this.form.withdraw_date = this.saveDate(this.form.date_withdraw)
         if(this.form.id == 0){
           this.form.post(this.config.api)
             .then(({ data }) => {
@@ -213,7 +213,7 @@
             self.form[key] = item[key]
           }
         });
-        this.form.date_withdraw  = this.displayDateFormat(this.form.withdraw_date)
+        this.form.date_withdraw  = this.displayDate(this.form.withdraw_date)
         $("#create-item").modal('show')
       },
       deleteItem (item){
@@ -266,12 +266,6 @@
       },
       selectedPayment(val, tag) {
         this.form.payment_id = val.id
-      },
-      displayDateFormat(date) {
-        return moment(date, 'YYYY-MM-DD').format('DD/MM/YYYY');
-      },
-      saveDateFormat(date) {
-        return moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
       }
     }
   }

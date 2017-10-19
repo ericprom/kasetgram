@@ -172,7 +172,7 @@
       },
       displayData(data, key){
         if(key && key.indexOf('date') > -1){
-          return moment(String(data)).format('DD/MM/YYYY')
+          return this.displayDate(data)
         }
         else{
           return data
