@@ -10,6 +10,8 @@ use App\Models\Menu;
 use App\Models\Company;
 use App\Models\Expense;
 use App\Models\Payment;
+use App\Models\Type;
+use App\Models\Make;
 use Response;
 use Validator;
 
@@ -46,6 +48,28 @@ class DatalistController extends Controller
         return array_values($menus);
     }
 
+    public function companies() {
+        try {
+            $columns = ['id', 'name'];
+            $criteria = [];
+            $companies = Company::select($columns)->where($criteria)->get();
+           foreach($companies as &$val){
+                $val['label'] = $val['name'];
+                unset($val['name']);
+            }
+            return Response::json([
+                'companies' => $companies
+            ]);
+        } catch (Exception $e) {
+            return Response::json([
+                'code' => 'warning',
+                'title' => 'Warning',
+                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+            ], $this->errorStatus);
+        }
+    }
+
+
     public function roles() {
         try {
             $columns = ['id', 'name'];
@@ -71,28 +95,6 @@ class DatalistController extends Controller
             ], $this->errorStatus);
         }
     }
-
-    public function companies() {
-        try {
-            $columns = ['id', 'name'];
-            $criteria = [];
-            $companies = Company::select($columns)->where($criteria)->get();
-           foreach($companies as &$val){
-                $val['label'] = $val['name'];
-                unset($val['name']);
-            }
-            return Response::json([
-                'companies' => $companies
-            ]);
-        } catch (Exception $e) {
-            return Response::json([
-                'code' => 'warning',
-                'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
-            ], $this->errorStatus);
-        }
-    }
-
 
     public function payments() {
         try {
@@ -125,6 +127,48 @@ class DatalistController extends Controller
             }
             return Response::json([
                 'expenses' => $items
+            ]);
+        } catch (Exception $e) {
+            return Response::json([
+                'code' => 'warning',
+                'title' => 'Warning',
+                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+            ], $this->errorStatus);
+        }
+    }
+
+    public function types() {
+        try {
+            $columns = ['id', 'name'];
+            $branch = Auth::user()->branch_id;
+            $items = Type::select($columns)->where('branch_id','=',$branch)->get();
+           foreach($items as &$val){
+                $val['label'] = $val['name'];
+                unset($val['name']);
+            }
+            return Response::json([
+                'types' => $items
+            ]);
+        } catch (Exception $e) {
+            return Response::json([
+                'code' => 'warning',
+                'title' => 'Warning',
+                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+            ], $this->errorStatus);
+        }
+    }
+
+    public function makes() {
+        try {
+            $columns = ['id', 'name'];
+            $branch = Auth::user()->branch_id;
+            $items = Make::select($columns)->where('branch_id','=',$branch)->get();
+           foreach($items as &$val){
+                $val['label'] = $val['name'];
+                unset($val['name']);
+            }
+            return Response::json([
+                'makes' => $items
             ]);
         } catch (Exception $e) {
             return Response::json([

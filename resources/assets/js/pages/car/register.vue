@@ -12,7 +12,7 @@
     <section class="content">
       <div class="row">
         <div class="col-sm-9">
-          <form @submit.prevent="save" @keydown="form.onKeydown($event)">
+          <form @submit.prevent="saveItem" @keydown="form.onKeydown($event)">
           <div class="box box-primary">
             <div class="box-header with-border">
               <h3 class="box-title"><i class="fa fa-car"></i> ข้อมูลรถ</h3>
@@ -22,13 +22,13 @@
                 <div class="col-sm-4">
                   <div class="form-group">
                     <label>ประเภทรถ<span class="text-danger">*</span></label>
-                    <input v-model="form.car.type" type="text" class="form-control">
+                    <v-select v-model="form.car.type" :options="types" :on-change="selectedType"></v-select>
                   </div>
                 </div>
                 <div class="col-sm-4">
                   <div class="form-group">
                     <label>ยี่ห้อรถ<span class="text-danger">*</span></label>
-                    <input v-model="form.car.brand" type="text" class="form-control">
+                    <v-select v-model="form.car.make" :options="makes" :on-change="selectedMake"></v-select>
                   </div>
                 </div>
                 <div class="col-sm-4">
@@ -192,25 +192,44 @@
 </template>
 
 <script>
+  import swal from 'sweetalert2'
   import Form from 'vform'
   export default {
+    metaInfo () {
+      return { 
+        title: 'นำเข้าข้อมูลจดทะเบียน'
+      }
+    },
     data() {
       return {
-        title: window.config.appName,
+        api: '',
+        types: Store.getters.types,
+        makes: Store.getters.makes,
         form: new Form({
-          car: {},
+          car: {
+            type: Store.getters.types[0],
+            make: Store.getters.makes[0],
+          },
           customer: {}
-        }),
-        remember: false
+        })
       }
     },
     methods: {
-        save () {
-
-        },
-        reset () {
-          this.form.reset()
-        }
+      saveItem (){
+        this.form.post(this.api)
+          .then(({ data }) => {
+            console.log(data)
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+      },
+      selectedType(val, tag) {
+        this.form.car.type_id = val.id
+      },
+      selectedMake(val, tag) {
+        this.form.car.make_id = val.id
+      }
     }
   }
 </script>

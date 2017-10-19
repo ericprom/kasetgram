@@ -51,10 +51,12 @@
     methods: {
       init () {
         Store.dispatch('createMenus')
-        Store.dispatch('createRoles')
         Store.dispatch('createCompanies')
+        Store.dispatch('createRoles')
         Store.dispatch('createPayments')
         Store.dispatch('createExpenses')
+        Store.dispatch('createTypes')
+        Store.dispatch('createMakes')
       }
     },
     beforeMount(){
