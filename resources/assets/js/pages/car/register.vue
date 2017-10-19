@@ -48,13 +48,13 @@
                 <div class="col-sm-3">
                   <div class="form-group">
                     <label>เลขทะเบียน<span class="text-danger">*</span></label>
-                    <input v-model="form.car.license_plate_number" type="text" class="form-control">
+                    <input v-model="form.car.license_plate_number" type="text" class="form-control" required>
                   </div>
                 </div>
                 <div class="col-sm-3">
                   <div class="form-group">
                     <label>จังหวัด<span class="text-danger">*</span></label>
-                    <input v-model="form.car.province_of_registration" type="text" class="form-control">
+                    <input v-model="form.car.province_of_registration" type="text" class="form-control" required>
                   </div>
                 </div>
                 <div class="col-sm-4">
@@ -107,13 +107,13 @@
                 <div class="col-sm-5">
                   <div class="form-group">
                     <label>ชื่อ<span class="text-danger">*</span></label>
-                    <input v-model="form.customer.firstname" type="text" class="form-control">
+                    <input v-model="form.customer.firstname" type="text" class="form-control" required>
                   </div>
                 </div>
                 <div class="col-sm-5">
                   <div class="form-group">
                     <label>นามสกุล<span class="text-danger">*</span></label>
-                    <input v-model="form.customer.lastname" type="text" class="form-control">
+                    <input v-model="form.customer.lastname" type="text" class="form-control" required>
                   </div>
                 </div>
               </div>
@@ -127,7 +127,7 @@
                 <div class="col-sm-5">
                   <div class="form-group">
                     <label>เลขที่บัตร<span class="text-danger">*</span></label>
-                    <input v-model="form.customer.tax_id" type="text" class="form-control">
+                    <input v-model="form.customer.tax_id" type="text" class="form-control" required>
                   </div>
                 </div>
                 <div class="col-sm-2">
