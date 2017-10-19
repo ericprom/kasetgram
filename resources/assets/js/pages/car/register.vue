@@ -207,8 +207,9 @@
         makes: Store.getters.makes,
         form: new Form({
           car: {
-            type: Store.getters.types[0],
+            type: Store.getters.types[1],
             make: Store.getters.makes[0],
+            type_id: 2,
           },
           customer: {}
         })
