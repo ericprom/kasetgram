@@ -176,6 +176,9 @@
         if(key && key.indexOf('date') > -1){
           return this.displayDate(data)
         }
+        else if(key && key.indexOf('amount') > -1 || key && key.indexOf('total') > -1){
+          return this.formatNumber(data)
+        }
         else{
           return data
         }
