@@ -20,10 +20,10 @@
                   <v-select v-model="filter.timer" :options="timers" :on-change="selectedTime"></v-select>
                 </div>
                 <div class="col-sm-3">
-                  <datepicker v-model="filter.start" :config="datepicker"></datepicker>
+                  <datepicker v-model="filter.start" :config="datepicker" @dp-change="updateFilter"></datepicker>
                 </div>
                 <div class="col-sm-3">
-                  <datepicker v-model="filter.end" :config="datepicker"></datepicker>
+                  <datepicker v-model="filter.end" :config="datepicker" @dp-change="updateFilter"></datepicker>
                 </div>
                 <div class="col-sm-2">
                   <button type="button" class="btn btn-primary btn-block" @click.prevent="searchItem">
@@ -108,10 +108,14 @@
       selectedTime(val, tag) {
         this.filter.timer = val
         if(this.filter.timer.id !== 'custom') {
+          this.filter.timer 
           var select = this.dateFilter(this.filter.timer.id);
           this.filter.start = select.start;
           this.filter.end = select.end;
         }
+      },
+      updateFilter () {
+        this.filter.timer = Store.getters.timers[5]
       },
       searchItem (){
         this.filter.from = this.saveDate(this.filter.start)
