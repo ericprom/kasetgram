@@ -106,10 +106,8 @@
     },
     methods: {
       selectedTime(val, tag) {
-        this.filter.timer = val
-        if(this.filter.timer.id !== 'custom') {
-          this.filter.timer 
-          var select = this.dateFilter(this.filter.timer.id);
+        if(val.id !== 'custom') {
+          var select = this.dateFilter(val.id);
           this.filter.start = select.start;
           this.filter.end = select.end;
         }
