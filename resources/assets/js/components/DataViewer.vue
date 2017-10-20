@@ -141,9 +141,6 @@
             self.items = response.data.data.data
             self.pagination = response.data.pagination
           })
-          .catch(function(response) {
-            console.log(response)
-          })
       },
       updateData (data){
         this.$emit('update', data)

@@ -30,7 +30,7 @@ export default {
         return value === null || value instanceof Date || typeof value === 'string' || value instanceof String || value instanceof moment
       }
     },
-    config: {
+    configs: {
       type: Object,
       default: () => ({})
     },
@@ -76,7 +76,7 @@ export default {
     if (this.dp) return;
     let node = this.wrap ? this.$el.parentNode : this.$el;
     this.elem = jQuery(node);
-    this.elem.datetimepicker(this.config);
+    this.elem.datetimepicker(this.configs);
     this.dp = this.elem.data('DateTimePicker');
     this.dp.date(this.value);
     this.elem.on('dp.change', this.onChange);
@@ -93,7 +93,7 @@ export default {
     value(newValue) {
       this.dp && this.dp.date(newValue || null)
     },
-    config(newConfig) {
+    configs(newConfig) {
       this.dp && this.dp.options(Object.assign(this.dp.options(), newConfig));
     }
   },

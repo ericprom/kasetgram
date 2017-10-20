@@ -54,7 +54,7 @@
             <div class="form-group">
               <label class="col-sm-2 col-md-3 control-label">วันที่ใช้จ่าย<span class="text-danger">*</span></label>
               <div class="col-sm-8 col-md-6">
-                <datepicker v-model="form.date_withdraw" :config="datepicker"></datepicker>
+                <datepicker v-model="form.date_withdraw" :configs="datepicker"></datepicker>
               </div>
             </div>
             <div class="form-group">

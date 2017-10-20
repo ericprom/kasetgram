@@ -2,7 +2,7 @@
   <div>
     <section class="content-header">
       <h1>
-        {{config.title}}
+        {{list.title}}
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -17,13 +17,13 @@
             <div class="box-body">
               <div class="row">
                 <div class="col-sm-4">
-                  <v-select v-model="filter.timer" :options="timers" :on-change="selectedTime"></v-select>
+                  <v-select v-model="filter.timer" :options="timers" :on-change.prevent="selectedTime"></v-select>
                 </div>
                 <div class="col-sm-3">
-                  <datepicker v-model="filter.start" :config="datepicker" @dp-change="updateFilter"></datepicker>
+                  <datepicker v-model="filter.start" :configs="datepicker" @dp-change.prevent="updateFilter"></datepicker>
                 </div>
                 <div class="col-sm-3">
-                  <datepicker v-model="filter.end" :config="datepicker" @dp-change="updateFilter"></datepicker>
+                  <datepicker v-model="filter.end" :configs="datepicker" @dp-change.prevent="updateFilter"></datepicker>
                 </div>
                 <div class="col-sm-2">
                   <button type="button" class="btn btn-primary btn-block" @click.prevent="searchItem">
@@ -33,45 +33,10 @@
               </div>
             </div>
           </div>
-          <data-viewer :configs="config" :ref="config.table"></data-viewer>
+          <data-viewer :configs="list" :ref="list.table"></data-viewer>
         </div>
         <div class="col-sm-3">
-          <div class="small-box bg-aqua">
-            <div class="inner">
-              <h3>{{formatMoney(summary.total.cash)}} </h3>
-              <p>เงินสด</p>
-            </div>
-            <div class="icon">
-              <i class="fa fa-money"></i>
-            </div>
-          </div>
-          <div class="small-box bg-green">
-            <div class="inner">
-              <h3>{{formatMoney(summary.total.transfer)}} </h3>
-              <p>เงินโอน</p>
-            </div>
-            <div class="icon">
-              <i class="fa fa-money"></i>
-            </div>
-          </div>
-          <div class="small-box bg-yellow">
-            <div class="inner">
-              <h3>{{formatMoney(summary.total.cheque)}} </h3>
-              <p>เชค</p>
-            </div>
-            <div class="icon">
-              <i class="fa fa-money"></i>
-            </div>
-          </div>
-          <div class="small-box bg-red">
-            <div class="inner">
-              <h3>{{formatMoney(summary.total.credit)}} </h3>
-              <p>บัตรเครดิต</p>
-            </div>
-            <div class="icon">
-              <i class="fa fa-money"></i>
-            </div>
-          </div>
+          <money-summary :configs="summary" :ref="summary.table"></money-summary>
         </div>
       </div>
     </section>
@@ -84,7 +49,7 @@
   export default {
     metaInfo () {
       return { 
-        title: this.config.title
+        title: this.list.title
       }
     },
     data() {
@@ -98,19 +63,17 @@
           timer: Store.getters.timers[1],
           start: moment().format('DD/MM/YYYY'),
           end: moment().format('DD/MM/YYYY'),
-          from: moment().format('DD/MM/YYYY'),
-          to: moment().format('DD/MM/YYYY')
+          from: this.saveDate(moment().format('DD/MM/YYYY')),
+          to: this.saveDate(moment().format('DD/MM/YYYY')),
         },
         summary:{
+          calss: 'col-sm-12',
+          table: 'summaryTable',
           api: '/api/v1/report/expenses/summary',
-          total: {
-            cash: 0,
-            transfer: 0,
-            cheque: 0,
-            credit: 0
-          }
+          from: this.saveDate(moment().format('DD/MM/YYYY')),
+          to: this.saveDate(moment().format('DD/MM/YYYY')),
         },
-        config:{
+        list:{
           table: 'itemTable',
           title: 'รายงานค่าใช้จ่าย',
           api: '/api/v1/report/expenses/list',
@@ -145,19 +108,20 @@
         }
       };
     },
-    mounted() {
-      this.getSummary()
-    },
     methods: {
       selectedTime(val, tag) {
-        if(val.id !== 'custom') {
-          var select = this.dateFilter(val.id);
-          this.filter.start = select.start;
-          this.filter.end = select.end;
+        this.filter.timer = val
+        this.changeTime()
+      },
+      changeTime() {
+        if(this.filter.timer.id !== 'custom') {
+          var select = this.dateFilter(this.filter.timer.id)
+          this.filter.start = select.start
+          this.filter.end = select.end
         }
       },
       updateFilter () {
-        this.filter.timer = Store.getters.timers[5]
+        this.changeTime()
       },
       searchItem (){
         this.filter.from = this.saveDate(this.filter.start)
@@ -166,11 +130,7 @@
         this.getSummary()
       },
       getSummary(){
-        var query = "?from="+this.saveDate(this.filter.start)+"&to="+this.saveDate(this.filter.end)
-        axios.get(this.summary.api+query)
-          .then(({ data }) =>{
-            this.summary.total = data
-          })
+        this.$refs.summaryTable.searchData(this.filter.from, this.filter.to)
       }
     }
   }
