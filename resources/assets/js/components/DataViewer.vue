@@ -8,7 +8,7 @@
         <span class="badge bg-light-blue">{{pagination.total}}</span>
       </div>
     </div>
-    <div class="box-body no-padding">
+    <div class="box-body no-padding table-responsive">
       <table class="table">
         <thead>
           <tr>
