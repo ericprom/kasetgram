@@ -32,7 +32,7 @@ class AuthController extends Controller
             return Response::json([
                 'type' => 'warning',
                 'title' => 'Warning',
-                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'อีเมลหรือรหัสผ่านไม่ถูกต้อง'
             ], $this->errorStatus);
         }
 
@@ -57,7 +57,7 @@ class AuthController extends Controller
             return Response::json([
                 'type' => 'warning',
                 'title' => 'Inactivated',
-                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'ผู้ใช้ถูกระงับการใช้งาน กรุณาติดต่อผู้ดูแลระบบ'
             ], $this->unauthorizedStatus);
         }
         else{

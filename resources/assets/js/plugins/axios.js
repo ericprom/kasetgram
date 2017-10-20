@@ -20,14 +20,25 @@ axios.interceptors.response.use(response => response, error => {
     })
   }
 
-  if (status === 401 && Store.getters.authCheck) {
-    swal({
-      type: 'warning',
-      title: 'Session Expired!',
-      text: 'Please log in again to continue.'
-    })
-    Store.dispatch('logout')
-    router.push({ name: 'login' })
+  if (Store.getters.authCheck) {
+    if (status === 401) {
+      swal({
+        type: 'warning',
+        title: 'Session Expired!',
+        text: 'Please log in again to continue.'
+      })
+      Store.dispatch('logout')
+      router.push({ name: 'login' })
+    }
+  }
+  else{
+    if (status === 401) {
+      swal({
+        type: error.response.data.type,
+        title:  error.response.data.title,
+        text:  error.response.data.text
+      })
+    }
   }
 
   return Promise.reject(error)
