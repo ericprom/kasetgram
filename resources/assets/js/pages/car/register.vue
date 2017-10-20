@@ -167,7 +167,7 @@
                 <div class="col-sm-2">
                   <div class="form-group">
                     <label>รหัสไปรษณีย์</label>
-                    <input v-model="form.customer.zipcode" type="text" class="form-control">
+                    <input v-model="form.customer.zipcode" type="text" name="zipcode" class="form-control">
                   </div>
                 </div>
               </div>
@@ -211,45 +211,45 @@
             make: Store.getters.makes[0],
             type_id: 2,
             make_id: 1,
-            model: 'civic',
-            year: '2014',
-            license: '3 กด 4634',
-            province: 'กรุงเทพ',
-            engine_size: '987654321',
-            chassi_number: '123456789',
-            engine_number: '1500',
-            weight: '3000'
+            model: '',
+            year: '',
+            license: '',
+            province: '',
+            engine_size: '',
+            chassi_number: '',
+            engine_number: '',
+            weight: ''
           },
           customer: {
-            title: 'นาย',
-            firstname: 'สุรศักดิ์',
-            lastname: 'พรมรัตน์',
-            phone: '0987654321',
-            tax_id: '1234567890',
+            title: '',
+            firstname: '',
+            lastname: '',
+            phone: '',
+            tax_id: '',
             nationality: 'ไทย',
-            street: '45/140',
-            district: 'บางซื่อ',
-            amphoe: 'บางซื่อ',
-            province: 'กรุงเทพ',
-            zipcode: '10800'
+            street: '',
+            district: '',
+            amphoe: '',
+            province: '',
+            zipcode: ''
           }
         })
       }
     },
     methods: {
       saveItem (){
-        // swal({
-        //       type: 'success',
-        //       title: 'Save!',
-        //       text: 'ทำการบันทึกข้อมูลเนียบร้อย'
-        //     })
         this.form.post(this.api)
           .then(({ data }) => {
-            console.log(data)
+            swal({
+              type: data.type,
+              title: data.title,
+              text: data.text
+            })
+            this.reset()
           })
-          .catch(function (error) {
-            console.log(error)
-          })
+      },
+      reset(){
+        this.form.reset()
       },
       selectedType(val, tag) {
         this.form.car.type_id = val.id

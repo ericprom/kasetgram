@@ -67,13 +67,6 @@ export default {
 
           })
         })
-        .catch(function (error) {
-          swal({
-            type: error.response.data.code,
-            title: error.response.data.title,
-            text: error.response.data.message
-          })
-        })
     }
   }
 }

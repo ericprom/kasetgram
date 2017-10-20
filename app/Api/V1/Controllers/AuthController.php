@@ -18,7 +18,7 @@ class AuthController extends Controller
 
     public $successStatus = 200;
     public $errorStatus = 500;
-    public $unauthorizedStatus = 403;
+    public $unauthorizedStatus = 401;
 
     public function login(Request $request){
         $credentials = $request->only(['email', 'password']);
@@ -30,34 +30,34 @@ class AuthController extends Controller
 
         if($validator->fails()) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ], $this->errorStatus);
         }
 
         try {
             if (!Auth::attempt($credentials)) {
                 return Response::json([
-                    'code' => 'warning',
+                    'type' => 'warning',
                     'title' => 'Unauthorized',
-                    'message' => 'อีเมลหรือรหัสผ่านไม่ถูกต้อง'
+                    'text' => 'อีเมลหรือรหัสผ่านไม่ถูกต้อง'
                 ], $this->unauthorizedStatus);
             }
         } catch (Exception $e) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ],  $this->errorStatus);
         }
 
         $currentUser = Auth::user();
         if($currentUser && !$currentUser['active']){
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Inactivated',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ], $this->unauthorizedStatus);
         }
         else{
@@ -82,27 +82,26 @@ class AuthController extends Controller
             ], $this->successStatus);
         } catch (Exception $e) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ],  $this->errorStatus);
         }
     }
 
     public function updateprofile(Request $request) {
         try {
-            $credentials = $request->only(['name', 'email']);
 
-            $validator = Validator::make($credentials, [
+            $validator = Validator::make($request->all(), [
                 'name' => 'required',
-                'email' => 'required',
+                'email' => 'required'
             ]);
 
             if ($validator->fails()) {
                 return Response::json([
-                    'code' => 'warning',
+                    'type' => 'warning',
                     'title' => 'Warning',
-                    'message' => 'เกิดข้อผิดพลาดไม่สามารถอัพเดทข้อมูลได้'
+                    'text' => 'เกิดข้อผิดพลาดไม่สามารถอัพเดทข้อมูลได้'
                 ],  $this->errorStatus);
             }
             else{
@@ -110,16 +109,16 @@ class AuthController extends Controller
                 $user->update($request->all());
                 return Response::json([
                     'user' => $user,
-                    'code' => 'success',
+                    'type' => 'success',
                     'title' => 'Updated!',
-                    'message' => 'ระบบได้ทำการบันทึกข้อมูลเรียบร้อยแล้ว'
+                    'text' => 'ระบบได้ทำการบันทึกข้อมูลเรียบร้อยแล้ว'
                 ], $this->successStatus);
             }
         } catch (Exception $e) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ], $this->errorStatus);
         }
     }
@@ -134,26 +133,24 @@ class AuthController extends Controller
             ], $this->successStatus);
         } catch (Exception $e) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ],  $this->errorStatus);
         }
     }
 
     public function updatecompany(Request $request) {
         try {
-            $credentials = $request->only(['name']);
-
-            $validator = Validator::make($credentials, [
+            $validator = Validator::make($request->all(), [
                 'name' => 'required'
             ]);
 
             if ($validator->fails()) {
                 return Response::json([
-                    'code' => 'warning',
+                    'type' => 'warning',
                     'title' => 'Warning',
-                    'message' => 'เกิดข้อผิดพลาดไม่สามารถอัพเดทข้อมูลได้'
+                    'text' => 'เกิดข้อผิดพลาดไม่สามารถอัพเดทข้อมูลได้'
                 ],  $this->errorStatus);
             }
             else{
@@ -161,16 +158,16 @@ class AuthController extends Controller
                 $company->update($request->all());
                 return Response::json([
                     'user' => $company,
-                    'code' => 'success',
+                    'type' => 'success',
                     'title' => 'Updated!',
-                    'message' => 'ระบบได้ทำการบันทึกข้อมูลเรียบร้อยแล้ว'
+                    'text' => 'ระบบได้ทำการบันทึกข้อมูลเรียบร้อยแล้ว'
                 ], $this->successStatus);
             }
         } catch (Exception $e) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ], $this->errorStatus);
         }
     }

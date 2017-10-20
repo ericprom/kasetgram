@@ -35,9 +35,9 @@ class UploadController extends Controller
             ], $this->successStatus);
         } catch (Exception $e) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้'
             ], $this->errorStatus);
         }
     }

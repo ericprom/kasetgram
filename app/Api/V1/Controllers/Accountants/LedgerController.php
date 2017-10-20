@@ -51,39 +51,41 @@ class LedgerController extends Controller
             ]);
         } catch (Exception $e) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ], $this->errorStatus);
         }
     }
     public function store(Request $request)
     {
         try {
-            $credentials = $request->only(['amount']);
-
-            $validator = Validator::make($credentials, [
-                'amount' => 'required'
+            $validator = Validator::make($request->all(), [
+                'amount' => 'required',
             ]);
 
             if ($validator->fails()) {
                 return Response::json([
-                    'code' => 'warning',
+                    'type' => 'warning',
                     'title' => 'Warning',
-                    'message' => 'เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้'
+                    'text' => 'เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้'
                 ], $this->errorStatus);
             }
             else{
                 $item = $request->all();
                 $item['branch_id'] = Auth::user()->branch_id;
-                $ledger = Ledger::create($item);
-                return Response::json($ledger);
+                Ledger::create($item);
+                return Response::json([
+                    'type' => 'success',
+                    'title' => 'Save!',
+                    'text' => 'ระบบได้ทำการบันทึกข้อมูลเรียบร้อยแล้ว'
+                ], $this->successStatus);
             }
         } catch (Exception $e) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้'
             ], $this->errorStatus);
         }
     }
@@ -91,29 +93,31 @@ class LedgerController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            $credentials = $request->only(['amount']);
-
-            $validator = Validator::make($credentials, [
+            $validator = Validator::make($request->all(), [
                 'amount' => 'required'
             ]);
 
             if ($validator->fails()) {
                 return Response::json([
-                    'code' => 'warning',
+                    'type' => 'warning',
                     'title' => 'Warning',
-                    'message' => 'เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้'
+                    'text' => 'เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้'
                 ], $this->errorStatus);
             }
             else{
                 $item = Ledger::find($id);
                 $item->update($request->all());
-                return Response::json($item);
+                return Response::json([
+                    'type' => 'success',
+                    'title' => 'Save!',
+                    'text' => 'ระบบได้ทำการบันทึกข้อมูลเรียบร้อยแล้ว'
+                ], $this->successStatus);
             }
         } catch (Exception $e) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้'
             ], $this->errorStatus);
         }
     }
@@ -124,15 +128,15 @@ class LedgerController extends Controller
         try {
             Ledger::find($id)->delete();
             return Response::json([
-                'code' => 'success',
+                'type' => 'success',
                 'title' => 'Deleted!',
-                'message' => 'ระบบได้ทำการลบข้อมูลเรียบร้อยแล้ว'
+                'text' => 'ระบบได้ทำการลบข้อมูลเรียบร้อยแล้ว'
             ], $this->successStatus);
         } catch (Exception $e) {
             return Response::json([
                 'code' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถลบข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถลบข้อมูลได้'
             ], $this->errorStatus);
         }
     }

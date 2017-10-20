@@ -62,9 +62,9 @@ class DatalistController extends Controller
             ]);
         } catch (Exception $e) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ], $this->errorStatus);
         }
     }
@@ -89,9 +89,9 @@ class DatalistController extends Controller
             ]);
         } catch (Exception $e) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ], $this->errorStatus);
         }
     }
@@ -109,9 +109,9 @@ class DatalistController extends Controller
             ]);
         } catch (Exception $e) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ], $this->errorStatus);
         }
     }
@@ -130,9 +130,9 @@ class DatalistController extends Controller
             ]);
         } catch (Exception $e) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ], $this->errorStatus);
         }
     }
@@ -151,9 +151,9 @@ class DatalistController extends Controller
             ]);
         } catch (Exception $e) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ], $this->errorStatus);
         }
     }
@@ -172,9 +172,9 @@ class DatalistController extends Controller
             ]);
         } catch (Exception $e) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ], $this->errorStatus);
         }
     }

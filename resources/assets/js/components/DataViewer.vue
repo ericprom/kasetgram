@@ -164,12 +164,6 @@
           return true
         }
       },
-      isArray( obj ) {
-        return toString.call(obj) === "[object Array]"
-      },
-      isObject( obj ) {
-        return toString.call(obj) === "[object Object]"
-      },
       displayData(data, key){
         if(key && key.indexOf('date') > -1){
           return this.displayDate(data)

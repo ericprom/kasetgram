@@ -48,17 +48,15 @@ class CompanyController extends Controller
             ]);
         } catch (Exception $e) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ], $this->errorStatus);
         }
     }
     public function store(Request $request)
     {
-        $credentials = $request->only(['name']);
-
-        $validator = Validator::make($credentials, [
+        $validator = Validator::make($request->all(), [
             'name' => 'required'
         ]);
         
@@ -66,27 +64,36 @@ class CompanyController extends Controller
             return Response::json(['errors'=>$validator->errors()]);
         }
         else{
-            $item = Company::create($request->all());
+            Company::create($request->all());
 
-            return Response::json($item);
+            return Response::json([
+                'type' => 'success',
+                'title' => 'Save!',
+                'text' => 'ระบบได้ทำการบันทึกข้อมูลเรียบร้อยแล้ว'
+            ], $this->successStatus);
         }
     }
 
     public function update(Request $request, $id)
     {
-        $credentials = $request->only(['name', 'branch', 'address', 'phone', 'fax', 'branch_of', 'tax_id']);
-
-        $validator = Validator::make($credentials, [
+        $validator = Validator::make($request->all(), [
             'name' => 'required'
         ]);
 
         if ($validator->fails()) {
-            return Response::json(['errors'=>$validator->errors()]);
+            return Response::json([
+                'type' => 'warning',
+                'title' => 'Warning',
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถบันทึกข้อมูลได้'
+            ], $this->errorStatus);
         }
         else{
-            $item = Company::find($id)->update($request->all());
-
-            return Response::json($item);
+            Company::find($id)->update($request->all());
+            return Response::json([
+                'type' => 'success',
+                'title' => 'Save!',
+                'text' => 'ระบบได้ทำการบันทึกข้อมูลเรียบร้อยแล้ว'
+            ], $this->successStatus);
         }
     }
 
@@ -96,15 +103,15 @@ class CompanyController extends Controller
         try {
             Company::find($id)->delete();
             return Response::json([
-                'code' => 'success',
+                'type' => 'success',
                 'title' => 'Deleted!',
-                'message' => 'ระบบได้ทำการลบข้อมูลเรียบร้อยแล้ว'
+                'text' => 'ระบบได้ทำการลบข้อมูลเรียบร้อยแล้ว'
             ], $this->successStatus);
         } catch (Exception $e) {
             return Response::json([
-                'code' => 'warning',
+                'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถลบข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถลบข้อมูลได้'
             ], $this->errorStatus);
         }
     }

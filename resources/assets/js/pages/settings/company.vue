@@ -110,13 +110,6 @@
           .then(({ data }) =>{
             this.parseData(data.company)
           })
-          .catch(function (error) {
-            swal({
-              type: error.response.data.code,
-              title: error.response.data.title,
-              text: error.response.data.message
-            })
-          })
       },
       parseData (data){
         var self = this;
@@ -128,16 +121,9 @@
         this.form.post('/api/v1/auth/company/update')
           .then(({ data }) => {
             swal({
-              type: data.code,
+              type: data.type,
               title: data.title,
-              text: data.message
-            })
-          })
-          .catch(function (error) {
-            swal({
-              type: error.response.data.code,
-              title: error.response.data.title,
-              text: error.response.data.message
+              text: data.text
             })
           })
       },

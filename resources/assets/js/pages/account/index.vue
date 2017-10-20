@@ -150,29 +150,15 @@
         .then(({ data }) =>{
           Store.dispatch('updateUser', data.user)
         })
-        .catch(function (error) {
-          swal({
-            type: error.response.data.code,
-            title: error.response.data.title,
-            text: error.response.data.message
-          })
-        })
       },
       updateProfile (){
         this.form.post(this.profile_update_api)
           .then(({ data }) => {
             Store.dispatch('updateUser', data.user)
             swal({
-              type: data.code,
+              type: data.type,
               title: data.title,
-              text: data.message
-            })
-          })
-          .catch(function (error) {
-            swal({
-              type: error.response.data.code,
-              title: error.response.data.title,
-              text: error.response.data.message
+              text: data.text
             })
           })
       },

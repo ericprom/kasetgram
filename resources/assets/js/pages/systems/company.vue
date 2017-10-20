@@ -171,8 +171,6 @@
               this.$refs.itemTable.reloadData();
               this.form.reset()
             })
-            .catch(function (error) {
-            })
         }
         else{
           this.form.put(this.config.api+this.form.id)
@@ -180,8 +178,6 @@
               $("#create-item").modal('hide')
               this.$refs.itemTable.reloadData();
               this.form.reset()
-            })
-            .catch(function (error) {
             })
         }
       },
@@ -212,16 +208,9 @@
           .then(({ data }) =>{
             this.$refs.itemTable.reloadData();
             swal({
-              type: data.code,
+              type: data.type,
               title: data.title,
-              text: data.message
-            })
-          })
-          .catch(function (error) {
-            swal({
-              type: error.response.data.code,
-              title: error.response.data.title,
-              text: error.response.data.message
+              text: data.text
             })
           })
       }
