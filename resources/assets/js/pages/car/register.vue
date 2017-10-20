@@ -48,13 +48,13 @@
                 <div class="col-sm-3">
                   <div class="form-group">
                     <label>เลขทะเบียน<span class="text-danger">*</span></label>
-                    <input v-model="form.car.license_plate_number" type="text" class="form-control" required>
+                    <input v-model="form.car.license" type="text" class="form-control" required>
                   </div>
                 </div>
                 <div class="col-sm-3">
                   <div class="form-group">
                     <label>จังหวัด<span class="text-danger">*</span></label>
-                    <input v-model="form.car.province_of_registration" type="text" class="form-control" required>
+                    <input v-model="form.car.province" type="text" class="form-control" required>
                   </div>
                 </div>
                 <div class="col-sm-4">
@@ -202,7 +202,7 @@
     },
     data() {
       return {
-        api: '',
+        api: 'api/v1/register/car',
         types: Store.getters.types,
         makes: Store.getters.makes,
         form: new Form({
@@ -210,13 +210,39 @@
             type: Store.getters.types[1],
             make: Store.getters.makes[0],
             type_id: 2,
+            make_id: 1,
+            model: '',
+            year: '',
+            license: '',
+            province: '',
+            engine_size: '',
+            chassi_number: '',
+            engine_number: '',
+            weight: ''
           },
-          customer: {}
+          customer: {
+            title: '',
+            firstname: '',
+            lastname: '',
+            phone: '',
+            tax_id: '',
+            nationality: 'ไทย',
+            street: '',
+            district: '',
+            amphoe: '',
+            province: '',
+            zipcode: ''
+          }
         })
       }
     },
     methods: {
       saveItem (){
+        // swal({
+        //       type: 'success',
+        //       title: 'Save!',
+        //       text: 'ทำการบันทึกข้อมูลเนียบร้อย'
+        //     })
         this.form.post(this.api)
           .then(({ data }) => {
             console.log(data)

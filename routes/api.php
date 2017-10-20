@@ -37,6 +37,8 @@ $api->version('v1', function ($api) {
 			$api->post('auth/profile/details', 'App\Api\V1\Controllers\AuthController@getprofile');
 			$api->post('auth/profile/update', 'App\Api\V1\Controllers\AuthController@updateprofile');
 
+			$api->post('register/car', 'App\Api\V1\Controllers\RegisterController@car');
+
 			$api->group(['prefix' => 'accountants'], function ($api) {
 				$api->resource('ledgers', 'App\Api\V1\Controllers\Accountants\LedgerController');
 			});
