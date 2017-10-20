@@ -29,7 +29,7 @@ class UserController extends Controller
         try {
             $keyword =  $request->input('keyword', '');
             $columns = ['id', 'name', 'phone', 'email', 'branch_id'];
-            $items = User::SearchByKeyword($keyword)
+            $items = User::searchByKeyword($keyword)
                 ->select($columns)
                 ->with(['company','role'])
                 ->paginate(10);

@@ -11,6 +11,7 @@ export const state = {
   expenses: [],
   types: [],
   makes: [],
+  timers: [],
 }
 
 // mutations
@@ -42,6 +43,10 @@ export const mutations = {
 
   [types.DATALIST_MAKE] (state, makes) {
     state.makes = makes
+  },
+
+  [types.DATALIST_TIMER] (state, timers) {
+    state.timers = timers
   },
 }
 
@@ -160,6 +165,20 @@ export const actions = {
     } catch (e) {}
   },
 
+  createTimers ({ commit }, payload) {
+    try {
+      var timers = [
+        { id: 'yesterday', label: 'เมื่อวาน' },
+        { id: 'today', label: 'วันนี้' },
+        { id: 'this_month', label: 'เดือนนี้' },
+        { id: 'last_month', label: 'เดือนที่แล้ว' },
+        { id: 'next_month', label: 'เดือนหน้า' },
+        { id: 'custom', label: 'ตั้งค่า' }
+      ]
+      commit(types.DATALIST_TIMER, timers)
+    } catch (e) {}
+  },
+
 }
 
 // getters
@@ -171,4 +190,5 @@ export const getters = {
   expenses: state => state.expenses,
   types: state => state.types,
   makes: state => state.makes,
+  timers: state => state.timers,
 }

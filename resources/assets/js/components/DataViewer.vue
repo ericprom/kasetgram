@@ -30,7 +30,7 @@
                 {{displayData(value, key)}}
               </span>
             </td>
-            <td v-if="config.edit" width="10%">
+            <td v-if="isEditable()" width="10%">
               <div class="pull-right">
                 <button type="button" class="btn btn-box-tool" @click.prevent="updateData(row)">
                   <i class="fa fa-edit" style="font-size: 18px;"></i>
@@ -156,12 +156,20 @@
         var query = this.createQuery(page)
         this.fetchData(query)
       },
-      isHidden( index ) {
-        if(this.config.hidden.indexOf(index) >= 0){
+      isHidden( key ) {
+        if(this.config.hidden && this.config.hidden.indexOf(key) >= 0){
           return false
         }
         else{
           return true
+        }
+      },
+      isEditable( ) {
+        if(this.config.edit){
+          return true
+        }
+        else{
+          return false
         }
       },
       displayData(data, key){

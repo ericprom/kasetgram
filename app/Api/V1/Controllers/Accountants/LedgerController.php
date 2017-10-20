@@ -31,7 +31,7 @@ class LedgerController extends Controller
             $branch = Auth::user()->branch_id;
             $keyword =  $request->input('keyword', '');
             $columns = ['id', 'withdraw_date', 'withdrawer', 'detail', 'amount', 'expense_id', 'payment_id'];
-            $items = Ledger::SearchByKeyword($keyword)
+            $items = Ledger::searchByKeyword($keyword)
                 ->select($columns)
                 ->with(['expense','payment'])
                 ->where('branch_id','=',$branch)

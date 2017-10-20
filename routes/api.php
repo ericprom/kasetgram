@@ -43,6 +43,10 @@ $api->version('v1', function ($api) {
 				$api->resource('ledgers', 'App\Api\V1\Controllers\Accountants\LedgerController');
 			});
 
+			$api->group(['prefix' => 'report'], function ($api) {
+				$api->resource('expenses', 'App\Api\V1\Controllers\Reports\ExpenseController');
+			});
+
 			$api->group(['prefix' => 'setting'], function ($api) {
 				$api->resource('cars', 'App\Api\V1\Controllers\Settings\MakeController');
 				$api->resource('types', 'App\Api\V1\Controllers\Settings\TypeController');

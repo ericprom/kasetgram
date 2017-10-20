@@ -31,7 +31,7 @@ class InsuranceCompanyController extends Controller
             $branch = Auth::user()->branch_id;
             $keyword =  $request->input('keyword', '');
             $columns = ['id', 'name'];
-            $items = InsuranceCompany::SearchByKeyword($keyword)
+            $items = InsuranceCompany::searchByKeyword($keyword)
                 ->select($columns)
                 ->where('branch_id','=',$branch)
                 ->paginate(10);

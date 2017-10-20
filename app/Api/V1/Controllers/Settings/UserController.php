@@ -31,7 +31,7 @@ class UserController extends Controller
             $branch = Auth::user()->branch_id;
             $keyword =  $request->input('keyword', '');
             $columns = ['id', 'name', 'phone', 'email', 'branch_id'];
-            $items = User::SearchByKeyword($keyword)
+            $items = User::searchByKeyword($keyword)
                 ->select($columns)
                 ->where('branch_id','=',$branch)
                 ->with(['role'])

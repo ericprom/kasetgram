@@ -29,7 +29,7 @@ class CompanyController extends Controller
         try {
             $keyword =  $request->input('keyword', '');
             $columns = ['id', 'name', 'address', 'phone'];
-            $items = Company::SearchByKeyword($keyword)
+            $items = Company::searchByKeyword($keyword)
                 ->select($columns)
                 ->latest()
                 ->paginate(10);

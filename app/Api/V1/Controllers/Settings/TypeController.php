@@ -31,7 +31,7 @@ class TypeController extends Controller
             $branch = Auth::user()->branch_id;
             $keyword =  $request->input('keyword', '');
             $columns = ['id', 'name'];
-            $items = Type::SearchByKeyword($keyword)
+            $items = Type::searchByKeyword($keyword)
                 ->select($columns)
                 ->where('branch_id','=',$branch)
                 ->paginate(10);

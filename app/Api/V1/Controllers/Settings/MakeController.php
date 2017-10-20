@@ -31,7 +31,7 @@ class MakeController extends Controller
             $branch = Auth::user()->branch_id;
             $keyword =  $request->input('keyword', '');
             $columns = ['id', 'name'];
-            $items = Make::SearchByKeyword($keyword)
+            $items = Make::searchByKeyword($keyword)
                 ->select($columns)
                 ->where('branch_id','=',$branch)
                 ->paginate(10);

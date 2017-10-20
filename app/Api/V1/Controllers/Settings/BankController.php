@@ -31,7 +31,7 @@ class BankController extends Controller
             $branch = Auth::user()->branch_id;
             $keyword =  $request->input('keyword', '');
             $columns = ['id', 'name', 'account_name', 'account_number'];
-            $items = Bank::SearchByKeyword($keyword)
+            $items = Bank::searchByKeyword($keyword)
                 ->select($columns)
                 ->where('branch_id','=',$branch)
                 ->paginate(10);

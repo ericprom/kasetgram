@@ -31,7 +31,7 @@ class ExpenseController extends Controller
             $branch = Auth::user()->branch_id;
             $keyword =  $request->input('keyword', '');
             $columns = ['id', 'name'];
-            $items = Expense::SearchByKeyword($keyword)
+            $items = Expense::searchByKeyword($keyword)
                 ->select($columns)
                 ->where('branch_id','=',$branch)
                 ->paginate(10);

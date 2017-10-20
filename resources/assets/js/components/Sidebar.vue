@@ -57,6 +57,7 @@
         Store.dispatch('createExpenses')
         Store.dispatch('createTypes')
         Store.dispatch('createMakes')
+        Store.dispatch('createTimers')
       }
     },
     beforeMount(){
