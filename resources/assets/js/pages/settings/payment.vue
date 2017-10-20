@@ -126,8 +126,7 @@
           id: 0,
           name: '',
           account_name: '',
-          account_number: '',
-          branch_id: Store.getters.authUser.branch_id,
+          account_number: ''
         }),
       };
     },

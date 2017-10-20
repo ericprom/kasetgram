@@ -171,8 +171,7 @@
           branch: '',
           address: '',
           phone: '',
-          role_id: 3,
-          branch_id: Store.getters.authUser.branch_id,
+          role_id: 3
         }),
       };
     },

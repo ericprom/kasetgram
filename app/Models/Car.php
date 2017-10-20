@@ -18,7 +18,8 @@ class Car extends Model
         'engine_number', 
         'engine_size', 
         'weight', 
-        'customer_id'
+        'customer_id', 
+        'branch_id'
     ];
 
     public function make()

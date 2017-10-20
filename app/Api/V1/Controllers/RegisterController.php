@@ -11,6 +11,7 @@ use App\Models\Customer;
 use App\Models\Car;
 use Response;
 use Validator;
+use DB;
 
 class RegisterController extends Controller
 {
@@ -28,13 +29,34 @@ class RegisterController extends Controller
 
     public function car(Request $request)
     {
+        DB::beginTransaction();
         try {
-
+            $branch = Auth::user()->branch_id;
             $customer = $request->input('customer');
-            $car = $request->input('car');
-            return Response::json($customer);
+            $customer['branch_id'] = $branch;
+            $customer_result = Customer::create($customer);
+            if($customer_result){
+                $car = $request->input('car');
+                $car['branch_id'] = $branch;
+                $car['customer_id'] = $customer->id;
+                $car_result = Car::create($car);
+                if($car_result){
+                    DB::commit();
+                    return Response::json([
+                        'customer'=>$customer_result,
+                        'car'=>$car_result
+                    ], $this->successStatus);
+                }
+                else{
+                    DB::rollback();
+                }
+            }
+            else{
+                DB::rollback();
+            }
 
         } catch (Exception $e) {
+            DB::rollback();
             return Response::json([
                 'code' => 'warning',
                 'title' => 'Warning',

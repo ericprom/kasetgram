@@ -102,8 +102,7 @@
         },
         form: new Form({
           id: 0,
-          name: '',
-          branch_id: Store.getters.authUser.branch_id,
+          name: ''
         }),
       };
     },

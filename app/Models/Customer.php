@@ -17,7 +17,8 @@ class Customer extends Model
         'district', 
         'amphoe', 
         'province', 
-        'zipcode'
+        'zipcode', 
+        'branch_id'
     ];
 
     public function car()

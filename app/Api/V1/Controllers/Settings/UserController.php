@@ -75,10 +75,12 @@ class UserController extends Controller
                 ], $this->errorStatus);
             }
             else{
-                $item = User::create($request->all());
+                $item = $request->all();
+                $item['branch_id'] = Auth::user()->branch_id;
+                $result = User::create($item);
                 $roleId = $request->input('role_id');  
-                $item->roles()->sync($roleId);
-                return Response::json($item);
+                $result->roles()->sync($roleId);
+                return Response::json($result);
             }
         } catch (Exception $e) {
             return Response::json([

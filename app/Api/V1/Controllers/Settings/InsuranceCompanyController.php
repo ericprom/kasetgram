@@ -73,8 +73,10 @@ class InsuranceCompanyController extends Controller
                 ], $this->errorStatus);
             }
             else{
-                $item = InsuranceCompany::create($request->all());
-                return Response::json($item);
+                $item = $request->all();
+                $item['branch_id'] = Auth::user()->branch_id;
+                $result = InsuranceCompany::create($item);
+                return Response::json($result);
             }
         } catch (Exception $e) {
             return Response::json([

@@ -73,8 +73,10 @@ class MakeController extends Controller
                 ], $this->errorStatus);
             }
             else{
-                $item = Make::create($request->all());
-                return Response::json($item);
+                $item = $request->all();
+                $item['branch_id'] = Auth::user()->branch_id;
+                $result = Make::create($item);
+                return Response::json($result);
             }
         } catch (Exception $e) {
             return Response::json([

@@ -162,8 +162,7 @@
           withdrawer: '',
           name: '',
           expense: Store.getters.expenses[0],
-          payment: Store.getters.payments[0],
-          branch_id: Store.getters.authUser.branch_id,
+          payment: Store.getters.payments[0]
         }),
       };
     },

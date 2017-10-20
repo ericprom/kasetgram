@@ -211,27 +211,27 @@
             make: Store.getters.makes[0],
             type_id: 2,
             make_id: 1,
-            model: '',
-            year: '',
-            license: '',
-            province: '',
-            engine_size: '',
-            chassi_number: '',
-            engine_number: '',
-            weight: ''
+            model: 'civic',
+            year: '2014',
+            license: '3 กด 4634',
+            province: 'กรุงเทพ',
+            engine_size: '987654321',
+            chassi_number: '123456789',
+            engine_number: '1500',
+            weight: '3000'
           },
           customer: {
-            title: '',
-            firstname: '',
-            lastname: '',
-            phone: '',
-            tax_id: '',
+            title: 'นาย',
+            firstname: 'สุรศักดิ์',
+            lastname: 'พรมรัตน์',
+            phone: '0987654321',
+            tax_id: '1234567890',
             nationality: 'ไทย',
-            street: '',
-            district: '',
-            amphoe: '',
-            province: '',
-            zipcode: ''
+            street: '45/140',
+            district: 'บางซื่อ',
+            amphoe: 'บางซื่อ',
+            province: 'กรุงเทพ',
+            zipcode: '10800'
           }
         })
       }

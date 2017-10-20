@@ -74,8 +74,10 @@ class LedgerController extends Controller
                 ], $this->errorStatus);
             }
             else{
-                $item = Ledger::create($request->all());
-                return Response::json($item);
+                $item = $request->all();
+                $item['branch_id'] = Auth::user()->branch_id;
+                $ledger = Ledger::create($item);
+                return Response::json($ledger);
             }
         } catch (Exception $e) {
             return Response::json([
