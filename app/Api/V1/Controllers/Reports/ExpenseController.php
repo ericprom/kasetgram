@@ -64,17 +64,17 @@ class ExpenseController extends Controller
         $from =  $request->input('from', date('Y-m-d'));
         $to =  $request->input('to', date('Y-m-d'));
         $cash = 0;
-        $transfer =0;
+        $transfer = 0;
         $cheque = 0;
         $credit = 0;
 
         $cash_result = Ledger::searchByDate($from, $to)
-                ->where([
-                    ['branch_id','=', $branch],
-                    ['payment_id','=', 1],
-                    ['active','=', 1]
-                ])
-                ->sum('amount');
+            ->where([
+                ['branch_id','=', $branch],
+                ['payment_id','=', 1],
+                ['active','=', 1]
+            ])
+            ->sum('amount');
         $cash += $cash_result;
 
         $transfer_result = Ledger::searchByDate($from, $to)
