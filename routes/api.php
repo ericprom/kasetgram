@@ -44,7 +44,8 @@ $api->version('v1', function ($api) {
 			});
 
 			$api->group(['prefix' => 'report'], function ($api) {
-				$api->resource('expenses', 'App\Api\V1\Controllers\Reports\ExpenseController');
+				$api->get('expenses/list', 'App\Api\V1\Controllers\Reports\ExpenseController@list');
+				$api->get('expenses/summary', 'App\Api\V1\Controllers\Reports\ExpenseController@summary');
 			});
 
 			$api->group(['prefix' => 'setting'], function ($api) {

@@ -35,11 +35,42 @@
           </div>
           <data-viewer :configs="config" :ref="config.table"></data-viewer>
         </div>
-        <div class="col-sm-3 hidden-xs">
-          <strong>Tips</strong>
-          <div>
-            ดูข้อมูล{{config.title}}<br><br>
-            สามารถเลือกดูเฉพาะช่วงวันได้<br><br>
+        <div class="col-sm-3">
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3>{{formatMoney(summary.total.cash)}} </h3>
+              <p>เงินสด</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-money"></i>
+            </div>
+          </div>
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3>{{formatMoney(summary.total.transfer)}} </h3>
+              <p>เงินโอน</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-money"></i>
+            </div>
+          </div>
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3>{{formatMoney(summary.total.cheque)}} </h3>
+              <p>เชค</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-money"></i>
+            </div>
+          </div>
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3>{{formatMoney(summary.total.credit)}} </h3>
+              <p>บัตรเครดิต</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-money"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -48,6 +79,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   import moment from 'moment'
   export default {
     metaInfo () {
@@ -69,10 +101,19 @@
           from: moment().format('DD/MM/YYYY'),
           to: moment().format('DD/MM/YYYY')
         },
+        summary:{
+          api: '/api/v1/report/expenses/summary',
+          total: {
+            cash: 0,
+            transfer: 0,
+            cheque: 0,
+            credit: 0
+          }
+        },
         config:{
           table: 'itemTable',
           title: 'รายงานค่าใช้จ่าย',
-          api: '/api/v1/report/expenses/',
+          api: '/api/v1/report/expenses/list',
           edit: false,
           hidden: ['id', 'expense_id', 'payment_id'],
           columns: [
@@ -104,6 +145,9 @@
         }
       };
     },
+    mounted() {
+      this.getSummary()
+    },
     methods: {
       selectedTime(val, tag) {
         if(val.id !== 'custom') {
@@ -119,6 +163,14 @@
         this.filter.from = this.saveDate(this.filter.start)
         this.filter.to = this.saveDate(this.filter.end)
         this.$refs.itemTable.searchData(this.filter);
+        this.getSummary()
+      },
+      getSummary(){
+        var query = "?from="+this.saveDate(this.filter.start)+"&to="+this.saveDate(this.filter.end)
+        axios.get(this.summary.api+query)
+          .then(({ data }) =>{
+            this.summary.total = data
+          })
       }
     }
   }

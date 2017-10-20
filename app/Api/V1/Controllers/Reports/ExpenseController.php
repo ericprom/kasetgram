@@ -24,7 +24,7 @@ class ExpenseController extends Controller
         $this->middleware(['auth:api','role:super-admin|admin|user']);
     }
 
-    public function index(Request $request)
+    public function list(Request $request)
     { 
         try {
             $branch = Auth::user()->branch_id;
@@ -56,5 +56,62 @@ class ExpenseController extends Controller
                 'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ], $this->errorStatus);
         }
+    }
+
+    public function summary(Request $request)
+    {
+        $branch = Auth::user()->branch_id;
+        $from =  $request->input('from', date('Y-m-d'));
+        $to =  $request->input('to', date('Y-m-d'));
+        $cash = 0;
+        $transfer =0;
+        $cheque = 0;
+        $credit = 0;
+
+        $cash_result = Ledger::searchByDate($from, $to)
+                ->where([
+                    ['branch_id','=', $branch],
+                    ['payment_id','=', 1],
+                    ['active','=', 1]
+                ])
+                ->sum('amount');
+        $cash += $cash_result;
+
+        $transfer_result = Ledger::searchByDate($from, $to)
+            ->where([
+                ['branch_id','=', $branch],
+                ['payment_id','=', 2],
+                ['active','=', 1]
+            ])
+            ->sum('amount');
+        $transfer += $transfer_result;
+
+        $cheque_result = Ledger::searchByDate($from, $to)
+            ->where([
+                ['branch_id','=', $branch],
+                ['payment_id','=', 3],
+                ['active','=', 1]
+            ])
+            ->sum('amount');
+        $cheque += $cheque_result;
+
+
+        $credit_result = Ledger::searchByDate($from, $to)
+            ->where([
+                ['branch_id','=', $branch],
+                ['payment_id','=', 4],
+                ['active','=', 1]
+            ])
+            ->sum('amount');
+        $credit += $credit_result;
+        
+        $items = [
+            'cash'=>$cash,
+            'transfer'=>$transfer,
+            'cheque'=>$cheque,
+            'credit'=>$credit,
+        ];
+        
+        return Response::json($items);
     }
 }
