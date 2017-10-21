@@ -17,7 +17,6 @@
               <h3 class="box-title">รายได้</h3>
             </div>
             <div class="box-body">
-              I'm an Dashboard component!
             </div>
           </div>
           <div class="box box-primary">
@@ -67,8 +66,8 @@
     data() {
       return {
         config:{
-          calss: 'col-sm-12',
-          api: '/api/v1/report/expenses/summary/',
+          class: 'col-sm-12',
+          api: '/api/v1/report/expenses/summary/'
         },
       }
     },

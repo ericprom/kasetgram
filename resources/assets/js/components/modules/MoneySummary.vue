@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div :class="config.calss">
+    <div :class="config.class">
       <div class="small-box bg-aqua">
         <div class="inner">
           <h3>{{formatMoney(total.cash)}} </h3>
@@ -11,7 +11,7 @@
         </div>
       </div>
     </div>
-    <div :class="config.calss">
+    <div :class="config.class">
       <div class="small-box bg-green">
         <div class="inner">
           <h3>{{formatMoney(total.transfer)}} </h3>
@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div :class="config.calss">
+    <div :class="config.class">
       <div class="small-box bg-yellow">
         <div class="inner">
           <h3>{{formatMoney(total.cheque)}} </h3>
@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div :class="config.calss">
+    <div :class="config.class">
       <div class="small-box bg-red">
         <div class="inner">
           <h3>{{formatMoney(total.credit)}} </h3>

@@ -36,7 +36,7 @@
     data() {
       return {
         summary:{
-          calss: 'col-sm-12',
+          class: 'col-sm-12',
           table: 'summaryTable',
           api: '/api/v1/report/expenses/summary/',
           from: '',
