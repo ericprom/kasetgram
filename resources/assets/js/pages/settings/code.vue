@@ -13,18 +13,7 @@
     <section class="content">
       <div class="row">
         <div class="col-sm-9">
-           <div class="box box-primary">
-            <div class="box-body">
-              <div class="input-group input-group-sm">
-                <input type="text" name="search" class="form-control pull-right" v-model="search.keyword">
-                <div class="input-group-btn">
-                  <button type="button" class="btn btn-default" @click.prevent="searchItem(search.keyword)">
-                    <i class="fa fa-search"></i> ค้นหา
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <search-box @search="searchItem"></search-box>
           <data-viewer 
             :configs="config" 
             :ref="config.table"
@@ -84,9 +73,6 @@
     },
     data() {
       return {
-        search:{
-          keyword:""
-        },
         config:{
           table: 'itemTable',
           title: 'ประเภทประกัน',
@@ -107,8 +93,8 @@
       };
     },
     methods: {
-      searchItem (){
-        this.$refs.itemTable.searchData(this.search);
+      searchItem (data){
+        this.$refs.itemTable.searchData(data);
       },
       createItem (){
         this.form.reset()

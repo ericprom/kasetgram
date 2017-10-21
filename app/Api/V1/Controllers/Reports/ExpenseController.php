@@ -21,7 +21,7 @@ class ExpenseController extends Controller
     
     public function __construct()
     {
-        $this->middleware(['auth:api','role:super-admin|admin|user']);
+        $this->middleware(['auth:api','role:super-admin|admin']);
     }
 
     public function list(Request $request)

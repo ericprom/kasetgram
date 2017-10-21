@@ -1,12 +1,18 @@
 import Vue from 'vue'
-import Child from './Child'
-import DataViewer from './DataViewer'
-import Datepicker from './Datepicker'
-import MoneySummary from './MoneySummary'
-import vSelect from 'vue-select'
 
-Vue.component(Child.name, Child)
-Vue.component(DataViewer.name, DataViewer)
-Vue.component(Datepicker.name, Datepicker)
-Vue.component(MoneySummary.name, MoneySummary)
+import vSelect from 'vue-select'
 Vue.component('v-select', vSelect)
+
+const requireContext = require.context('./modules', false, /.*\.vue$/)
+const modules = requireContext.keys()
+  .map(file =>
+    [file.replace(/(^.\/)|(\.vue$)/g, ''), requireContext(file)]
+  )
+  .reduce((modules, [name, module]) => {
+    modules[name] = module
+    return modules
+  }, {})
+
+Object.keys(modules).forEach(function(key) {
+  Vue.component(modules[key]['name'], modules[key])
+});

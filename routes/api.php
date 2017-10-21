@@ -43,11 +43,6 @@ $api->version('v1', function ($api) {
 				$api->resource('ledgers', 'App\Api\V1\Controllers\Accountants\LedgerController');
 			});
 
-			$api->group(['prefix' => 'report'], function ($api) {
-				$api->get('expenses/list', 'App\Api\V1\Controllers\Reports\ExpenseController@list');
-				$api->get('expenses/summary', 'App\Api\V1\Controllers\Reports\ExpenseController@summary');
-			});
-
 			$api->group(['prefix' => 'setting'], function ($api) {
 				$api->resource('cars', 'App\Api\V1\Controllers\Settings\MakeController');
 				$api->resource('types', 'App\Api\V1\Controllers\Settings\TypeController');
@@ -61,8 +56,17 @@ $api->version('v1', function ($api) {
 		$api->group(['middleware' => ['auth:api', 'role:super-admin|admin']], function ($api) {
 			$api->post('auth/company/details', 'App\Api\V1\Controllers\AuthController@getcompany');
 			$api->post('auth/company/update', 'App\Api\V1\Controllers\AuthController@updatecompany');
-			$api->resource('setting/users', 'App\Api\V1\Controllers\Settings\UserController');
-			$api->resource('setting/banks', 'App\Api\V1\Controllers\Settings\BankController');
+			
+			$api->group(['prefix' => 'setting'], function ($api) {
+				$api->resource('users', 'App\Api\V1\Controllers\Settings\UserController');
+				$api->resource('banks', 'App\Api\V1\Controllers\Settings\BankController');
+			});
+
+			$api->group(['prefix' => 'report'], function ($api) {
+				$api->get('expenses/list', 'App\Api\V1\Controllers\Reports\ExpenseController@list');
+				$api->get('expenses/summary', 'App\Api\V1\Controllers\Reports\ExpenseController@summary');
+			});
+
 		});
 
 		$api->group(['middleware' => ['auth:api', 'role:super-admin']], function ($api) {
