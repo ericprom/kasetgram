@@ -36,7 +36,13 @@ class User extends Authenticatable
                 $query->where("name", "LIKE","%$keyword%")
                     ->orWhere("address", "LIKE", "%$keyword%")
                     ->orWhere("phone", "LIKE", "%$keyword%")
-                    ->orWhere("email", "LIKE", "%$keyword%");
+                    ->orWhere("email", "LIKE", "%$keyword%")
+                    ->orWhereHas('company', function($query) use($keyword) {
+                        $query->where('name', 'LIKE', "%$keyword%");
+                    })
+                    ->orWhereHas('role', function($query) use($keyword) {
+                        $query->where('name', 'LIKE', "%$keyword%");
+                    });
             });
         }
         return $query;
