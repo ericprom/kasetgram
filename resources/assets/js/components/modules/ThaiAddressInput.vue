@@ -16,7 +16,7 @@
       <div class="suggestion-list-item"
         v-for="(item, index) in suggestions"
         :class="{ 'cursor': cursor === index }"
-        @click="selectItem(item)">
+        @click.prevent="testClick(item)">
         {{ suggestionText(item) }}
       </div>
     </div>
@@ -87,8 +87,10 @@ export default {
     changeValue(text) {
       this.$emit('input', text)
     },
+    testClick(text) {
+      console.log(text)
+    },
     selectItem(item = null) {
-      console.log(item)
       if (!item) {
         item = this.suggestions[this.cursor]
       }

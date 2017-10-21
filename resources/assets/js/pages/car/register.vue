@@ -137,7 +137,7 @@
                   </div>
                 </div>
               </div>
-              <!-- <div class="row">
+              <div class="row">
                 <div class="col-sm-7">
                   <div class="form-group">
                     <label>ที่อยู่</label>
@@ -147,7 +147,10 @@
                 <div class="col-sm-5">
                   <div class="form-group">
                     <label>ตำบล / แขวง</label>
-                    <input v-model="form.customer.district" type="text" class="form-control">
+                    <thai-address-input type="subdistrict"
+                      v-model="subdistrict"
+                      input-class="form-control"
+                      @selected="onSelected"></thai-address-input>
                   </div>
                 </div>
               </div>
@@ -155,58 +158,27 @@
                 <div class="col-sm-5">
                   <div class="form-group">
                     <label>อำเภอ / เขต</label>
-                    <input v-model="form.customer.amphoe" type="text" class="form-control">
+                    <thai-address-input type="district"
+                      v-model="district"
+                      input-class="form-control"
+                      @selected="onSelected"></thai-address-input>
                   </div>
                 </div>
                 <div class="col-sm-5">
                   <div class="form-group">
                     <label>จังหวัด</label>
-                    <input v-model="form.customer.province" type="text" class="form-control">
+                    <thai-address-input
+                      type="province"
+                      v-model="province"
+                      input-class="form-control"
+                      @selected="onSelected"></thai-address-input>
                   </div>
                 </div>
                 <div class="col-sm-2">
                   <div class="form-group">
                     <label>รหัสไปรษณีย์</label>
-                    <input v-model="form.customer.zipcode" type="text" name="zipcode" class="form-control">
-                  </div>
-                </div>
-              </div> -->
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>แขวง/ตำบล</label>
-                    <thai-address-input type="subdistrict"
-                      v-model="form.customer.subdistrict"
-                      input-class="form-control"
-                      @selected="onSelected"></thai-address-input>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>เขต/อำเภอ</label>
-                    <thai-address-input type="district"
-                      v-model="form.customer.district"
-                      input-class="form-control"
-                      @selected="onSelected"></thai-address-input>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>จังหวัด</label>
-                    <thai-address-input
-                      type="province"
-                      v-model="form.customer.province"
-                      input-class="form-control"
-                      @selected="onSelected"></thai-address-input>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>รหัสไปรษณีย์</label>
                     <thai-address-input type="zipcode"
-                      v-model="form.customer.zipcode"
+                      v-model="zipcode"
                       input-class="form-control"
                       @selected="onSelected"></thai-address-input>
                   </div>
@@ -274,7 +246,11 @@
             province: '',
             zipcode: ''
           }
-        })
+        }),
+        district: '',
+        subdistrict: '',
+        province: '',
+        zipcode: ''
       }
     },
     methods: {
@@ -300,10 +276,10 @@
       },
       onSelected(address) {
         console.log(address)
-        this.form.customer.subdistrict = address.subdistrict;
-        this.form.customer.district = address.district;
-        this.form.customer.province = address.province;
-        this.form.customer.zipcode = address.zipcode;
+        this.subdistrict = address.subdistrict;
+        this.district = address.district;
+        this.province = address.province;
+        this.zipcode = address.zipcode;
       },
     }
   }
