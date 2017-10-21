@@ -137,7 +137,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-sm-7">
                   <div class="form-group">
                     <label>ที่อยู่</label>
@@ -168,6 +168,47 @@
                   <div class="form-group">
                     <label>รหัสไปรษณีย์</label>
                     <input v-model="form.customer.zipcode" type="text" name="zipcode" class="form-control">
+                  </div>
+                </div>
+              </div> -->
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>แขวง/ตำบล</label>
+                    <thai-address-input type="subdistrict"
+                      v-model="form.customer.subdistrict"
+                      input-class="form-control"
+                      @selected="onSelected"></thai-address-input>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>เขต/อำเภอ</label>
+                    <thai-address-input type="district"
+                      v-model="form.customer.district"
+                      input-class="form-control"
+                      @selected="onSelected"></thai-address-input>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>จังหวัด</label>
+                    <thai-address-input
+                      type="province"
+                      v-model="form.customer.province"
+                      input-class="form-control"
+                      @selected="onSelected"></thai-address-input>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>รหัสไปรษณีย์</label>
+                    <thai-address-input type="zipcode"
+                      v-model="form.customer.zipcode"
+                      input-class="form-control"
+                      @selected="onSelected"></thai-address-input>
                   </div>
                 </div>
               </div>
@@ -229,7 +270,7 @@
             nationality: 'ไทย',
             street: '',
             district: '',
-            amphoe: '',
+            subdistrict: '',
             province: '',
             zipcode: ''
           }
@@ -256,7 +297,14 @@
       },
       selectedMake(val, tag) {
         this.form.car.make_id = val.id
-      }
+      },
+      onSelected(address) {
+        console.log(address)
+        this.form.customer.subdistrict = address.subdistrict;
+        this.form.customer.district = address.district;
+        this.form.customer.province = address.province;
+        this.form.customer.zipcode = address.zipcode;
+      },
     }
   }
 </script>

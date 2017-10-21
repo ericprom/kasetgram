@@ -19,6 +19,7 @@ elixir(mix => {
     	.copy('./resources/assets/static/fonts', 'public/fonts')
         .copy('./resources/assets/avatars', 'public/avatars')
         .copy('./resources/assets/images', 'public/images')
+        .copy('./resources/assets/static/database', 'public/database')
     	.sass('app.scss')
        	.webpack('app.js');
 });
