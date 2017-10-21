@@ -63,6 +63,7 @@ $api->version('v1', function ($api) {
 			});
 
 			$api->group(['prefix' => 'report'], function ($api) {
+				$api->get('dashboard/summary', 'App\Api\V1\Controllers\Reports\DashboardController@summary');
 				$api->get('expenses/list', 'App\Api\V1\Controllers\Reports\ExpenseController@list');
 				$api->get('expenses/summary', 'App\Api\V1\Controllers\Reports\ExpenseController@summary');
 			});

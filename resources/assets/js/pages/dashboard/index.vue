@@ -67,7 +67,7 @@
       return {
         config:{
           class: 'col-sm-12',
-          api: '/api/v1/report/expenses/summary/'
+          api: '/api/v1/report/dashboard/summary/'
         },
       }
     },
