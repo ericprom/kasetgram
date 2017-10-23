@@ -1,6 +1,7 @@
 window._ = require('lodash');
 window.$ = window.jQuery = require('jquery');
 require('bootstrap');
+window.Chart = require('chart.js');
 require('../static/lte/js/app');
 window.Vue = require('vue');
 require('vue-resource');

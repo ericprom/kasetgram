@@ -3,6 +3,9 @@ import Vue from 'vue'
 import vSelect from 'vue-select'
 Vue.component('v-select', vSelect)
 
+import VueChart from 'vue-chart-js'
+Vue.component('vue-chart', VueChart)
+
 const requireContext = require.context('./modules', false, /.*\.vue$/)
 const modules = requireContext.keys()
   .map(file =>
