@@ -244,8 +244,8 @@
             tax_id: '',
             nationality: 'ไทย',
             street: '',
-            district: '',
             subdistrict: '',
+            district: '',
             province: '',
             zipcode: ''
           }

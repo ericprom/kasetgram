@@ -14,8 +14,8 @@ class Customer extends Model
         'tax_id', 
         'nationality', 
         'street', 
+        'subdistrict', 
         'district', 
-        'amphoe', 
         'province', 
         'zipcode', 
         'branch_id'
@@ -38,8 +38,8 @@ class Customer extends Model
                     ->orWhere("tax_id", "LIKE", "%$keyword%")
                     ->orWhere("nationality", "LIKE", "%$keyword%")
                     ->orWhere("street", "LIKE", "%$keyword%")
+                    ->orWhere("subdistrict", "LIKE", "%$keyword%")
                     ->orWhere("district", "LIKE", "%$keyword%")
-                    ->orWhere("amphoe", "LIKE", "%$keyword%")
                     ->orWhere("province", "LIKE", "%$keyword%")
                     ->orWhere("zipcode", "LIKE", "%$keyword%")
                     ->orWhereHas('car', function($query) use($keyword) {

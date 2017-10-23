@@ -22,8 +22,8 @@ class CreateCustomersTable extends Migration
             $table->string('tax_id');
             $table->string('nationality')->nullable();
             $table->string('street')->nullable();
+            $table->string('subdistrict')->nullable();
             $table->string('district')->nullable();
-            $table->string('amphoe')->nullable();
             $table->string('province')->nullable();
             $table->string('zipcode')->nullable();
             $table->integer('branch_id')->unsigned()->index();
