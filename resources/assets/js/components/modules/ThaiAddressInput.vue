@@ -8,7 +8,6 @@
       :class="inputClass"
       @input="onType($event.target.value)"
       @focus="onFocus"
-      @blur="onBlur"
       @keydown.up.prevent="cursorUp"
       @keydown.down.prevent="cursorDown">
     <div class="suggestion-list" v-show="isFocus">
@@ -106,11 +105,6 @@ export default {
     onFocus() {
       this.query()
       this.isFocus = true;
-    },
-    onBlur() {
-      setTimeout(() => {
-        this.isFocus = false;
-      }, 50)
     },
     cursorUp() {
       if (this.cursor > 0) {

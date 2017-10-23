@@ -278,7 +278,6 @@
         this.form.car.make_id = val.id
       },
       onSelected(address) {
-        console.log(address)
         this.subdistrict = address.subdistrict;
         this.district = address.district;
         this.province = address.province;
