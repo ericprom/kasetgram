@@ -41,8 +41,8 @@
               <div class="row">
                 <div class="col-sm-2">
                   <div class="form-group">
-                    <label>รุ่นปี ค.ศ.</label>
-                    <input v-model="form.car.year" type="text" class="form-control">
+                    <label>รุ่นปี ค.ศ.<span class="text-danger">*</span></label>
+                    <input v-model="form.car.year" type="text" class="form-control" required>
                   </div>
                 </div>
                 <div class="col-sm-3">
@@ -59,9 +59,9 @@
                 </div>
                 <div class="col-sm-4">
                   <div class="form-group">
-                    <label>ขนาดรถ</label>
+                    <label>ขนาดรถ<span class="text-danger">*</span></label>
                     <div class="input-group">
-                     <input v-model="form.car.engine_size" type="text" class="form-control">
+                     <input v-model="form.car.engine_size" type="text" class="form-control" required>
                       <span class="input-group-addon">CC</span>
                     </div>
                   </div>
@@ -82,9 +82,9 @@
                 </div>
                 <div class="col-sm-4">
                   <div class="form-group">
-                    <label>น้ำหนัก</label>
+                    <label>น้ำหนัก<span class="text-danger">*</span></label>
                     <div class="input-group">
-                     <input v-model="form.car.weight" type="text" class="form-control">
+                     <input v-model="form.car.weight" type="text" class="form-control" required>
                       <span class="input-group-addon">กก.</span>
                     </div>
                   </div>
@@ -120,7 +120,7 @@
               <div class="row">
                 <div class="col-sm-5">
                   <div class="form-group">
-                    <label>เบอร์โทรฯ</label>
+                    <label>เบอร์โทรฯ<span class="text-danger">*</span></label>
                     <input v-model="form.customer.phone" type="text" class="form-control">
                   </div>
                 </div>
@@ -147,7 +147,8 @@
                 <div class="col-sm-5">
                   <div class="form-group">
                     <label>ตำบล / แขวง</label>
-                    <thai-address-input type="subdistrict"
+                    <thai-address-input 
+                      type="subdistrict"
                       v-model="subdistrict"
                       input-class="form-control"
                       @selected="onSelected"></thai-address-input>
@@ -158,7 +159,8 @@
                 <div class="col-sm-5">
                   <div class="form-group">
                     <label>อำเภอ / เขต</label>
-                    <thai-address-input type="district"
+                    <thai-address-input 
+                      type="district"
                       v-model="district"
                       input-class="form-control"
                       @selected="onSelected"></thai-address-input>
@@ -177,7 +179,8 @@
                 <div class="col-sm-2">
                   <div class="form-group">
                     <label>รหัสไปรษณีย์</label>
-                    <thai-address-input type="zipcode"
+                    <thai-address-input 
+                      type="zipcode"
                       v-model="zipcode"
                       input-class="form-control"
                       @selected="onSelected"></thai-address-input>
@@ -187,7 +190,7 @@
             </div>
           </div>
           <div class="pull-right">
-            <button type="submit" class="btn btn-primary" :disabled="form.busy"><i class="fa fa-save"></i> บันทึก</button>
+            <button class="btn btn-primary" :disabled="form.busy"><i class="fa fa-save"></i> บันทึก</button>
             <button class="btn btn-warning" @click.prevent="reset"><i class="fa fa-refresh"></i> เริ่มใหม่</button>
           </div>
           </form>

@@ -17,15 +17,15 @@ class CreateCarsTable extends Migration
             $table->increments('id');
             $table->integer('type_id')->unsigned()->nullable()->index();
             $table->integer('make_id')->unsigned()->index();
-            $table->string('model');
+            $table->string('model')->nullable();
             $table->string('year');
             $table->string('license');
             $table->string('province');
             $table->string('capacity')->nullable();
             $table->string('chassi_number')->nullable();
             $table->string('engine_number')->nullable();
-            $table->string('engine_size')->nullable();
-            $table->string('weight')->nullable();
+            $table->string('engine_size');
+            $table->string('weight');
             $table->integer('customer_id')->unsigned()->index();
             $table->integer('branch_id')->unsigned()->index();
             $table->integer('active')->default(1);

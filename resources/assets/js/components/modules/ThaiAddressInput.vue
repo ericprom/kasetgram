@@ -10,13 +10,12 @@
       @focus="onFocus"
       @blur="onBlur"
       @keydown.up.prevent="cursorUp"
-      @keydown.down.prevent="cursorDown"
-      @keyup.enter="selectItem()">
+      @keydown.down.prevent="cursorDown">
     <div class="suggestion-list" v-show="isFocus">
       <div class="suggestion-list-item"
         v-for="(item, index) in suggestions"
         :class="{ 'cursor': cursor === index }"
-        @click.prevent="testClick(item)">
+        @click="selectItem(item)">
         {{ suggestionText(item) }}
       </div>
     </div>
@@ -86,9 +85,6 @@ export default {
     },
     changeValue(text) {
       this.$emit('input', text)
-    },
-    testClick(text) {
-      console.log(text)
     },
     selectItem(item = null) {
       if (!item) {
