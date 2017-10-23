@@ -149,7 +149,7 @@
                     <label>ตำบล / แขวง</label>
                     <thai-address-input 
                       type="subdistrict"
-                      v-model="subdistrict"
+                      v-model="form.customer.subdistrict"
                       input-class="form-control"
                       @selected="onSelected"></thai-address-input>
                   </div>
@@ -161,7 +161,7 @@
                     <label>อำเภอ / เขต</label>
                     <thai-address-input 
                       type="district"
-                      v-model="district"
+                      v-model="form.customer.district"
                       input-class="form-control"
                       @selected="onSelected"></thai-address-input>
                   </div>
@@ -171,7 +171,7 @@
                     <label>จังหวัด</label>
                     <thai-address-input
                       type="province"
-                      v-model="province"
+                      v-model="form.customer.province"
                       input-class="form-control"
                       @selected="onSelected"></thai-address-input>
                   </div>
@@ -181,7 +181,7 @@
                     <label>รหัสไปรษณีย์</label>
                     <thai-address-input 
                       type="zipcode"
-                      v-model="zipcode"
+                      v-model="form.customer.zipcode"
                       input-class="form-control"
                       @selected="onSelected"></thai-address-input>
                   </div>
@@ -249,11 +249,7 @@
             province: '',
             zipcode: ''
           }
-        }),
-        district: '',
-        subdistrict: '',
-        province: '',
-        zipcode: ''
+        })
       }
     },
     methods: {
@@ -278,10 +274,10 @@
         this.form.car.make_id = val.id
       },
       onSelected(address) {
-        this.subdistrict = address.subdistrict;
-        this.district = address.district;
-        this.province = address.province;
-        this.zipcode = address.zipcode;
+        this.form.customer.subdistrict = address.subdistrict;
+        this.form.customer.district = address.district;
+        this.form.customer.province = address.province;
+        this.form.customer.zipcode = address.zipcode;
       },
     }
   }
