@@ -35,12 +35,16 @@ class RegisterController extends Controller
             $validator = Validator::make($request->all(), [
                 'customer.firstname' => 'required',
                 'customer.lastname' => 'required',
+                'customer.phone' => 'required',
                 'customer.tax_id' => 'required',
 
                 'car.type_id' => 'required',
                 'car.make_id' => 'required',
+                'car.year' => 'required',
                 'car.license' => 'required',
                 'car.province' => 'required',
+                'car.engine_size' => 'required',
+                'car.weight' => 'required',
             ]);
             
             if ($validator->fails()) {
