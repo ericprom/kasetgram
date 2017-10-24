@@ -52,8 +52,25 @@ export const mutations = {
 
 // actions
 export const actions = {
+
+
   
-  createMenus ({ commit }, payload) {
+  createDatalist ({ dispatch }) {
+    try {
+      
+        dispatch('createMenus')
+        dispatch('createCompanies')
+        dispatch('createRoles')
+        dispatch('createPayments')
+        dispatch('createExpenses')
+        dispatch('createTypes')
+        dispatch('createMakes')
+        dispatch('createTimers')
+
+    } catch (e) {}
+  },
+
+  createMenus ({ commit }) {
     try {
       return new Promise((resolve, reject) => {
         axios.post('/api/v1/datalist/menus')
@@ -69,7 +86,7 @@ export const actions = {
     } catch (e) {}
   },
 
-  createCompanies ({ commit }, payload) {
+  createCompanies ({ commit }) {
     try {
       return new Promise((resolve, reject) => {
         axios.post('/api/v1/datalist/companies')
@@ -85,7 +102,7 @@ export const actions = {
     } catch (e) {}
   },
 
-  createRoles ({ commit }, payload) {
+  createRoles ({ commit }) {
     try {
       return new Promise((resolve, reject) => {
         axios.post('/api/v1/datalist/roles')
@@ -101,7 +118,7 @@ export const actions = {
     } catch (e) {}
   },
 
-  createPayments ({ commit }, payload) {
+  createPayments ({ commit }) {
     try {
       return new Promise((resolve, reject) => {
         axios.post('/api/v1/datalist/payments')
@@ -117,7 +134,7 @@ export const actions = {
     } catch (e) {}
   },
 
-  createExpenses ({ commit }, payload) {
+  createExpenses ({ commit }) {
     try {
       return new Promise((resolve, reject) => {
         axios.post('/api/v1/datalist/expenses')
@@ -133,7 +150,7 @@ export const actions = {
     } catch (e) {}
   },
 
-  createTypes ({ commit }, payload) {
+  createTypes ({ commit }) {
     try {
       return new Promise((resolve, reject) => {
         axios.post('/api/v1/datalist/types')
@@ -149,7 +166,7 @@ export const actions = {
     } catch (e) {}
   },
 
-  createMakes ({ commit }, payload) {
+  createMakes ({ commit }) {
     try {
       return new Promise((resolve, reject) => {
         axios.post('/api/v1/datalist/makes')
@@ -165,7 +182,7 @@ export const actions = {
     } catch (e) {}
   },
 
-  createTimers ({ commit }, payload) {
+  createTimers ({ commit }) {
     try {
       var timers = [
         { id: 'yesterday', label: 'เมื่อวาน' },

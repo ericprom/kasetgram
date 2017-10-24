@@ -87,18 +87,18 @@
             label: "ตรวจสภาพรถ",
             backgroundColor: "rgba(34,135,180,0.4)",
             borderColor: "rgba(34,135,180,1)", 
-            pointBackgroundColor: "white",
+            pointBackgroundColor: "rgba(255,255,255,1",
             pointHoverBackgroundColor: "rgba(34,135,180,1)",
-            pointHoverBorderColor: "white",
+            pointHoverBorderColor: "rgba(255,255,255,1)",
             data: [65, 59, 80, 81, 56, 55, 40, 66 ,60,55,30,78],
           },
           {
             label: "ต่อพรบ",
             backgroundColor: "rgba(0,213,91,0.4)",
             borderColor: "rgba(0,213,91,1)",
-            pointBackgroundColor: "white",
+            pointBackgroundColor: "rgba(255,255,255,1",
             pointHoverBackgroundColor: "rgba(0,213,91,1)",
-            pointHoverBorderColor: "white",
+            pointHoverBorderColor: "rgba(255,255,255,1)",
             data: [10, 20, 60, 95, 64, 78, 90, 78,70,40,70,89],
           }]
       } 

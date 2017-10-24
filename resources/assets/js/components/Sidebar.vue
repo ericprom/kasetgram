@@ -50,14 +50,7 @@
     },
     methods: {
       init () {
-        Store.dispatch('createMenus')
-        Store.dispatch('createCompanies')
-        Store.dispatch('createRoles')
-        Store.dispatch('createPayments')
-        Store.dispatch('createExpenses')
-        Store.dispatch('createTypes')
-        Store.dispatch('createMakes')
-        Store.dispatch('createTimers')
+        Store.dispatch('createDatalist')
       }
     },
     beforeMount(){
