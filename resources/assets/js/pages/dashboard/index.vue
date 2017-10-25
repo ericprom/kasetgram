@@ -17,7 +17,7 @@
               <h3 class="box-title">รายได้</h3>
             </div>
             <div class="box-body">
-              <vue-chart :config="chartData"></vue-chart>
+              <vue-chart :config="configChart"></vue-chart>
             </div>
           </div>
           <div class="box box-primary">
@@ -75,7 +75,7 @@
           class: 'col-sm-12',
           api: '/api/v1/report/dashboard/summary/'
         },
-        chartData: {
+        configChart: {
           type: 'line',
           options:{
             fill: true,
