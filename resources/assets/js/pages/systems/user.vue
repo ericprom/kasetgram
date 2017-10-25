@@ -252,15 +252,12 @@
             })
           })
       },
-      checkCompany (items){
-        var self = this;
-        var data = null
-        _.find(items, function(val) {
-          data = _.find(self.companies, function(item) {
-            return item.id == val.id;
-          });
+      checkCompany (item){
+        return _.find(this.companies, function(val) {
+          if(item.id == val.id){
+            return val;
+          }
         });
-        return data
       },
       checkRole (items){
         var self = this;
