@@ -64,6 +64,11 @@
 
 <script>
   export default {
+    metaInfo () {
+      return { 
+        title: 'แดชบอร์ด'
+      }
+    },
     data() {
       return {
         configSummary:{
