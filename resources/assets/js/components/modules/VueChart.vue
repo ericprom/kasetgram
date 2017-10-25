@@ -7,15 +7,7 @@ import Chart from 'chart.js'
 export default {
   name: 'vue-chart',
   props: {
-    type: {
-      required: true,
-      type: String
-    },
-    data: {
-      required: true,
-      type: [Object, Array]
-    },
-    options: Object,
+    config: Object,
     width: Number,
     height: Number
   },
@@ -35,9 +27,9 @@ export default {
   methods: {
     createChart () {
       this.chart = new Chart(this.$refs.chart, {
-        type: this.type,
-        data: this.data,
-        options: this.options
+        type: this.config.type,
+        data: this.config.data,
+        options: this.config.options
       })
     }
   },
