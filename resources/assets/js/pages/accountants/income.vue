@@ -145,7 +145,7 @@
         form: new Form({
           id: 0,
           date_receive: moment().format('DD/MM/YYYY'),
-          withdrawer: '',
+          receiver: '',
           name: '',
           farms: Store.getters.farms[0],
           payment: Store.getters.payments[0]

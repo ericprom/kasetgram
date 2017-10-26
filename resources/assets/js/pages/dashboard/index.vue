@@ -22,7 +22,7 @@
           </div>
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">บริการตรวจสภาพรถล่าสุด</h3>
+              <h3 class="box-title">รายได้ล่าสุด</h3>
             </div>
             <div class="box-body">
               I'm an Dashboard component!
@@ -30,23 +30,7 @@
           </div>
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">บริการต่อประกัน</h3>
-            </div>
-            <div class="box-body">
-              I'm an Dashboard component!
-            </div>
-          </div>
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">บริการต่อพรบ</h3>
-            </div>
-            <div class="box-body">
-              I'm an Dashboard component!
-            </div>
-          </div>
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">บริการต่อทะเบียน</h3>
+              <h3 class="box-title">รายจ่ายล่าสุด</h3>
             </div>
             <div class="box-body">
               I'm an Dashboard component!
@@ -91,7 +75,7 @@
           data:{
             labels: ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."],
             datasets: [{
-              label: "ตรวจสภาพรถ",
+              label: "รายได้",
               backgroundColor: "rgba(34,135,180,0.4)",
               borderColor: "rgba(34,135,180,1)", 
               pointBackgroundColor: "rgba(255,255,255,1",
@@ -100,7 +84,7 @@
               data: [65, 59, 80, 81, 56, 55, 40, 66 ,60,55,30,78],
             },
             {
-              label: "ต่อพรบ",
+              label: "รายจ่าย",
               backgroundColor: "rgba(0,213,91,0.4)",
               borderColor: "rgba(0,213,91,1)",
               pointBackgroundColor: "rgba(255,255,255,1",

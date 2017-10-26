@@ -44,7 +44,7 @@
         },
         list:{
           table: 'itemTable',
-          title: 'รายงานค่าใช้จ่าย',
+          title: 'รายงานรายรับ',
           api: '/api/v1/report/incomes/list/',
           edit: false,
           hidden: ['id', 'farm_id', 'payment_id'],
