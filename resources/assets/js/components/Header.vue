@@ -21,7 +21,7 @@
 
                 <p>
                   {{ user.name }}
-                  <small>เจ้าหน้าที่ ตรอ.</small>
+                  <small>Smart Farmer</small>
                 </p>
               </li>
               <li class="user-footer">
