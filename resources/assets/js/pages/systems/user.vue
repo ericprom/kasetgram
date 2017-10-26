@@ -50,13 +50,21 @@
             <div class="form-group">
               <label for="userRole" class="col-sm-2 col-md-3 control-label">บริษัท<span class="text-danger">*</span></label>
               <div class="col-sm-8 col-md-6">
-                <v-select v-model="form.company" :options="companies" :on-change="selectedCompany"></v-select>
+                <select v-model="form.branch_id" class="form-control">
+                  <option v-for="company in companies" :value="company.id">
+                    {{ company.name }}  
+                  </option>
+                </select>
               </div>
             </div>
             <div class="form-group">
               <label for="userRole" class="col-sm-2 col-md-3 control-label">ตำแหน่ง<span class="text-danger">*</span></label>
               <div class="col-sm-8 col-md-6">
-                <v-select v-model="form.role" :options="roles" :on-change="selectedRole"></v-select>
+                <select v-model="form.role" class="form-control">
+                  <option v-for="role in roles" :value="role">
+                    {{ role.name }}  
+                  </option>
+                </select>
               </div>
             </div>
             <div class="form-group">
@@ -165,14 +173,10 @@
         companies: Store.getters.companies,
         form: new Form({
           id: 0,
-          company: Store.getters.companies[0],
-          role: Store.getters.roles[1],
           name: '',
           branch: '',
           address: '',
           phone: '',
-          branch_id: 1,
-          role_id: 2,
         }),
       };
     },
@@ -268,12 +272,6 @@
           });
         });
         return data
-      },
-      selectedCompany(val, tag) {
-        this.form.branch_id = val.id
-      },
-      selectedRole(val, tag) {
-        this.form.role_id = val.id
       }
     }
   }

@@ -3,7 +3,11 @@
     <div class="box-body">
       <div class="row">
         <div class="col-sm-4">
-          <v-select v-model="timer" :options="timers" :on-change.prevent="selectedTime"></v-select>
+          <select v-model="timer" class="form-control" @change="selectedTime(timer)">
+            <option v-for="timer in timers" :value="timer">
+              {{ timer.name }}  
+            </option>
+          </select>
         </div>
         <div class="col-sm-3">
           <datepicker v-model="start" :configs="datepicker" @dp-change.prevent="updateFilter"></datepicker>
@@ -41,7 +45,7 @@
       }
     },
     methods: {
-      selectedTime(val, tag) {
+      selectedTime(val) {
         this.timer = val
         this.changeTime()
       },

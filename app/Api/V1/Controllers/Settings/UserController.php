@@ -76,7 +76,7 @@ class UserController extends Controller
                 $item = $request->all();
                 $item['branch_id'] = Auth::user()->branch_id;
                 $result = User::create($item);
-                $roleId = $request->input('role_id');  
+                $roleId = $request->input('role.id');  
                 $result->roles()->sync($roleId);
                 return Response::json([
                     'type' => 'success',
@@ -111,7 +111,7 @@ class UserController extends Controller
             else{
                 $item = User::find($id);
                 $item->update($request->all());
-                $roleId = $request->input('role_id');  
+                $roleId = $request->input('role.id');  
                 $item->roles()->sync($roleId);
                 return Response::json([
                     'type' => 'success',

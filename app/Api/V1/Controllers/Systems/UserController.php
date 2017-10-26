@@ -66,7 +66,7 @@ class UserController extends Controller
         }
         else{
             $item = User::create($request->all());
-            $roleId = $request->input('role_id');  
+            $roleId = $request->input('role.id');  
             $item->roles()->sync($roleId);
             return Response::json([
                 'type' => 'success',
@@ -93,7 +93,7 @@ class UserController extends Controller
         else{
             $item = User::find($id);
             $item->update($request->all());
-            $roleId = $request->input('role_id');  
+            $roleId = $request->input('role.id');  
             $item->roles()->sync($roleId);
             return Response::json([
                 'type' => 'success',

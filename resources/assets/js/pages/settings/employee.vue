@@ -49,7 +49,11 @@
             <div class="form-group">
               <label for="userRole" class="col-sm-2 col-md-3 control-label">ตำแหน่ง<span class="text-danger">*</span></label>
               <div class="col-sm-8 col-md-6">
-                <v-select v-model="form.role" :options="roles" :on-change="selectedRole"></v-select>
+                <select v-model="form.role" class="form-control">
+                  <option v-for="role in roles" :value="role">
+                    {{ role.name }}  
+                  </option>
+                </select>
               </div>
             </div>
             <div class="form-group">
@@ -156,8 +160,7 @@
           name: '',
           branch: '',
           address: '',
-          phone: '',
-          role_id: 3
+          phone: ''
         }),
       };
     },
@@ -192,9 +195,6 @@
         Object.keys(item).forEach(function(key) {
           if(key=='role'){
             self.form['role'] = self.checkRole(item[key])
-          }
-          else if(key=='company'){
-            self.form['company'] = self.checkCompany(item[key])
           }
           else{
             self.form[key] = item[key]
@@ -246,9 +246,6 @@
           });
         });
         return data
-      },
-      selectedRole(val, tag) {
-        this.form.role_id = val.id
       }
     }
   }

@@ -51,10 +51,6 @@ class DatalistController extends Controller
             $columns = ['id', 'name'];
             $criteria = [];
             $companies = Company::select($columns)->where($criteria)->get();
-           foreach($companies as &$val){
-                $val['label'] = $val['name'];
-                unset($val['name']);
-            }
             return Response::json([
                 'companies' => $companies
             ]);
@@ -76,12 +72,6 @@ class DatalistController extends Controller
                 $criteria[] =['id','<>', 1];
             }
             $roles = Role::select($columns)->where($criteria)->get();
-
-           foreach($roles as &$val){
-                $val['label'] = $val['name'];
-                unset($val['name']);
-            }
-            
             return Response::json([
                 'roles' => $roles
             ]);
@@ -98,10 +88,6 @@ class DatalistController extends Controller
         try {
             $columns = ['id', 'name'];
             $items = Payment::select($columns)->get();
-           foreach($items as &$val){
-                $val['label'] = $val['name'];
-                unset($val['name']);
-            }
             return Response::json([
                 'payments' => $items
             ]);
@@ -119,10 +105,6 @@ class DatalistController extends Controller
             $columns = ['id', 'name'];
             $branch = Auth::user()->branch_id;
             $items = Farm::select($columns)->where('branch_id','=',$branch)->get();
-           foreach($items as &$val){
-                $val['label'] = $val['name'];
-                unset($val['name']);
-            }
             return Response::json([
                 'farms' => $items
             ]);

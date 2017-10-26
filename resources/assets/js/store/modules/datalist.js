@@ -141,12 +141,12 @@ export const actions = {
   createTimers ({ commit }) {
     try {
       var timers = [
-        { id: 'yesterday', label: 'เมื่อวาน' },
-        { id: 'today', label: 'วันนี้' },
-        { id: 'this_month', label: 'เดือนนี้' },
-        { id: 'last_month', label: 'เดือนที่แล้ว' },
-        { id: 'next_month', label: 'เดือนหน้า' },
-        { id: 'custom', label: 'ตั้งค่า' }
+        { id: 'yesterday', name: 'เมื่อวาน' },
+        { id: 'today', name: 'วันนี้' },
+        { id: 'this_month', name: 'เดือนนี้' },
+        { id: 'last_month', name: 'เดือนที่แล้ว' },
+        { id: 'next_month', name: 'เดือนหน้า' },
+        { id: 'custom', name: 'ตั้งค่า' }
       ]
       commit(types.DATALIST_TIMER, timers)
     } catch (e) {}

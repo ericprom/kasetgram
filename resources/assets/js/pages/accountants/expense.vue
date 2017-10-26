@@ -55,7 +55,11 @@
             <div class="form-group">
               <label class="col-sm-2 col-md-3 control-label">ประเภท<span class="text-danger">*</span></label>
               <div class="col-sm-8 col-md-6">
-                <v-select v-model="form.farm" :options="farms" :on-change="selectedFarm"></v-select>
+                <select v-model="form.farm_id" class="form-control">
+                  <option v-for="farm in farms" :value="farm.id">
+                    {{ farm.name }}  
+                  </option>
+                </select>
               </div>
             </div>
             <div class="form-group">
@@ -73,7 +77,11 @@
             <div class="form-group">
               <label class="col-sm-2 col-md-3 control-label">จ่ายโดย</label>
               <div class="col-sm-8 col-md-6">
-                <v-select v-model="form.payment" :options="payments" :on-change="selectedPayment"></v-select>
+                <select v-model="form.payment_id" class="form-control">
+                  <option v-for="payment in payments" :value="payment.id">
+                    {{ payment.name }}  
+                  </option>
+                </select>
               </div>
             </div>
           </div>
@@ -146,9 +154,7 @@
           id: 0,
           date_withdraw: moment().format('DD/MM/YYYY'),
           withdrawer: '',
-          name: '',
-          farms: Store.getters.farms[0],
-          payment: Store.getters.payments[0]
+          name: ''
         }),
       };
     },
@@ -234,12 +240,6 @@
         return _.find(self.payments, function(val) {
           return item.id == val.id;
         });
-      },
-      selectedFarm(val, tag) {
-        this.form.farm_id = val.id
-      },
-      selectedPayment(val, tag) {
-        this.form.payment_id = val.id
       }
     }
   }
