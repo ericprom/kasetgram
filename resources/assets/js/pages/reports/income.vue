@@ -47,6 +47,7 @@
           title: 'รายงานรายรับ',
           api: '/api/v1/report/incomes/list/',
           edit: false,
+          paginate: true,
           hidden: ['id', 'farm_id', 'payment_id'],
           columns: [
             {

@@ -34,7 +34,7 @@ class DashboardController extends Controller
                 ->with(['farm','payment'])
                 ->where('branch_id','=',$branch)
                 ->latest()
-                ->paginate(10);
+                ->paginate(5);
 
             return Response::json([
                 'data' => $items
@@ -57,7 +57,7 @@ class DashboardController extends Controller
                 ->with(['farm','payment'])
                 ->where('branch_id','=',$branch)
                 ->latest()
-                ->paginate(10);
+                ->paginate(5);
 
             return Response::json([
                 'data' => $items

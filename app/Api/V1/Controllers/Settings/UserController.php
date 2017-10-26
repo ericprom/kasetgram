@@ -31,9 +31,14 @@ class UserController extends Controller
             $branch = Auth::user()->branch_id;
             $keyword =  $request->input('keyword', '');
             $columns = ['id', 'name', 'phone', 'email', 'branch_id'];
+            $criteria = [];
+            $criteria[] =['branch_id','=', $branch];
+            if(!Auth::user()->hasRole('super-admin')){
+                $criteria[] =['id','<>', 1];
+            }
             $items = User::searchByKeyword($keyword)
                 ->select($columns)
-                ->where('branch_id','=',$branch)
+                ->where($criteria)
                 ->with(['role'])
                 ->paginate(10);
 

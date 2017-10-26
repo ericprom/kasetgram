@@ -47,6 +47,7 @@
           title: 'รายงานค่าใช้จ่าย',
           api: '/api/v1/report/expenses/list/',
           edit: false,
+          paginate: true,
           hidden: ['id', 'farm_id', 'payment_id'],
           columns: [
             {
