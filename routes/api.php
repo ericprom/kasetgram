@@ -57,6 +57,7 @@ $api->version('v1', function ($api) {
 			});
 
 			$api->group(['prefix' => 'report'], function ($api) {
+				$api->get('dashboard/chart', 'App\Api\V1\Controllers\Reports\DashboardController@chart');
 				$api->get('dashboard/summary', 'App\Api\V1\Controllers\Reports\DashboardController@summary');
 				$api->get('dashboard/incomes', 'App\Api\V1\Controllers\Reports\DashboardController@income');
 				$api->get('dashboard/expenses', 'App\Api\V1\Controllers\Reports\DashboardController@expense');

@@ -31,6 +31,9 @@ export default {
         data: this.config.data,
         options: this.config.options
       })
+    },
+    update () {
+      this.chart.update()
     }
   },
   mounted () {

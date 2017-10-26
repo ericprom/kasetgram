@@ -11,6 +11,7 @@ use App\Models\Income;
 use App\Models\Expense;
 use Response;
 use Validator;
+use DB;
 
 class DashboardController extends Controller
 {
@@ -22,7 +23,35 @@ class DashboardController extends Controller
     
     public function __construct()
     {
-        $this->middleware(['auth:api','role:super-admin|admin']);
+        // $this->middleware(['auth:api','role:super-admin|admin']);
+    }
+
+
+    public function chart(Request $request)
+    { 
+        try {
+            $incomes_results = DB::table('incomes')
+            ->selectRaw('sum(amount) as income, extract(month from incomes.receive_date) as month')
+            ->groupBy('month')
+            ->pluck('income','month');
+            $incomes = array_replace(array_fill_keys(range(1, 12), 0), $incomes_results->all());
+
+            $expenses_results = DB::table('expenses')
+            ->selectRaw('sum(amount) as expense, extract(month from expenses.withdraw_date) as month')
+            ->groupBy('month')
+            ->pluck('expense','month');
+            $expenses = array_replace(array_fill_keys(range(1, 12), 0), $expenses_results->all());
+            return Response::json([
+                'incomes' => $incomes,
+                'expenses' => $expenses
+            ]);
+        } catch (Exception $e) {
+            return Response::json([
+                'type' => 'warning',
+                'title' => 'Warning',
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+            ], $this->errorStatus);
+        }
     }
 
     public function income(Request $request)

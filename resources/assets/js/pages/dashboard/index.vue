@@ -17,7 +17,7 @@
               <h3 class="box-title">รายได้</h3>
             </div>
             <div class="box-body">
-              <vue-chart :config="configChart"></vue-chart>
+              <vue-chart :config="configChart" :ref="configChart.table"></vue-chart>
             </div>
           </div>
           <data-viewer :configs="configIncome"></data-viewer>
@@ -33,6 +33,8 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  import Chart from 'chart.js'
   export default {
     metaInfo () {
       return { 
@@ -108,6 +110,7 @@
           ],
         },
         configChart: {
+          table: 'chart',
           type: 'line',
           options:{
             fill: true,
@@ -119,6 +122,15 @@
             pointRadius: 4,
             pointHitRadius: 10,
             spanGaps: true,
+            tooltips: {
+              position: 'nearest',
+              mode: 'label',
+              callbacks: {
+                label: function(tooltipItem, data) { 
+                  return data.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                },
+              }
+            }
           },
           data:{
             labels: ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."],
@@ -129,7 +141,7 @@
               pointBackgroundColor: "rgba(255,255,255,1",
               pointHoverBackgroundColor: "rgba(34,135,180,1)",
               pointHoverBorderColor: "rgba(255,255,255,1)",
-              data: [65, 59, 80, 81, 56, 55, 40, 66 ,60,55,30,78],
+              data: [0,0,0,0,0,0,0,0,0,0,0,0],
             },
             {
               label: "รายจ่าย",
@@ -138,10 +150,28 @@
               pointBackgroundColor: "rgba(255,255,255,1",
               pointHoverBackgroundColor: "rgba(0,213,91,1)",
               pointHoverBorderColor: "rgba(255,255,255,1)",
-              data: [10, 20, 60, 95, 64, 78, 90, 78,70,40,70,89],
+              data: [0,0,0,0,0,0,0,0,0,0,0,0],
             }]
           }
         } 
+      }
+    },
+    mounted() {
+      this.getData()
+    },
+    methods: {
+      getData (){
+        var self = this
+        axios.get('/api/v1/report/dashboard/chart')
+          .then(({ data }) =>{
+            self.configChart.data.datasets[0].data = Object.keys(data.incomes).map(function(key) {
+              return [data.incomes[key]]
+            });
+            self.configChart.data.datasets[1].data = Object.keys(data.expenses).map(function(key) {
+              return [data.expenses[key]]
+            });
+            this.$refs.chart.update()
+          })
       }
     }
   }
