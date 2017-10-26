@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Ledger extends Model
+class Income extends Model
 {
     
 	protected $fillable = [
-        'withdraw_date',
-        'withdrawer',
-        'expense_id',
+        'receive_date',
+        'receiver',
+        'farm_id',
         'detail',
         'amount',
         'payment_id',
@@ -18,9 +18,9 @@ class Ledger extends Model
         'active'
     ];
 
-    public function expense()
+    public function farm()
     {
-        $instance = $this->hasOne('App\Models\Expense', 'id', 'expense_id');
+        $instance = $this->hasOne('App\Models\Farm', 'id', 'farm_id');
         $instance->getQuery()->where('active','=', '1')->select(['id','name']);
         return $instance;
     }
@@ -36,10 +36,10 @@ class Ledger extends Model
     {
         if ($keyword!='') {
             $query->where(function ($query) use ($keyword) {
-                $query->where("withdrawer", "LIKE","%$keyword%")
+                $query->where("receiver", "LIKE","%$keyword%")
                     ->orWhere("detail", "LIKE", "%$keyword%")
                     ->orWhere("amount", "LIKE", "%$keyword%")
-                    ->orWhereHas('expense', function($query) use($keyword) {
+                    ->orWhereHas('farm', function($query) use($keyword) {
                         $query->where('name', 'LIKE', "%$keyword%");
                     })
                     ->orWhereHas('payment', function($query) use($keyword) {
@@ -50,7 +50,7 @@ class Ledger extends Model
         return $query;
     }
 
-    public function scopeSearchByDate($query, $from, $to, $option = 'withdraw_date')
+    public function scopeSearchByDate($query, $from, $to, $option = 'receive_date')
     {
         $query->where(function ($query) use ($option, $from, $to) {
             $query->whereBetween($option, [$from, $to]);

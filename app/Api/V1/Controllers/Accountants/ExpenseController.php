@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\V1\Controllers\Settings;
+namespace App\Api\V1\Controllers\Accountants;
 
 use Illuminate\Http\Request;
 use Dingo\Api\Routing\Helpers;
@@ -30,9 +30,10 @@ class ExpenseController extends Controller
         try {
             $branch = Auth::user()->branch_id;
             $keyword =  $request->input('keyword', '');
-            $columns = ['id', 'name'];
+            $columns = ['id', 'withdraw_date', 'withdrawer', 'detail', 'amount', 'farm_id', 'payment_id'];
             $items = Expense::searchByKeyword($keyword)
                 ->select($columns)
+                ->with(['farm','payment'])
                 ->where('branch_id','=',$branch)
                 ->paginate(10);
 
@@ -60,9 +61,9 @@ class ExpenseController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'name' => 'required'
+                'amount' => 'required',
             ]);
-            
+
             if ($validator->fails()) {
                 return Response::json([
                     'type' => 'warning',
@@ -93,7 +94,7 @@ class ExpenseController extends Controller
     {
         try{
             $validator = Validator::make($request->all(), [
-                'name' => 'required'
+                'amount' => 'required'
             ]);
 
             if ($validator->fails()) {
@@ -133,7 +134,7 @@ class ExpenseController extends Controller
             ], $this->successStatus);
         } catch (Exception $e) {
             return Response::json([
-                'type' => 'warning',
+                'code' => 'warning',
                 'title' => 'Warning',
                 'text' => 'เกิดข้อผิดพลาดไม่สามารถลบข้อมูลได้'
             ], $this->errorStatus);

@@ -7,7 +7,7 @@ use Dingo\Api\Routing\Helpers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use App\Models\Ledger;
+use App\Models\Expense;
 use Response;
 use Validator;
 
@@ -30,10 +30,10 @@ class ExpenseController extends Controller
             $branch = Auth::user()->branch_id;
             $from =  $request->input('from', date('Y-m-d'));
             $to =  $request->input('to', date('Y-m-d'));
-            $columns = ['id', 'withdraw_date', 'withdrawer', 'detail', 'amount', 'expense_id', 'payment_id'];
-            $items = Ledger::searchByDate($from, $to)
+            $columns = ['id', 'withdraw_date', 'withdrawer', 'detail', 'amount', 'farm_id', 'payment_id'];
+            $items = Expense::searchByDate($from, $to)
                 ->select($columns)
-                ->with(['expense','payment'])
+                ->with(['farm','payment'])
                 ->where('branch_id','=',$branch)
                 ->paginate(10);
 
@@ -68,7 +68,7 @@ class ExpenseController extends Controller
         $cheque = 0;
         $credit = 0;
 
-        $cash_result = Ledger::searchByDate($from, $to)
+        $cash_result = Expense::searchByDate($from, $to)
             ->where([
                 ['branch_id','=', $branch],
                 ['payment_id','=', 1],
@@ -77,7 +77,7 @@ class ExpenseController extends Controller
             ->sum('amount');
         $cash += $cash_result;
 
-        $transfer_result = Ledger::searchByDate($from, $to)
+        $transfer_result = Expense::searchByDate($from, $to)
             ->where([
                 ['branch_id','=', $branch],
                 ['payment_id','=', 2],
@@ -86,7 +86,7 @@ class ExpenseController extends Controller
             ->sum('amount');
         $transfer += $transfer_result;
 
-        $cheque_result = Ledger::searchByDate($from, $to)
+        $cheque_result = Expense::searchByDate($from, $to)
             ->where([
                 ['branch_id','=', $branch],
                 ['payment_id','=', 3],
@@ -96,7 +96,7 @@ class ExpenseController extends Controller
         $cheque += $cheque_result;
 
 
-        $credit_result = Ledger::searchByDate($from, $to)
+        $credit_result = Expense::searchByDate($from, $to)
             ->where([
                 ['branch_id','=', $branch],
                 ['payment_id','=', 4],

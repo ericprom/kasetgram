@@ -7,11 +7,11 @@ use Dingo\Api\Routing\Helpers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use App\Models\Expense;
+use App\Models\Income;
 use Response;
 use Validator;
 
-class DashboardController extends Controller
+class IncomeController extends Controller
 {
     use Helpers;
 
@@ -24,6 +24,40 @@ class DashboardController extends Controller
         $this->middleware(['auth:api','role:super-admin|admin']);
     }
 
+    public function list(Request $request)
+    { 
+        try {
+            $branch = Auth::user()->branch_id;
+            $from =  $request->input('from', date('Y-m-d'));
+            $to =  $request->input('to', date('Y-m-d'));
+            $columns = ['id', 'receive_date', 'receiver', 'detail', 'amount', 'farm_id', 'payment_id'];
+            $items = Income::searchByDate($from, $to)
+                ->select($columns)
+                ->with(['farm','payment'])
+                ->where('branch_id','=',$branch)
+                ->paginate(10);
+
+            return Response::json([
+                'status' => true,
+                'data' => $items,
+                'pagination' => [
+                    'total' => $items->total(),
+                    'per_page' => $items->perPage(),
+                    'current_page' => $items->currentPage(),
+                    'last_page' => $items->lastPage(),
+                    'from' => $items->firstItem(),
+                    'to' => $items->lastItem()
+                ]
+            ]);
+        } catch (Exception $e) {
+            return Response::json([
+                'type' => 'warning',
+                'title' => 'Warning',
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+            ], $this->errorStatus);
+        }
+    }
+
     public function summary(Request $request)
     {
         $branch = Auth::user()->branch_id;
@@ -34,7 +68,7 @@ class DashboardController extends Controller
         $cheque = 0;
         $credit = 0;
 
-        $cash_result = Expense::searchByDate($from, $to)
+        $cash_result = Income::searchByDate($from, $to)
             ->where([
                 ['branch_id','=', $branch],
                 ['payment_id','=', 1],
@@ -43,7 +77,7 @@ class DashboardController extends Controller
             ->sum('amount');
         $cash += $cash_result;
 
-        $transfer_result = Expense::searchByDate($from, $to)
+        $transfer_result = Income::searchByDate($from, $to)
             ->where([
                 ['branch_id','=', $branch],
                 ['payment_id','=', 2],
@@ -52,7 +86,7 @@ class DashboardController extends Controller
             ->sum('amount');
         $transfer += $transfer_result;
 
-        $cheque_result = Expense::searchByDate($from, $to)
+        $cheque_result = Income::searchByDate($from, $to)
             ->where([
                 ['branch_id','=', $branch],
                 ['payment_id','=', 3],
@@ -62,7 +96,7 @@ class DashboardController extends Controller
         $cheque += $cheque_result;
 
 
-        $credit_result = Expense::searchByDate($from, $to)
+        $credit_result = Income::searchByDate($from, $to)
             ->where([
                 ['branch_id','=', $branch],
                 ['payment_id','=', 4],

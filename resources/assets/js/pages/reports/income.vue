@@ -2,39 +2,86 @@
   <div>
     <section class="content-header">
       <h1>
-        รายงานรายรับทั้งหมด
+        {{list.title}}
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li>Reports</li>
-        <li class="active">Imcome</li>
+        <li class="active">Incomes</li>
       </ol>
     </section>
     <section class="content">
       <div class="row">
         <div class="col-sm-9">
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title"><i class="fa fa-book"></i> รายชื่อลูกค้า</h3>
-            </div>
-            <div class="box-body">
-              I'm an Dashboard component!
-            </div>
-            <div class="box-footer">
-              
-            </div>
-          </div>
+          <filter-box @filter="summaryFilter"></filter-box>
+          <data-viewer :configs="list" :ref="list.table"></data-viewer>
         </div>
-        <div class="col-sm-3"></div>
+        <div class="col-sm-3">
+          <money-summary :configs="summary" :ref="summary.table"></money-summary>
+        </div>
       </div>
     </section>
   </div>
 </template>
 
 <script>
+  import axios from 'axios'
+  import moment from 'moment'
   export default {
-    mounted() {
-      console.log('Component ready.')
+    metaInfo () {
+      return { 
+        title: this.list.title
+      }
+    },
+    data() {
+      return {
+        summary:{
+          class: 'col-sm-12',
+          table: 'summaryTable',
+          api: '/api/v1/report/incomes/summary/',
+          from: '',
+          to: '',
+        },
+        list:{
+          table: 'itemTable',
+          title: 'รายงานค่าใช้จ่าย',
+          api: '/api/v1/report/incomes/list/',
+          edit: false,
+          hidden: ['id', 'farm_id', 'payment_id'],
+          columns: [
+            {
+              name:'วันที่รับเงิน',
+              width: 10
+            }, 
+            {
+              name:'ผู้รับเงิน',
+              width: 20
+            }, 
+            {
+              name:'รายละเอียด',
+              width: 30
+            }, 
+            {
+              name:'จำนวนเงิน',
+              width: 20
+            }, 
+            {
+              name:'ประเภท',
+              width: 10
+            }, 
+            {
+              name:'รับโดย',
+              width: 10
+            }, 
+          ],
+        }
+      };
+    },
+    methods: {
+      summaryFilter(data){
+        this.$refs.itemTable.searchData(data)
+        this.$refs.summaryTable.searchData(data)
+      }
     }
   }
 </script>

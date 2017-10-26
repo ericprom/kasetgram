@@ -6,7 +6,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li>Settings</li>
+        <li>Accountants</li>
         <li class="active">Expenses</li>
       </ol>
     </section>
@@ -41,10 +41,39 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label class="col-sm-2 col-md-3 control-label">{{config.title}}<span class="text-danger">*</span></label>
-
+              <label class="col-sm-2 col-md-3 control-label">วันที่ใช้จ่าย<span class="text-danger">*</span></label>
               <div class="col-sm-8 col-md-6">
-                <input v-model="form.name" type="text" class="form-control" required>
+                <datepicker v-model="form.date_withdraw" :configs="datepicker"></datepicker>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="ledgerWithdrawer" class="col-sm-2 col-md-3 control-label">ผู้เบิกจ่าย</label>
+              <div class="col-sm-8 col-md-6">
+                <input v-model="form.withdrawer" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 col-md-3 control-label">ประเภท<span class="text-danger">*</span></label>
+              <div class="col-sm-8 col-md-6">
+                <v-select v-model="form.farm" :options="farms" :on-change="selectedFarm"></v-select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="ledgerAmount" class="col-sm-2 col-md-3 control-label">จำนวนเงิน<span class="text-danger">*</span></label>
+              <div class="col-sm-8 col-md-6">
+                <input v-model="form.amount" type="text" class="form-control" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 col-md-3 control-label">รายละเอียด</label>
+              <div class="col-sm-8 col-md-6">
+               <textarea v-model="form.detail" class="form-control" rows="3"></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 col-md-3 control-label">จ่ายโดย</label>
+              <div class="col-sm-8 col-md-6">
+                <v-select v-model="form.payment" :options="payments" :on-change="selectedPayment"></v-select>
               </div>
             </div>
           </div>
@@ -65,6 +94,7 @@
   import axios from 'axios'
   import swal from 'sweetalert2'
   import Form from 'vform'
+  import moment from 'moment'
   export default {
     metaInfo () {
       return { 
@@ -73,24 +103,56 @@
     },
     data() {
       return {
+        payments: Store.getters.payments,
+        farms: Store.getters.farms,
+        datepicker: {
+          format: 'DD/MM/YYYY',
+          useCurrent: false,
+        },
         config:{
           table: 'itemTable',
-          title: 'ประเภทรายจ่าย',
-          api: '/api/v1/setting/expenses/',
+          title: 'ค่าใช้จ่าย',
+          api: '/api/v1/accountants/expenses/',
           edit: true,
-          hidden: ['id'],
+          hidden: ['id', 'farm_id', 'payment_id'],
           columns: [
             {
-              name:'ประเภทรายจ่าย',
-              width: 90
+              name:'วันที่จ่าย',
+              width: 10
+            }, 
+            {
+              name:'ผู้เบิกเงิน',
+              width: 20
+            }, 
+            {
+              name:'รายละเอียด',
+              width: 20
+            }, 
+            {
+              name:'จำนวนเงิน',
+              width: 20
+            }, 
+            {
+              name:'ประเภท',
+              width: 10
+            }, 
+            {
+              name:'จ่ายโดย',
+              width: 10
             }, 
           ],
         },
         form: new Form({
           id: 0,
-          name: ''
+          date_withdraw: moment().format('DD/MM/YYYY'),
+          withdrawer: '',
+          name: '',
+          farms: Store.getters.farms[0],
+          payment: Store.getters.payments[0]
         }),
       };
+    },
+    mounted(){
     },
     methods: {
       searchItem (data){
@@ -101,6 +163,7 @@
         $("#create-item").modal('show')
       },
       saveItem (){
+        this.form.withdraw_date = this.saveDate(this.form.date_withdraw)
         if(this.form.id == 0){
           this.form.post(this.config.api)
             .then(({ data }) => {
@@ -121,8 +184,17 @@
       updateItem (item){
         var self = this;
         Object.keys(item).forEach(function(key) {
-          self.form[key] = item[key]
+          if(key=='farm'){
+            self.form['farm'] = self.checkFarm(item[key])
+          }
+          else if(key=='payment'){
+            self.form['payment'] = self.checkPayment(item[key])
+          }
+          else{
+            self.form[key] = item[key]
+          }
         });
+        this.form.date_withdraw  = this.displayDate(this.form.withdraw_date)
         $("#create-item").modal('show')
       },
       deleteItem (item){
@@ -150,6 +222,24 @@
               text: data.text
             })
           })
+      },
+      checkFarm (item){
+        var self = this;
+        return _.find(self.farms, function(val) {
+          return item.id == val.id;
+        });
+      },
+      checkPayment (item){
+        var self = this;
+        return _.find(self.payments, function(val) {
+          return item.id == val.id;
+        });
+      },
+      selectedFarm(val, tag) {
+        this.form.farm_id = val.id
+      },
+      selectedPayment(val, tag) {
+        this.form.payment_id = val.id
       }
     }
   }

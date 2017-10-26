@@ -7,11 +7,11 @@ use Dingo\Api\Routing\Helpers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use App\Models\Ledger;
+use App\Models\Income;
 use Response;
 use Validator;
 
-class LedgerController extends Controller
+class IncomeController extends Controller
 {
     use Helpers;
 
@@ -30,10 +30,10 @@ class LedgerController extends Controller
         try {
             $branch = Auth::user()->branch_id;
             $keyword =  $request->input('keyword', '');
-            $columns = ['id', 'withdraw_date', 'withdrawer', 'detail', 'amount', 'expense_id', 'payment_id'];
-            $items = Ledger::searchByKeyword($keyword)
+            $columns = ['id', 'receive_date', 'receiver', 'detail', 'amount', 'farm_id', 'payment_id'];
+            $items = Income::searchByKeyword($keyword)
                 ->select($columns)
-                ->with(['expense','payment'])
+                ->with(['farm','payment'])
                 ->where('branch_id','=',$branch)
                 ->paginate(10);
 
@@ -74,7 +74,7 @@ class LedgerController extends Controller
             else{
                 $item = $request->all();
                 $item['branch_id'] = Auth::user()->branch_id;
-                Ledger::create($item);
+                Income::create($item);
                 return Response::json([
                     'type' => 'success',
                     'title' => 'Save!',
@@ -105,7 +105,7 @@ class LedgerController extends Controller
                 ], $this->errorStatus);
             }
             else{
-                $item = Ledger::find($id);
+                $item = Income::find($id);
                 $item->update($request->all());
                 return Response::json([
                     'type' => 'success',
@@ -126,7 +126,7 @@ class LedgerController extends Controller
     {
     
         try {
-            Ledger::find($id)->delete();
+            Income::find($id)->delete();
             return Response::json([
                 'type' => 'success',
                 'title' => 'Deleted!',

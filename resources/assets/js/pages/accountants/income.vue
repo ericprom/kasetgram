@@ -7,7 +7,7 @@
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li>Accountants</li>
-        <li class="active">Ledgers</li>
+        <li class="active">Incomes</li>
       </ol>
     </section>
     <section class="content">
@@ -41,21 +41,21 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label class="col-sm-2 col-md-3 control-label">วันที่ใช้จ่าย<span class="text-danger">*</span></label>
+              <label class="col-sm-2 col-md-3 control-label">วันที่รับเงิน<span class="text-danger">*</span></label>
               <div class="col-sm-8 col-md-6">
-                <datepicker v-model="form.date_withdraw" :configs="datepicker"></datepicker>
+                <datepicker v-model="form.date_receive" :configs="datepicker"></datepicker>
               </div>
             </div>
             <div class="form-group">
-              <label for="ledgerWithdrawer" class="col-sm-2 col-md-3 control-label">ผู้เบิกจ่าย</label>
+              <label for="ledgerWithdrawer" class="col-sm-2 col-md-3 control-label">ผู้รับเงิน</label>
               <div class="col-sm-8 col-md-6">
-                <input v-model="form.withdrawer" type="text" class="form-control">
+                <input v-model="form.receiver" type="text" class="form-control">
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-2 col-md-3 control-label">ประเภท<span class="text-danger">*</span></label>
               <div class="col-sm-8 col-md-6">
-                <v-select v-model="form.expense" :options="expenses" :on-change="selectedExpense"></v-select>
+                <v-select v-model="form.farm" :options="farms" :on-change="selectedFarm"></v-select>
               </div>
             </div>
             <div class="form-group">
@@ -71,7 +71,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-2 col-md-3 control-label">จ่ายโดย</label>
+              <label class="col-sm-2 col-md-3 control-label">รับโดย</label>
               <div class="col-sm-8 col-md-6">
                 <v-select v-model="form.payment" :options="payments" :on-change="selectedPayment"></v-select>
               </div>
@@ -104,24 +104,24 @@
     data() {
       return {
         payments: Store.getters.payments,
-        expenses: Store.getters.expenses,
+        farms: Store.getters.farms,
         datepicker: {
           format: 'DD/MM/YYYY',
           useCurrent: false,
         },
         config:{
           table: 'itemTable',
-          title: 'ค่าใช้จ่าย',
-          api: '/api/v1/accountants/ledgers/',
+          title: 'รายรับ',
+          api: '/api/v1/accountants/incomes/',
           edit: true,
-          hidden: ['id', 'expense_id', 'payment_id'],
+          hidden: ['id', 'farm_id', 'payment_id'],
           columns: [
             {
-              name:'วันที่จ่าย',
+              name:'วันที่รับเงิน',
               width: 10
             }, 
             {
-              name:'ผู้เบิก',
+              name:'ผู้รับเงิน',
               width: 20
             }, 
             {
@@ -137,17 +137,17 @@
               width: 10
             }, 
             {
-              name:'จ่ายโดย',
+              name:'รับโดย',
               width: 10
             }, 
           ],
         },
         form: new Form({
           id: 0,
-          date_withdraw: moment().format('DD/MM/YYYY'),
+          date_receive: moment().format('DD/MM/YYYY'),
           withdrawer: '',
           name: '',
-          expense: Store.getters.expenses[0],
+          farms: Store.getters.farms[0],
           payment: Store.getters.payments[0]
         }),
       };
@@ -163,7 +163,7 @@
         $("#create-item").modal('show')
       },
       saveItem (){
-        this.form.withdraw_date = this.saveDate(this.form.date_withdraw)
+        this.form.receive_date = this.saveDate(this.form.date_receive)
         if(this.form.id == 0){
           this.form.post(this.config.api)
             .then(({ data }) => {
@@ -184,8 +184,8 @@
       updateItem (item){
         var self = this;
         Object.keys(item).forEach(function(key) {
-          if(key=='expense'){
-            self.form['expense'] = self.checkExpense(item[key])
+          if(key=='farm'){
+            self.form['farm'] = self.checkFarm(item[key])
           }
           else if(key=='payment'){
             self.form['payment'] = self.checkPayment(item[key])
@@ -194,7 +194,7 @@
             self.form[key] = item[key]
           }
         });
-        this.form.date_withdraw  = this.displayDate(this.form.withdraw_date)
+        this.form.date_receive  = this.displayDate(this.form.receive_date)
         $("#create-item").modal('show')
       },
       deleteItem (item){
@@ -223,9 +223,9 @@
             })
           })
       },
-      checkExpense (item){
+      checkFarm (item){
         var self = this;
-        return _.find(self.expenses, function(val) {
+        return _.find(self.farms, function(val) {
           return item.id == val.id;
         });
       },
@@ -235,8 +235,8 @@
           return item.id == val.id;
         });
       },
-      selectedExpense(val, tag) {
-        this.form.expense_id = val.id
+      selectedFarm(val, tag) {
+        this.form.farm_id = val.id
       },
       selectedPayment(val, tag) {
         this.form.payment_id = val.id

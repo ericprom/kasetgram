@@ -7,7 +7,6 @@ export const state = {
   menus: [],
   companies: [],
   roles: [],
-  expenses: [],
   payments: [],
   farms: [],
   timers: [],
@@ -26,10 +25,6 @@ export const mutations = {
 
   [types.DATALIST_ROLE] (state, roles) {
     state.roles = roles
-  },
-
-  [types.DATALIST_EXPENSE] (state, expenses) {
-    state.expenses = expenses
   },
 
   [types.DATALIST_PAYMENT] (state, payments) {
@@ -56,7 +51,6 @@ export const actions = {
         dispatch('createMenus')
         dispatch('createCompanies')
         dispatch('createRoles')
-        dispatch('createExpenses')
         dispatch('createPayments')
         dispatch('createFarms')
         dispatch('createTimers')
@@ -112,28 +106,12 @@ export const actions = {
     } catch (e) {}
   },
 
-  createExpenses ({ commit }) {
-    try {
-      return new Promise((resolve, reject) => {
-        axios.post('/api/v1/datalist/expenses')
-        .then(({ data }) =>{
-          commit(types.DATALIST_EXPENSE, data.expenses)
-          resolve(data)
-        })
-        .catch(function (error) {
-            reject(error)
-        })
-      })
-
-    } catch (e) {}
-  },
-
   createPayments ({ commit }) {
     try {
       return new Promise((resolve, reject) => {
         axios.post('/api/v1/datalist/payments')
         .then(({ data }) =>{
-          commit(types.DATALIST_EXPENSE, data.payments)
+          commit(types.DATALIST_PAYMENT, data.payments)
           resolve(data)
         })
         .catch(function (error) {
@@ -181,7 +159,6 @@ export const getters = {
   menus: state => state.menus,
   companies: state => state.companies,
   roles: state => state.roles,
-  expenses: state => state.expenses,
   payments: state => state.payments,
   farms: state => state.farms,
   timers: state => state.timers,

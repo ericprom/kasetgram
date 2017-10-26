@@ -7,20 +7,19 @@ export default ({ authGuard, guestGuard }) => [
       name: 'dashboard', 
       component: require('../pages/dashboard')
     },
-    { path: '/car-register', name: 'car-register', component: require('../pages/car/register') },
     { path: '/account', name: 'account', component: require('../pages/account') },
     { path: '/reports', component: require('../pages/reports/index.vue'), children: [
       { path: 'income', name: 'reports.income', component: require('../pages/reports/income.vue') },
       { path: 'expense', name: 'reports.expense', component: require('../pages/reports/expense.vue') },
     ] },
     { path: '/accountants', component: require('../pages/settings/index.vue'), children: [
-      { path: 'ledger', name: 'accountants.ledger', component: require('../pages/accountants/ledger.vue') },
+      { path: 'income', name: 'accountants.income', component: require('../pages/accountants/income.vue') },
+      { path: 'expense', name: 'accountants.expense', component: require('../pages/accountants/expense.vue') },
     ] },
     { path: '/settings', component: require('../pages/settings/index.vue'), children: [
       { path: 'company', name: 'settings.company', component: require('../pages/settings/company.vue') },
       { path: 'employee', name: 'settings.employee', component: require('../pages/settings/employee.vue') },
-      { path: 'farm', name: 'settings.farm', component: require('../pages/settings/farm.vue') },
-      { path: 'expense', name: 'settings.expense', component: require('../pages/settings/expense.vue') },
+      { path: 'farm', name: 'settings.farm', component: require('../pages/settings/farm.vue') }
     ] },
     { path: '/systems', component: require('../pages/systems/index.vue'), children: [
       { path: 'company', name: 'systems.company', component: require('../pages/systems/company.vue') },

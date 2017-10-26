@@ -47,8 +47,8 @@
     name: 'Header',
     data(){
       return {
-        companyName: 'Vehicle Inspection',
-        companyAbbr: 'VIMS',
+        companyName: 'Smart Farmer',
+        companyAbbr: 'SF',
       }
     },
     computed: {

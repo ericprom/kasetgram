@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLedgersTable extends Migration
+class CreateExpensesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,18 @@ class CreateLedgersTable extends Migration
      */
     public function up()
     {
-        Schema::create('ledgers', function (Blueprint $table) {
+        Schema::create('expenses', function (Blueprint $table) {
             $table->increments('id');
             $table->date('withdraw_date')->nullable();
             $table->string('withdrawer')->nullable();
-            $table->integer('expense_id')->unsigned()->index();
+            $table->integer('farm_id')->unsigned()->index();
             $table->string('detail')->nullable();
             $table->string('amount')->nullable();
             $table->integer('payment_id')->unsigned()->index();
             $table->integer('branch_id')->unsigned()->index();
             $table->integer('active')->default(1);
             $table->timestamps();
-            $table->foreign('expense_id')->references('id')->on('expenses');
+            $table->foreign('farm_id')->references('id')->on('farms');
             $table->foreign('payment_id')->references('id')->on('payments');
             $table->foreign('branch_id')->references('id')->on('companies');
         });
@@ -37,6 +37,6 @@ class CreateLedgersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ledgers');
+        Schema::dropIfExists('expenses');
     }
 }

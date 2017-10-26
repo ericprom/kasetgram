@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use App\Models\Menu;
 use App\Models\Company;
-use App\Models\Expense;
 use App\Models\Payment;
 use App\Models\Farm;
 use Response;
@@ -94,28 +93,6 @@ class DatalistController extends Controller
             ], $this->errorStatus);
         }
     }
-
-    public function expenses() {
-        try {
-            $columns = ['id', 'name'];
-            $branch = Auth::user()->branch_id;
-            $items = Expense::select($columns)->where('branch_id','=',$branch)->get();
-           foreach($items as &$val){
-                $val['label'] = $val['name'];
-                unset($val['name']);
-            }
-            return Response::json([
-                'expenses' => $items
-            ]);
-        } catch (Exception $e) {
-            return Response::json([
-                'type' => 'warning',
-                'title' => 'Warning',
-                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
-            ], $this->errorStatus);
-        }
-    }
-
 
     public function payments() {
         try {
