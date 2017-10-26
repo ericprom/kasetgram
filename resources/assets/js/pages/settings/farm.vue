@@ -78,6 +78,7 @@
           title: 'ประเภทการเกษตร',
           api: '/api/v1/setting/farms/',
           edit: true,
+          paginate: true,
           hidden: ['id'],
           columns: [
             {

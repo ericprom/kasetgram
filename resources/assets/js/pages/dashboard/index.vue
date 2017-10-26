@@ -20,22 +20,8 @@
               <vue-chart :config="configChart"></vue-chart>
             </div>
           </div>
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">รายได้ล่าสุด</h3>
-            </div>
-            <div class="box-body">
-              I'm an Dashboard component!
-            </div>
-          </div>
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">รายจ่ายล่าสุด</h3>
-            </div>
-            <div class="box-body">
-              I'm an Dashboard component!
-            </div>
-          </div>
+          <data-viewer :configs="configIncome"></data-viewer>
+          <data-viewer :configs="configExpense"></data-viewer>
         </div>
         <div class="col-sm-3">
           <money-summary :configs="configSummary"></money-summary>
@@ -58,6 +44,68 @@
         configSummary:{
           class: 'col-sm-12',
           api: '/api/v1/report/dashboard/summary/'
+        },
+        configIncome:{
+          title: 'รายได้ล่าสุด',
+          api: '/api/v1/report/dashboard/incomes/',
+          hidden: ['id', 'farm_id', 'payment_id'],
+          columns: [
+            {
+              name:'วันที่รับเงิน',
+              width: 10
+            }, 
+            {
+              name:'ผู้รับเงิน',
+              width: 20
+            }, 
+            {
+              name:'รายละเอียด',
+              width: 30
+            }, 
+            {
+              name:'จำนวนเงิน',
+              width: 20
+            }, 
+            {
+              name:'ประเภท',
+              width: 10
+            }, 
+            {
+              name:'รับโดย',
+              width: 10
+            }, 
+          ],
+        },
+        configExpense:{
+          title: 'รายจ่ายล่าสุด',
+          api: '/api/v1/report/dashboard/expenses/',
+          hidden: ['id', 'farm_id', 'payment_id'],
+          columns: [
+            {
+              name:'วันที่จ่าย',
+              width: 10
+            }, 
+            {
+              name:'ผู้เบิก',
+              width: 20
+            }, 
+            {
+              name:'รายละเอียด',
+              width: 30
+            }, 
+            {
+              name:'จำนวนเงิน',
+              width: 20
+            }, 
+            {
+              name:'ประเภท',
+              width: 10
+            }, 
+            {
+              name:'จ่ายโดย',
+              width: 10
+            }, 
+          ],
         },
         configChart: {
           type: 'line',

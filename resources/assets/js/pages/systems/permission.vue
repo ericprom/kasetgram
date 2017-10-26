@@ -84,6 +84,7 @@
           title: 'สิทธิ์ผู้ใช้',
           api: '/api/v1/system/permissions/',
           edit: true,
+          paginate: true,
           hidden: ['id'],
           columns: [
             {

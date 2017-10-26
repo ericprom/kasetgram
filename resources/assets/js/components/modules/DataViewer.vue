@@ -4,7 +4,7 @@
       <h3 class="box-title">
         <i class="fa fa-list"></i> {{config.title}}
       </h3>
-      <div class="box-tools pull-right">
+      <div class="box-tools pull-right" v-if="hidePaginate()">
         <span class="badge bg-light-blue">{{pagination.total}}</span>
       </div>
     </div>
@@ -44,7 +44,7 @@
         </tbody>
       </table>
     </div>
-    <div class="box-footer">
+    <div class="box-footer" v-if="hidePaginate()">
       <div class="pull-right">
         <span style="margin-right:10px;">
           <span style="margin-right:10px;">{{pagination.from}} - {{pagination.to}} of {{pagination.total}} </span>
@@ -138,14 +138,20 @@
         axios.get(query)
           .then(function(response) {
             self.items = response.data.data.data
-            self.pagination = response.data.pagination
+            if(self.config.paginate && response.data.pagination){
+              self.pagination = response.data.pagination
+            }
           })
       },
-      updateData (data){
-        this.$emit('update', data)
+      updateData (data = null){
+        if(data){
+          this.$emit('update', data)
+        }
       },
-      deleteData (data){
-        this.$emit('delete', data)
+      deleteData (data = null){
+        if(data){
+          this.$emit('delete', data)
+        }
       },
       changePage (page) {
         this.pagination.current_page = page
@@ -162,6 +168,14 @@
       },
       isEditable( ) {
         if(this.config.edit){
+          return true
+        }
+        else{
+          return false
+        }
+      },
+      hidePaginate(){
+        if(this.config.paginate){
           return true
         }
         else{

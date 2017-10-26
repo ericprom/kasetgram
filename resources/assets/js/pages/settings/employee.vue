@@ -129,6 +129,7 @@
           title: 'บัญชีพนักงาน',
           api: '/api/v1/setting/users/',
           edit: true,
+          paginate: true,
           hidden: ['id','branch_id'],
           columns: [
             {

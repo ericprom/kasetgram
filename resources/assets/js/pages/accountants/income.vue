@@ -125,6 +125,7 @@
           title: 'รายรับ',
           api: '/api/v1/accountants/incomes/',
           edit: true,
+          paginate: true,
           hidden: ['id', 'farm_id', 'payment_id'],
           columns: [
             {

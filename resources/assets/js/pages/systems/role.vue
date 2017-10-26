@@ -84,6 +84,7 @@
           title: 'ตำแหน่ง',
           api: '/api/v1/system/roles/',
           edit: true,
+          paginate: true,
           hidden: ['id'],
           columns: [
             {

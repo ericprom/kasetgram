@@ -140,6 +140,7 @@
           title: 'บัญชีผู้ใช้',
           api: '/api/v1/system/users/',
           edit: true,
+          paginate: true,
           hidden: ['id','branch_id'],
           columns: [
             {

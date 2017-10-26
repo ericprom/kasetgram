@@ -122,6 +122,7 @@
           title: 'ค่าใช้จ่าย',
           api: '/api/v1/accountants/expenses/',
           edit: true,
+          paginate: true,
           hidden: ['id', 'farm_id', 'payment_id'],
           columns: [
             {

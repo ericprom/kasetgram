@@ -113,6 +113,7 @@
           title: 'บริษัท',
           api: '/api/v1/system/companies/',
           edit: true,
+          paginate: true,
           hidden: ['id'],
           columns: [
             {
