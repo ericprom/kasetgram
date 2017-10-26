@@ -127,7 +127,7 @@
               mode: 'label',
               callbacks: {
                 label: function(tooltipItem, data) { 
-                  return data.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  return data.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 },
               }
             }
