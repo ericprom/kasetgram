@@ -7,11 +7,11 @@ use Dingo\Api\Routing\Helpers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use App\Models\Make;
+use App\Models\Farm;
 use Response;
 use Validator;
 
-class MakeController extends Controller
+class FarmController extends Controller
 {
     use Helpers;
 
@@ -31,7 +31,7 @@ class MakeController extends Controller
             $branch = Auth::user()->branch_id;
             $keyword =  $request->input('keyword', '');
             $columns = ['id', 'name'];
-            $items = Make::searchByKeyword($keyword)
+            $items = Farm::searchByKeyword($keyword)
                 ->select($columns)
                 ->where('branch_id','=',$branch)
                 ->paginate(10);
@@ -52,7 +52,7 @@ class MakeController extends Controller
             return Response::json([
                 'type' => 'warning',
                 'title' => 'Warning',
-                'message' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
+                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
             ], $this->errorStatus);
         }
     }
@@ -73,7 +73,7 @@ class MakeController extends Controller
             else{
                 $item = $request->all();
                 $item['branch_id'] = Auth::user()->branch_id;
-                Make::create($item);
+                Farm::create($item);
                 return Response::json([
                     'type' => 'success',
                     'title' => 'Save!',
@@ -104,7 +104,7 @@ class MakeController extends Controller
                 ], $this->errorStatus);
             }
             else{
-                $item = Make::find($id);
+                $item = Farm::find($id);
                 $item->update($request->all());
                 return Response::json([
                     'type' => 'success',
@@ -125,7 +125,7 @@ class MakeController extends Controller
     {
     
         try {
-            Make::find($id)->delete();
+            Farm::find($id)->delete();
             return Response::json([
                 'type' => 'success',
                 'title' => 'Deleted!',

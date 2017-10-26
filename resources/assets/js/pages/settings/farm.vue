@@ -7,7 +7,7 @@
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li>Settings</li>
-        <li class="active">Payments</li>
+        <li class="active">Farms</li>
       </ol>
     </section>
     <section class="content">
@@ -41,24 +41,10 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label class="col-sm-2 col-md-3 control-label">ธนาคาร<span class="text-danger">*</span></label>
+              <label class="col-sm-2 col-md-3 control-label">{{config.title}}<span class="text-danger">*</span></label>
 
               <div class="col-sm-8 col-md-6">
                 <input v-model="form.name" type="text" class="form-control" required>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 col-md-3 control-label">ชื่อบัญชี<span class="text-danger">*</span></label>
-
-              <div class="col-sm-8 col-md-6">
-                <input v-model="form.account_name" type="text" class="form-control" required>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 col-md-3 control-label">เลขที่บัญชี<span class="text-danger">*</span></label>
-
-              <div class="col-sm-8 col-md-6">
-                <input v-model="form.account_number" type="text" class="form-control" required>
               </div>
             </div>
           </div>
@@ -82,37 +68,27 @@
   export default {
     metaInfo () {
       return { 
-        title: this.config.title 
+        title: this.config.title
       }
     },
     data() {
       return {
         config:{
           table: 'itemTable',
-          title: 'บัญชีธนาคาร',
-          api: '/api/v1/setting/banks/',
+          title: 'ประเภทการเกษตร',
+          api: '/api/v1/setting/farms/',
           edit: true,
           hidden: ['id'],
           columns: [
             {
-              name:'ชื่อธนาคาร',
-              width: 30
-            }, 
-            {
-              name:'ชื่อบัญชีธนาคาร',
-              width: 30
-            }, 
-            {
-              name:'เลขที่บัญชีธนาคาร',
-              width: 30
+              name:'ประเภทการเกษตร',
+              width: 90
             }, 
           ],
         },
         form: new Form({
           id: 0,
-          name: '',
-          account_name: '',
-          account_number: ''
+          name: ''
         }),
       };
     },

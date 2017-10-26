@@ -7,10 +7,9 @@ export const state = {
   menus: [],
   companies: [],
   roles: [],
-  payments: [],
   expenses: [],
-  types: [],
-  makes: [],
+  payments: [],
+  farms: [],
   timers: [],
 }
 
@@ -29,20 +28,16 @@ export const mutations = {
     state.roles = roles
   },
 
-  [types.DATALIST_PAYMENT] (state, payments) {
-    state.payments = payments
-  },
-
   [types.DATALIST_EXPENSE] (state, expenses) {
     state.expenses = expenses
   },
-  
-  [types.DATALIST_TYPE] (state, types) {
-    state.types = types
-  },
 
-  [types.DATALIST_MAKE] (state, makes) {
-    state.makes = makes
+  [types.DATALIST_PAYMENT] (state, payments) {
+    state.payments = payments
+  },
+  
+  [types.DATALIST_FARM] (state, farms) {
+    state.farms = farms
   },
 
   [types.DATALIST_TIMER] (state, timers) {
@@ -61,10 +56,9 @@ export const actions = {
         dispatch('createMenus')
         dispatch('createCompanies')
         dispatch('createRoles')
-        dispatch('createPayments')
         dispatch('createExpenses')
-        dispatch('createTypes')
-        dispatch('createMakes')
+        dispatch('createPayments')
+        dispatch('createFarms')
         dispatch('createTimers')
 
     } catch (e) {}
@@ -118,22 +112,6 @@ export const actions = {
     } catch (e) {}
   },
 
-  createPayments ({ commit }) {
-    try {
-      return new Promise((resolve, reject) => {
-        axios.post('/api/v1/datalist/payments')
-        .then(({ data }) =>{
-          commit(types.DATALIST_PAYMENT, data.payments)
-          resolve(data)
-        })
-        .catch(function (error) {
-            reject(error)
-        })
-      })
-
-    } catch (e) {}
-  },
-
   createExpenses ({ commit }) {
     try {
       return new Promise((resolve, reject) => {
@@ -150,12 +128,12 @@ export const actions = {
     } catch (e) {}
   },
 
-  createTypes ({ commit }) {
+  createPayments ({ commit }) {
     try {
       return new Promise((resolve, reject) => {
-        axios.post('/api/v1/datalist/types')
+        axios.post('/api/v1/datalist/payments')
         .then(({ data }) =>{
-          commit(types.DATALIST_TYPE, data.types)
+          commit(types.DATALIST_EXPENSE, data.payments)
           resolve(data)
         })
         .catch(function (error) {
@@ -166,12 +144,12 @@ export const actions = {
     } catch (e) {}
   },
 
-  createMakes ({ commit }) {
+  createFarms ({ commit }) {
     try {
       return new Promise((resolve, reject) => {
-        axios.post('/api/v1/datalist/makes')
+        axios.post('/api/v1/datalist/farms')
         .then(({ data }) =>{
-          commit(types.DATALIST_MAKE, data.makes)
+          commit(types.DATALIST_FARM, data.farms)
           resolve(data)
         })
         .catch(function (error) {
@@ -203,9 +181,8 @@ export const getters = {
   menus: state => state.menus,
   companies: state => state.companies,
   roles: state => state.roles,
-  payments: state => state.payments,
   expenses: state => state.expenses,
-  types: state => state.types,
-  makes: state => state.makes,
+  payments: state => state.payments,
+  farms: state => state.farms,
   timers: state => state.timers,
 }

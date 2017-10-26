@@ -26,10 +26,9 @@ $api->version('v1', function ($api) {
 				$api->post('menus', 'App\Api\V1\Controllers\DatalistController@menus');
 				$api->post('companies', 'App\Api\V1\Controllers\DatalistController@companies');
 				$api->post('roles', 'App\Api\V1\Controllers\DatalistController@roles');
-				$api->post('payments', 'App\Api\V1\Controllers\DatalistController@payments');
 				$api->post('expenses', 'App\Api\V1\Controllers\DatalistController@expenses');
-				$api->post('types', 'App\Api\V1\Controllers\DatalistController@types');
-				$api->post('makes', 'App\Api\V1\Controllers\DatalistController@makes');
+				$api->post('payments', 'App\Api\V1\Controllers\DatalistController@payments');
+				$api->post('farms', 'App\Api\V1\Controllers\DatalistController@farms');
 			});
 
 			$api->post('upload/avatar', 'App\Api\V1\Controllers\UploadController@avatar');
@@ -44,10 +43,7 @@ $api->version('v1', function ($api) {
 			});
 
 			$api->group(['prefix' => 'setting'], function ($api) {
-				$api->resource('cars', 'App\Api\V1\Controllers\Settings\MakeController');
-				$api->resource('types', 'App\Api\V1\Controllers\Settings\TypeController');
-				$api->resource('insurance/companies', 'App\Api\V1\Controllers\Settings\InsuranceCompanyController');
-				$api->resource('codes', 'App\Api\V1\Controllers\Settings\CodeController');
+				$api->resource('farms', 'App\Api\V1\Controllers\Settings\FarmController');
 				$api->resource('expenses', 'App\Api\V1\Controllers\Settings\ExpenseController');
 			});
 

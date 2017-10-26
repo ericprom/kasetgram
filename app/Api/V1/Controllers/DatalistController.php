@@ -10,8 +10,7 @@ use App\Models\Menu;
 use App\Models\Company;
 use App\Models\Expense;
 use App\Models\Payment;
-use App\Models\Type;
-use App\Models\Make;
+use App\Models\Farm;
 use Response;
 use Validator;
 
@@ -96,26 +95,6 @@ class DatalistController extends Controller
         }
     }
 
-    public function payments() {
-        try {
-            $columns = ['id', 'name'];
-            $items = Payment::select($columns)->get();
-           foreach($items as &$val){
-                $val['label'] = $val['name'];
-                unset($val['name']);
-            }
-            return Response::json([
-                'payments' => $items
-            ]);
-        } catch (Exception $e) {
-            return Response::json([
-                'type' => 'warning',
-                'title' => 'Warning',
-                'text' => 'เกิดข้อผิดพลาดไม่สามารถโหลดข้อมูลได้'
-            ], $this->errorStatus);
-        }
-    }
-
     public function expenses() {
         try {
             $columns = ['id', 'name'];
@@ -137,17 +116,17 @@ class DatalistController extends Controller
         }
     }
 
-    public function types() {
+
+    public function payments() {
         try {
             $columns = ['id', 'name'];
-            $branch = Auth::user()->branch_id;
-            $items = Type::select($columns)->where('branch_id','=',$branch)->get();
+            $items = Payment::select($columns)->get();
            foreach($items as &$val){
                 $val['label'] = $val['name'];
                 unset($val['name']);
             }
             return Response::json([
-                'types' => $items
+                'payments' => $items
             ]);
         } catch (Exception $e) {
             return Response::json([
@@ -158,17 +137,17 @@ class DatalistController extends Controller
         }
     }
 
-    public function makes() {
+    public function farms() {
         try {
             $columns = ['id', 'name'];
             $branch = Auth::user()->branch_id;
-            $items = Make::select($columns)->where('branch_id','=',$branch)->get();
+            $items = Farm::select($columns)->where('branch_id','=',$branch)->get();
            foreach($items as &$val){
                 $val['label'] = $val['name'];
                 unset($val['name']);
             }
             return Response::json([
-                'makes' => $items
+                'farms' => $items
             ]);
         } catch (Exception $e) {
             return Response::json([
