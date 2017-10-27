@@ -43,8 +43,8 @@ export default {
     return {
       title: window.config.appName,
       form: new Form({
-        email: 'surasak@promrat.com',
-        password: '1q2w3e4r'
+        email: '',
+        password: ''
       }),
       remember: false
     }
