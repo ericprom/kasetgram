@@ -23,9 +23,8 @@ class DashboardController extends Controller
     
     public function __construct()
     {
-        // $this->middleware(['auth:api','role:super-admin|admin']);
+        $this->middleware(['auth:api','role:super-admin|admin']);
     }
-
 
     public function chart(Request $request)
     { 
@@ -103,8 +102,8 @@ class DashboardController extends Controller
     public function summary(Request $request)
     {
         $branch = Auth::user()->branch_id;
-        $from =  $request->input('from', date('Y-m-d'));
-        $to =  $request->input('to', date('Y-m-d'));
+        $from =  $request->input('from', date('Y-m-01'));
+        $to =  $request->input('to', date('Y-m-t'));
         $cash = 0;
         $transfer = 0;
         $cheque = 0;

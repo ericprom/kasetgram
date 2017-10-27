@@ -47,8 +47,8 @@
     name: 'Header',
     data(){
       return {
-        companyName: 'Smart Farmer',
-        companyAbbr: 'SF',
+        companyName: 'kasetgram',
+        companyAbbr: 'ksg',
       }
     },
     computed: {
@@ -62,7 +62,7 @@
     methods: {
       logout () {
         Store.dispatch('logout')
-        this.$router.push({ name: 'welcome' })
+        this.$router.push({ name: 'login' })
       }
     }
   };

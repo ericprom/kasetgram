@@ -4,7 +4,7 @@
         {{ title }}
     </div>
     <div class="login-box-body">
-      <p class="login-box-msg">เข้าสู่ระบบจัดการ ตรอ.</p>
+      <p class="login-box-msg">ระบบจัดการเกษตรอัจฉริยะ</p>
        <form @submit.prevent="login" @keydown="form.onKeydown($event)">
         <div class="form-group has-feedback">
           <input v-model="form.email" type="email" name="email" class="form-control"
