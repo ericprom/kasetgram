@@ -28,8 +28,8 @@ class ExpenseController extends Controller
     { 
         try {
             $branch = Auth::user()->branch_id;
-            $from =  $request->input('from', date('Y-m-d'));
-            $to =  $request->input('to', date('Y-m-d'));
+            $from =  $request->input('from', date('Y-m-01'));
+            $to =  $request->input('to', date('Y-m-t'));
             $columns = ['id', 'withdraw_date', 'withdrawer', 'detail', 'amount', 'farm_id', 'payment_id'];
             $items = Expense::searchByDate($from, $to)
                 ->select($columns)
@@ -61,8 +61,8 @@ class ExpenseController extends Controller
     public function summary(Request $request)
     {
         $branch = Auth::user()->branch_id;
-        $from =  $request->input('from', date('Y-m-d'));
-        $to =  $request->input('to', date('Y-m-d'));
+        $from =  $request->input('from', date('Y-m-01'));
+        $to =  $request->input('to', date('Y-m-t'));
         $cash = 0;
         $transfer = 0;
         $cheque = 0;

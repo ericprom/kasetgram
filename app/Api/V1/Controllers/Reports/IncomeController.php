@@ -28,8 +28,8 @@ class IncomeController extends Controller
     { 
         try {
             $branch = Auth::user()->branch_id;
-            $from =  $request->input('from', date('Y-m-d'));
-            $to =  $request->input('to', date('Y-m-d'));
+            $from =  $request->input('from', date('Y-m-01'));
+            $to =  $request->input('to', date('Y-m-t'));
             $columns = ['id', 'receive_date', 'receiver', 'detail', 'amount', 'farm_id', 'payment_id'];
             $items = Income::searchByDate($from, $to)
                 ->select($columns)
@@ -61,8 +61,8 @@ class IncomeController extends Controller
     public function summary(Request $request)
     {
         $branch = Auth::user()->branch_id;
-        $from =  $request->input('from', date('Y-m-d'));
-        $to =  $request->input('to', date('Y-m-d'));
+        $from =  $request->input('from', date('Y-m-01'));
+        $to =  $request->input('to', date('Y-m-t'));
         $cash = 0;
         $transfer = 0;
         $cheque = 0;

@@ -35,7 +35,7 @@
           useCurrent: false,
         },
         timers: Store.getters.timers,
-        timer: Store.getters.timers[1],
+        timer: Store.getters.timers[2],
         start: moment().format('DD/MM/YYYY'),
         end: moment().format('DD/MM/YYYY'),
         filter:{
