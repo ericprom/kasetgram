@@ -22,7 +22,7 @@
                 <div class="col-sm-2 col-md-4"></div>
                 <div class="col-sm-8 col-md-4">
                   <div class="text-center">
-                    <img :src="image" @click="trigger" class="img-circle" style="width: 150px; cursor: pointer; "/>
+                    <img :src="image" @click="trigger" :alt="form.name" class="img-circle" style="width: 150px; cursor: pointer; "/>
                     <input type="file" @change="onFileChange" ref="fileInput" class="hidden">
                   </div>
                 </div>
