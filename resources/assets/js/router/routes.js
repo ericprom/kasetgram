@@ -1,5 +1,5 @@
 export default ({ authGuard, guestGuard }) => [
-  { path: '/', component: require('../pages/auth/login.vue') },
+  { path: '/', component: require('../pages/dashboard') },
 
   ...authGuard([
     { path: '/dashboard', name: 'dashboard', component: require('../pages/dashboard')},
