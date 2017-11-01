@@ -30,7 +30,7 @@
                 {{displayData(value, key)}}
               </span>
             </td>
-            <td v-if="isEditable()" width="10%">
+            <td v-if="isEditable()" width="15%">
               <div class="pull-right">
                 <button type="button" class="btn btn-box-tool" @click.prevent="updateData(row)">
                   <i class="fa fa-edit" style="font-size: 18px;"></i>

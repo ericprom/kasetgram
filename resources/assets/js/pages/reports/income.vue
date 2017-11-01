@@ -56,19 +56,19 @@
             }, 
             {
               name:'ผู้รับเงิน',
-              width: 20
+              width: 15
             }, 
             {
               name:'รายละเอียด',
-              width: 30
+              width: 35
             }, 
             {
               name:'จำนวนเงิน',
-              width: 20
+              width: 15
             }, 
             {
               name:'ประเภท',
-              width: 10
+              width: 15
             }, 
             {
               name:'รับโดย',

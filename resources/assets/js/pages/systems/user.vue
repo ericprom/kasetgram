@@ -161,7 +161,7 @@
             {
               datafield:'company.name',
               name:'บริษัท',
-              width: 25
+              width: 20
             },
             {
               datafield:'role.name',

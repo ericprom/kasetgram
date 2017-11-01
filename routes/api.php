@@ -36,6 +36,10 @@ $api->version('v1', function ($api) {
 			$api->post('auth/profile/details', 'App\Api\V1\Controllers\AuthController@getprofile');
 			$api->post('auth/profile/update', 'App\Api\V1\Controllers\AuthController@updateprofile');
 
+			$api->group(['prefix' => 'planting'], function ($api) {
+				$api->resource('notes', 'App\Api\V1\Controllers\Planting\NoteController');
+			});
+
 			$api->group(['prefix' => 'accountants'], function ($api) {
 				$api->resource('incomes', 'App\Api\V1\Controllers\Accountants\IncomeController');
 				$api->resource('expenses', 'App\Api\V1\Controllers\Accountants\ExpenseController');

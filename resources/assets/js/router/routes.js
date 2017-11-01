@@ -17,7 +17,6 @@ export default ({ authGuard, guestGuard }) => [
       { path: 'company', name: 'settings.company', component: require('../pages/settings/company.vue') },
       { path: 'employee', name: 'settings.employee', component: require('../pages/settings/employee.vue') },
       { path: 'farm', name: 'settings.farm', component: require('../pages/settings/farm.vue') },
-      { path: 'plan', name: 'settings.plan', component: require('../pages/settings/plan.vue') }
     ] },
     { path: '/systems', component: require('../pages/systems/index.vue'), children: [
       { path: 'company', name: 'systems.company', component: require('../pages/systems/company.vue') },

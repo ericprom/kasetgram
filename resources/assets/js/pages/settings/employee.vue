@@ -150,7 +150,7 @@
             {
               datafield:'role.name',
               name:'ตำแหน่ง',
-              width: 20
+              width: 15
             }
           ],
         },

@@ -41,15 +41,15 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label class="col-sm-2 col-md-3 control-label">วันที่รับเงิน<span class="text-danger">*</span></label>
+              <label class="col-sm-2 col-md-3 control-label">วันที่ปลูก<span class="text-danger">*</span></label>
               <div class="col-sm-8 col-md-6">
-                <datepicker v-model="form.date_receive" :configs="datepicker"></datepicker>
+                <datepicker v-model="form.date_plant" :configs="datepicker"></datepicker>
               </div>
             </div>
             <div class="form-group">
-              <label for="ledgerWithdrawer" class="col-sm-2 col-md-3 control-label">ผู้รับเงิน</label>
+              <label for="ledgerWithdrawer" class="col-sm-2 col-md-3 control-label">ผู้ปลูก</label>
               <div class="col-sm-8 col-md-6">
-                <input v-model="form.receiver" type="text" class="form-control">
+                <input v-model="form.planter" type="text" class="form-control">
               </div>
             </div>
             <div class="form-group">
@@ -63,25 +63,9 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="ledgerAmount" class="col-sm-2 col-md-3 control-label">จำนวนเงิน<span class="text-danger">*</span></label>
-              <div class="col-sm-8 col-md-6">
-                <input v-model="form.amount" type="text" class="form-control" required>
-              </div>
-            </div>
-            <div class="form-group">
               <label class="col-sm-2 col-md-3 control-label">รายละเอียด</label>
               <div class="col-sm-8 col-md-6">
                <textarea v-model="form.detail" class="form-control" rows="3"></textarea>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 col-md-3 control-label">รับโดย</label>
-              <div class="col-sm-8 col-md-6">
-                <select v-model="form.payment_id" class="form-control">
-                  <option v-for="payment in payments" :value="payment.id">
-                    {{ payment.name }}  
-                  </option>
-                </select>
               </div>
             </div>
           </div>
@@ -114,7 +98,6 @@
     },
     data() {
       return {
-        payments: Store.getters.payments,
         farms: Store.getters.farms,
         datepicker: {
           format: 'DD/MM/YYYY',
@@ -122,43 +105,35 @@
         },
         config:{
           table: 'itemTable',
-          title: 'รายรับ',
-          api: '/api/v1/accountants/incomes/',
+          title: 'การเพาะปลูก',
+          api: '/api/v1/planting/notes/',
           edit: true,
           paginate: true,
-          hidden: ['id', 'farm_id', 'payment_id'],
+          hidden: ['id', 'farm_id'],
           columns: [
             {
-              name:'วันที่รับเงิน',
+              name:'วันที่ปลูก',
               width: 10
             }, 
             {
-              name:'ผู้รับเงิน',
-              width: 20
+              name:'ผู้ปลูก',
+              width: 15
             }, 
             {
               name:'รายละเอียด',
-              width: 20
-            }, 
-            {
-              name:'จำนวนเงิน',
-              width: 20
+              width: 45
             }, 
             {
               name:'ประเภท',
-              width: 10
-            }, 
-            {
-              name:'รับโดย',
-              width: 10
+              width: 15
             }, 
           ],
         },
         form: new Form({
           id: 0,
-          date_receive: moment().format('DD/MM/YYYY'),
-          receiver: '',
-          name: ''
+          date_plant: moment().format('DD/MM/YYYY'),
+          planter: '',
+          detail: ''
         }),
       };
     },
@@ -173,7 +148,7 @@
         $("#create-item").modal('show')
       },
       saveItem (){
-        this.form.receive_date = this.saveDate(this.form.date_receive)
+        this.form.plant_date = this.saveDate(this.form.date_plant)
         if(this.form.id == 0){
           this.form.post(this.config.api)
             .then(({ data }) => {
@@ -196,9 +171,6 @@
         Object.keys(item).forEach(function(key) {
           if(key=='farm'){
             self.form['farm'] = self.checkFarm(item[key])
-          }
-          else if(key=='payment'){
-            self.form['payment'] = self.checkPayment(item[key])
           }
           else{
             self.form[key] = item[key]
@@ -236,12 +208,6 @@
       checkFarm (item){
         var self = this;
         return _.find(self.farms, function(val) {
-          return item.id == val.id;
-        });
-      },
-      checkPayment (item){
-        var self = this;
-        return _.find(self.payments, function(val) {
           return item.id == val.id;
         });
       }

@@ -134,19 +134,19 @@
             }, 
             {
               name:'ผู้รับเงิน',
-              width: 20
+              width: 15
             }, 
             {
               name:'รายละเอียด',
-              width: 20
+              width: 25
             }, 
             {
               name:'จำนวนเงิน',
-              width: 20
+              width: 10
             }, 
             {
               name:'ประเภท',
-              width: 10
+              width: 15
             }, 
             {
               name:'รับโดย',
