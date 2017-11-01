@@ -50,7 +50,7 @@ export default {
     }
   },
 
-  mount(){
+  beforeMount(){
     if(Store.getters.authCheck){
       this.$router.push({ name: 'dashboard' })
     }
