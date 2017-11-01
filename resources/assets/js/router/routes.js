@@ -3,6 +3,7 @@ export default ({ authGuard, guestGuard }) => [
 
   ...authGuard([
     { path: '/dashboard', name: 'dashboard', component: require('../pages/dashboard')},
+    { path: '/planting', name: 'planting', component: require('../pages/planting')},
     { path: '/account', name: 'account', component: require('../pages/account') },
     { path: '/reports', component: require('../pages/reports/index.vue'), children: [
       { path: 'income', name: 'reports.income', component: require('../pages/reports/income.vue') },
@@ -15,7 +16,8 @@ export default ({ authGuard, guestGuard }) => [
     { path: '/settings', component: require('../pages/settings/index.vue'), children: [
       { path: 'company', name: 'settings.company', component: require('../pages/settings/company.vue') },
       { path: 'employee', name: 'settings.employee', component: require('../pages/settings/employee.vue') },
-      { path: 'farm', name: 'settings.farm', component: require('../pages/settings/farm.vue') }
+      { path: 'farm', name: 'settings.farm', component: require('../pages/settings/farm.vue') },
+      { path: 'plan', name: 'settings.plan', component: require('../pages/settings/plan.vue') }
     ] },
     { path: '/systems', component: require('../pages/systems/index.vue'), children: [
       { path: 'company', name: 'systems.company', component: require('../pages/systems/company.vue') },

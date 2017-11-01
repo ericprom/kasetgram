@@ -37,7 +37,7 @@
     name: 'Sidebar',
     data() {
       return {
-        menus: Store.getters.menus
+        menus: []
       }
     },
     computed: {
@@ -50,6 +50,10 @@
     },
     methods: {
       init () {
+        axios.post('/api/v1/datalist/menus')
+        .then(({ data }) =>{
+          this.menus = data.menus
+        })
         Store.dispatch('createDatalist')
       }
     },

@@ -4,7 +4,6 @@ import * as types from '../mutation-types'
 
 // state
 export const state = {
-  menus: [],
   companies: [],
   roles: [],
   payments: [],
@@ -15,10 +14,6 @@ export const state = {
 // mutations
 export const mutations = {
   
-  [types.DATALIST_MENU] (state, menus) {
-    state.menus = menus
-  },
-
   [types.DATALIST_COMPANY] (state, companies) {
     state.companies = companies
   },
@@ -43,33 +38,14 @@ export const mutations = {
 // actions
 export const actions = {
 
-
-  
   createDatalist ({ dispatch }) {
     try {
       
-        dispatch('createMenus')
         dispatch('createCompanies')
         dispatch('createRoles')
         dispatch('createPayments')
         dispatch('createFarms')
         dispatch('createTimers')
-
-    } catch (e) {}
-  },
-
-  createMenus ({ commit }) {
-    try {
-      return new Promise((resolve, reject) => {
-        axios.post('/api/v1/datalist/menus')
-        .then(({ data }) =>{
-          commit(types.DATALIST_MENU, data.menus)
-          resolve(data)
-        })
-        .catch(function (error) {
-            reject(error)
-        })
-      })
 
     } catch (e) {}
   },
@@ -156,7 +132,6 @@ export const actions = {
 
 // getters
 export const getters = {
-  menus: state => state.menus,
   companies: state => state.companies,
   roles: state => state.roles,
   payments: state => state.payments,
