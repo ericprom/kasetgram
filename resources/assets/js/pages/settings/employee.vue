@@ -130,7 +130,7 @@
           api: '/api/v1/setting/users/',
           edit: true,
           paginate: true,
-          hidden: ['id','branch_id'],
+          hidden: ['id', 'address', 'branch_id'],
           columns: [
             {
               datafield:'name',

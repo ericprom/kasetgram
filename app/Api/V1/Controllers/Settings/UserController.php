@@ -30,7 +30,7 @@ class UserController extends Controller
         try {
             $branch = Auth::user()->branch_id;
             $keyword =  $request->input('keyword', '');
-            $columns = ['id', 'name', 'phone', 'email', 'branch_id'];
+            $columns = ['id', 'name', 'address', 'phone', 'email', 'branch_id'];
             $criteria = [];
             $criteria[] =['branch_id','=', $branch];
             if(!Auth::user()->hasRole('super-admin')){

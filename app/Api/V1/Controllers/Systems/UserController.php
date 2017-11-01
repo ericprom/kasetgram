@@ -28,7 +28,7 @@ class UserController extends Controller
     { 
         try {
             $keyword =  $request->input('keyword', '');
-            $columns = ['id', 'name', 'phone', 'email', 'branch_id'];
+            $columns = ['id', 'name', 'address', 'phone', 'email', 'branch_id'];
             $items = User::searchByKeyword($keyword)
                 ->select($columns)
                 ->with(['company','role'])
