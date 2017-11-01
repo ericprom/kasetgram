@@ -183,7 +183,7 @@
         var self = this;
         swal({
           title: 'Are you sure?',
-          text: 'ลบ '+item.name+' ออกจากระบบ',
+          text: 'ลบ การเพาะปลูก ออกจากระบบ',
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
