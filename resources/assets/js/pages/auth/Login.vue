@@ -50,6 +50,12 @@ export default {
     }
   },
 
+  mount(){
+    if(Store.getters.authCheck){
+      this.$router.push({ name: 'dashboard' })
+    }
+  },
+
   methods: {
     login () {
       this.form.post('/api/v1/auth/login')
